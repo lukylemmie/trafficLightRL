@@ -13,6 +13,9 @@ class Road {
   val ROAD_LENGTH = 100
   var lane: mutable.Queue[Option[Car]] = mutable.Queue.fill(ROAD_LENGTH)(None)
   var trafficLight : TrafficLightColour = Red
+  var intersection : Intersection
+
+  def setIntersection(aIntersection : Intersection)
 
   def switchLights() {
     trafficLight = {
@@ -33,7 +36,7 @@ class Road {
   def insertCar() {
     lane.last match {
       case None => lane(lane.size - 1) = Some(new Car())
-      case Some(_) => println("Road is full!")
+      case Some(_) => println("Either Road is Full or Time Step Required!")
     }
   }
 
@@ -56,12 +59,14 @@ class Road {
       case Some(_) => {
         trafficLight match {
           case Green => {
-            lane.dequeue()
+            lane.dequeue() //TODO: put car onto intersection when implemented
             lane += None
-          } //TODO: put car onto intersection when implemented
+          }
           case Red => {
             var i = lane.indexOf(None)
-            lane = lane.take(i - 1) ++ lane.drop(i)
+            lane = lane.take(i) ++ lane.drop(i + 1)
+            lane += None
+            //println("Debug: car at red light")
           }
         }
       }

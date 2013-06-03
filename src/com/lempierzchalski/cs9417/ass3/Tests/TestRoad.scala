@@ -1,4 +1,6 @@
-package com.lempierzchalski.cs9417.ass3
+package com.lempierzchalski.cs9417.ass3.Tests
+
+import com.lempierzchalski.cs9417.ass3.Road
 
 /**
  * Created with IntelliJ IDEA.
@@ -47,4 +49,11 @@ object TestRoad extends App {
     road.printRoad()
   }
   road.printLights()
+  road.switchLights()
+  road.timeStep()
+  road.printRoad()
+  road.timeStep()
+  road.printRoad()
+  road.timeStep()
+  road.printRoad()
 }
