@@ -8,6 +8,8 @@ package com.lempierzchalski.cs9417.ass3
  * To change this template use File | Settings | File Templates.
  */
 class Car() {
+  //TODO: Going to turn
+
   def horn = {
     println("Honk!")
   }

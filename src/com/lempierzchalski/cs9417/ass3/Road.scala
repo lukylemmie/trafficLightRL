@@ -11,7 +11,7 @@ import scala.collection.mutable
  */
 class Road {
   val ROAD_LENGTH = 100
-  val lane: mutable.Queue[Option[Car]] = mutable.Queue.fill(ROAD_LENGTH)(None)
+  var lane: mutable.Queue[Option[Car]] = mutable.Queue.fill(ROAD_LENGTH)(None)
   var trafficLight : TrafficLightColour = Red
 
   def switchLights() {
@@ -32,8 +32,8 @@ class Road {
 
   def insertCar() {
     lane.last match {
-      case None => lane += Some(new Car())
-      case Some(_) =>
+      case None => lane(lane.size - 1) = Some(new Car())
+      case Some(_) => println("Road is full!")
     }
   }
 
@@ -49,11 +49,20 @@ class Road {
 
   def timeStep() {
     lane.head match{
-      case None => lane.dequeue()
+      case None => {
+        lane.dequeue()
+        lane += None
+      }
       case Some(_) => {
         trafficLight match {
-          case Green => lane.dequeue() //TODO: put onto intersection when implemented
-          case Red =>
+          case Green => {
+            lane.dequeue()
+            lane += None
+          } //TODO: put car onto intersection when implemented
+          case Red => {
+            var i = lane.indexOf(None)
+            lane = lane.take(i - 1) ++ lane.drop(i)
+          }
         }
       }
     }

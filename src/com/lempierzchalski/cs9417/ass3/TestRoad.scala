@@ -18,4 +18,33 @@ object TestRoad extends App {
   road.printLights()
   road.switchLights()
   road.printLights()
+  road.switchLights()
+
+  for(i <- Range(0,5)){
+    road.timeStep()
+    road.printRoad()
+  }
+
+  road.insertCar()
+  road.printRoad()
+  road.timeStep()
+  road.timeStep()
+  road.printRoad()
+  road.insertCar()
+  road.insertCar()
+  road.printRoad()
+
+  for(i <- Range(0,50)){
+    road.timeStep()
+    road.printRoad()
+  }
+
+  road.insertCar()
+  road.timeStep()
+
+  for(i <- Range(0,50)){
+    road.timeStep()
+    road.printRoad()
+  }
+  road.printLights()
 }
