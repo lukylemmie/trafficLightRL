@@ -47,4 +47,11 @@ object TestRoad extends App {
     road.printRoad()
   }
   road.printLights()
+  road.switchLights()
+  road.timeStep()
+  road.printRoad()
+  road.timeStep()
+  road.printRoad()
+  road.timeStep()
+  road.printRoad()
 }
