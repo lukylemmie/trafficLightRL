@@ -13,6 +13,9 @@ class Road {
   val ROAD_LENGTH = 100
   var lane: mutable.Queue[Option[Car]] = mutable.Queue.fill(ROAD_LENGTH)(None)
   var trafficLight : TrafficLightColour = Red
+  var intersection : Intersection
+
+  def setIntersection(aIntersection : Intersection)
 
   def switchLights() {
     trafficLight = {
