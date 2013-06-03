@@ -1,0 +1,21 @@
+package com.lempierzchalski.cs9417.ass3
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: Andrew2012
+ * Date: 3/06/13
+ * Time: 8:33 AM
+ * To change this template use File | Settings | File Templates.
+ */
+object TestRoad extends App {
+  val road = new Road()
+
+  road.printRoad()
+  road.insertCar()
+  road.printRoad()
+  road.timeStep()
+  road.printRoad()
+  road.printLights()
+  road.switchLights()
+  road.printLights()
+}
