@@ -1,6 +1,4 @@
-package com.lempierzchalski.cs9417.ass3.Tests
-
-import com.lempierzchalski.cs9417.ass3.Road
+package com.lempierzchalski.cs9417.ass3
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,6 +11,7 @@ object TestRoad extends App {
   val road = new Road()
 
   road.printRoad()
+//  println(f"Nearest car is: ${road.nearestCar}")
   road.insertCar()
   road.printRoad()
   road.timeStep()

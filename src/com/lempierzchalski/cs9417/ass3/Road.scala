@@ -13,18 +13,27 @@ class Road {
   val ROAD_LENGTH = 100
   var lane : mutable.Queue[Option[Car]] = mutable.Queue.fill(ROAD_LENGTH)(None)
   var trafficLight : TrafficLightColour = Red
-  var intersection : Intersection
+//  var intersection : Option[Intersection] = None
 
-  def setIntersection(aIntersection : Intersection){
-    intersection = aIntersection
-  }
+//  def nearestCar() : Option[Int] = {
+//    val MAX_RETURN = 8
+//    var i = Option(lane.indexOf(Some))
+//    i
+//  }
 
-  def checkIntersection() : Boolean = {
-    Option(intersection) match {
-      case None => false
-      case Some => true
-    }
-  }
+//  def setIntersection(aIntersection : Option[Intersection]){
+//    aIntersection match {
+//      case None => println("No intersection found")
+//      case Some(_) => intersection = aIntersection
+//    }
+//  }
+
+//  def checkIntersection() : Boolean = {
+//    intersection match {
+//      case Some(_) => true
+//      case None => false
+//    }
+//  }
 
   def switchLights() {
     trafficLight = {
