@@ -31,6 +31,7 @@ class Intersection {
     for(road <- roads){
       road.timeStep()
     }
+    if(coolDown > 0) coolDown -= 1
   }
 
   def nearestCar(i : Int) : Option[Int] = {
