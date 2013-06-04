@@ -16,12 +16,12 @@ class Road {
   var trafficLight : TrafficLightColour = Red
   var intersection : Option[Intersection] = None
 
-  def nearestCar() : Option[Int] = {
+  def nearestCar() : Option[Int] = { //TODO: Refactor?
     val MAX_RETURN = 8
     var output = lane.find(_ ne None)
     if(output ne None){
       var i = lane.indexOf(output.get)
-  //    println(f"Inside nearestCar: $i $output")
+  //    println(f"Inside nearestCar: $i $output") //debug statement
       if(i > MAX_RETURN)
         None
       else
