@@ -12,9 +12,13 @@ import scala.collection.mutable
 
 class Road {
   val ROAD_LENGTH = 100
-  var lane : mutable.Queue[Option[Car]] = mutable.Queue.fill(ROAD_LENGTH)(None)
-  var trafficLight : TrafficLightColour = Red
-  var intersection : Option[Intersection] = None
+  private var lane : mutable.Queue[Option[Car]] = mutable.Queue.fill(ROAD_LENGTH)(None)
+  private var trafficLight : TrafficLightColour = Red
+  private var intersection : Option[Intersection] = None
+
+  def getTrafficLight() : TrafficLightColour = {
+    trafficLight
+  }
 
   def nearestCar() : Option[Int] = { //TODO: Refactor?
     val MAX_RETURN = 8
