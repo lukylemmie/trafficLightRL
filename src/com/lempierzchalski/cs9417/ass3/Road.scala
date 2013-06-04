@@ -9,31 +9,48 @@ import scala.collection.mutable
  * Time: 1:11 PM
  * To change this template use File | Settings | File Templates.
  */
+
 class Road {
   val ROAD_LENGTH = 100
   var lane : mutable.Queue[Option[Car]] = mutable.Queue.fill(ROAD_LENGTH)(None)
   var trafficLight : TrafficLightColour = Red
-//  var intersection : Option[Intersection] = None
+  var intersection : Option[Intersection] = None
 
-//  def nearestCar() : Option[Int] = {
-//    val MAX_RETURN = 8
-//    var i = Option(lane.indexOf(Some))
-//    i
-//  }
+  def nearestCar() : Option[Int] = {
+    val MAX_RETURN = 8
+    var output = lane.find(_ ne None)
+    if(output ne None){
+      var i = lane.indexOf(output.get)
+  //    println(f"Inside nearestCar: $i $output")
+      if(i > MAX_RETURN)
+        None
+      else
+        Option(i)
+    } else {
+      None
+    }
+  }
 
-//  def setIntersection(aIntersection : Option[Intersection]){
-//    aIntersection match {
-//      case None => println("No intersection found")
-//      case Some(_) => intersection = aIntersection
-//    }
-//  }
+  def printNearest(){
+    nearestCar() match {
+      case None => println(f"Nearest car is: None")
+      case Some(i) => println(f"Nearest car is: $i")
+    }
+  }
 
-//  def checkIntersection() : Boolean = {
-//    intersection match {
-//      case Some(_) => true
-//      case None => false
-//    }
-//  }
+  def setIntersection(aIntersection : Option[Intersection]){
+    aIntersection match {
+      case None => println("No intersection found")
+      case Some(_) => intersection = aIntersection
+    }
+  }
+
+  def checkIntersection() : Boolean = {
+    intersection match {
+      case Some(_) => true
+      case None => false
+    }
+  }
 
   def switchLights() {
     trafficLight = {
