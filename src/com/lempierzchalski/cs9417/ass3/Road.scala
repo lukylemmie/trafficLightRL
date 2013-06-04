@@ -16,23 +16,30 @@ class Road {
   private var trafficLight : TrafficLightColour = Red
   private var intersection : Option[Intersection] = None
 
-  def getTrafficLight() : TrafficLightColour = {
+  def getTrafficLight : TrafficLightColour = {
     trafficLight
   }
 
   def nearestCar() : Option[Int] = { //TODO: Refactor?
     val MAX_RETURN = 8
     var output = lane.find(_ ne None)
-    if(output ne None){
-      var i = lane.indexOf(output.get)
-  //    println(f"Inside nearestCar: $i $output") //debug statement
-      if(i > MAX_RETURN)
-        None
-      else
-        Option(i)
-    } else {
-      None
+    output match {
+      case None => None
+      case Some(optionCar) => {
+        val i = lane.indexOf(optionCar)
+        if (i > MAX_RETURN) None else Some(i)
+      }
     }
+//    if(output ne None){
+//      var i = lane.indexOf(output.get)
+//  //    println(f"Inside nearestCar: $i $output") //debug statement
+//      if(i > MAX_RETURN)
+//        None
+//      else
+//        Some(i)
+//    } else {
+//      None
+//    }
   }
 
   def printNearest(){

@@ -20,7 +20,7 @@ class Intersection {
   def roadSetup(){
     for(i <- Range(0,ROAD_COUNT)){
       roads(i) = new Road
-      roads(i).setIntersection(this)
+      roads(i).setIntersection(Some(this))
       if(i % 2 == 0){
         roads(i).switchLights()
       }
@@ -38,10 +38,10 @@ class Intersection {
   }
 
   def checkLight(i: Int) : TrafficLightColour = {
-    roads(i).getTrafficLight()
+    roads(i).getTrafficLight
   }
 
-  def getCoolDown() : Int = {
+  def getCoolDown: Int = {
     coolDown
   }
 
@@ -54,5 +54,24 @@ class Intersection {
       }
       coolDown = SWITCH_COOL_DOWN
     }
+  }
+
+  def printState(){
+    println()
+    println("The current state is:")
+    println(f"coolDown = $coolDown")
+    for(i <- Range(0, ROAD_COUNT)){
+      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
+      println()
+      println(f"Road $i:")
+      roads(i).printRoad()
+      println(f"Light Colour: ${roads(i).getTrafficLight}")
+      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
+      println()
+    }
+  }
+
+  def insertCar(i : Int){
+    roads(i).insertCar()
   }
 }
