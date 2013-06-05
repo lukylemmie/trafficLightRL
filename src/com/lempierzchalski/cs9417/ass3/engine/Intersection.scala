@@ -1,4 +1,4 @@
-package com.lempierzchalski.cs9417.ass3
+package com.lempierzchalski.cs9417.ass3.engine
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,7 +7,7 @@ package com.lempierzchalski.cs9417.ass3
  * Time: 1:10 PM
  * To change this template use File | Settings | File Templates.
  */
-class Intersection {
+class Intersection extends RoadSection {
   //TODO: IMPLEMENT
   private val SWITCH_COOL_DOWN = 3 // time steps
   private val ROAD_COUNT = 2
@@ -59,16 +59,15 @@ class Intersection {
 
   def printState(){
     println()
+    println()
     println("The current state is:")
     println(f"coolDown = $coolDown")
     for(i <- Range(0, ROAD_COUNT)){
-      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
-      println()
+//      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
       println(f"Road $i:")
       roads(i).printRoad()
       println(f"Light Colour: ${roads(i).getTrafficLight}")
-      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
-      println()
+//      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
     }
   }
 

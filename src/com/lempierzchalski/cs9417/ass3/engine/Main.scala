@@ -1,16 +1,12 @@
-package com.lempierzchalski.cs9417.ass3
+package com.lempierzchalski.cs9417.ass3.engine
 
 /**
  * Created with IntelliJ IDEA.
  * User: Andrew2012
  * Date: 1/06/13
- * Time: 1:47 PM
+ * Time: 1:23 PM
  * To change this template use File | Settings | File Templates.
  */
-class Car() {
-  //TODO: Going to turn
-
-  def horn = {
-    println("Honk!")
-  }
+class Main {
+  //TODO: IMPLEMENT
 }

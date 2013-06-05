@@ -1,6 +1,6 @@
 package com.lempierzchalski.cs9417.ass3.Tests
 
-import com.lempierzchalski.cs9417.ass3.Road
+import com.lempierzchalski.cs9417.ass3.engine.Road
 
 /**
  * Created with IntelliJ IDEA.

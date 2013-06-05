@@ -1,4 +1,4 @@
-package com.lempierzchalski.cs9417.ass3
+package com.lempierzchalski.cs9417.ass3.engine
 
 /**
  * Created with IntelliJ IDEA.
