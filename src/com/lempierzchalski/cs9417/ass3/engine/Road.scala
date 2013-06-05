@@ -16,6 +16,13 @@ class Road extends RoadSection {
   private var trafficLight : TrafficLightColour = Red
   private var intersection : Option[Intersection] = None
 
+  def carWaitingAtIntersection() : Boolean = {
+    lane(0) match {
+      case None => false
+      case Some(car) => car.getWaiting
+    }
+  }
+
   def giveCarToIntersection(){
     lane(0) = None; //TODO: pass lane(1) to intersection
     println("A Car went to Intersection")

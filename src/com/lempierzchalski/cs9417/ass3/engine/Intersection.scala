@@ -14,6 +14,7 @@ class Intersection extends RoadSection {
 
   private var coolDown = 0
   private val roads = new Array[Road](ROAD_COUNT)
+  private var score = 1000;
 
   roadSetup()
 
@@ -30,6 +31,9 @@ class Intersection extends RoadSection {
   def timeStep(){
     for(road <- roads){
       road.timeStep()
+      if(road.carWaitingAtIntersection()){
+        score -= 1
+      }
     }
     if(coolDown > 0) coolDown -= 1
   }
@@ -60,7 +64,7 @@ class Intersection extends RoadSection {
   def printState(){
     println()
     println()
-    println("The current state is:")
+    println(f"The current score( $score ) and state is:")
     println(f"coolDown = $coolDown")
     for(i <- Range(0, ROAD_COUNT)){
 //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")

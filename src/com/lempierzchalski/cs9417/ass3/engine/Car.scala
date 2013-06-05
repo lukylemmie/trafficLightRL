@@ -11,6 +11,11 @@ class Car(createdOn : RoadSection, startPosition : Int) {
   //TODO: Going to turn
   private var position = startPosition
   private var roadSection = createdOn
+  private var waiting = false
+
+  def getWaiting : Boolean = {
+    waiting
+  }
 
   def move(){
 //    println("Moving car!")
@@ -21,12 +26,15 @@ class Car(createdOn : RoadSection, startPosition : Int) {
 //        println(f"section.checkPositionEmpty(${position - 1}) = ${section.checkPositionEmpty(position - 1)}")
         if(position == 0){
           section.getTrafficLight match {
-            case Red => println("Car waiting, minus points!")//TODO: modify score here
-            case Green => section.giveCarToIntersection()
+            case Red => waiting = true; println("Car waiting, minus points!")//TODO: modify score here
+            case Green => waiting = false; section.giveCarToIntersection()
           }
         } else if(section.checkPositionEmpty(position - 1)){
+          waiting = false
           section.moveCar(position, position - 1)
           position -= 1
+        } else {
+          waiting = true
         }
       }
       case section : Intersection => {
