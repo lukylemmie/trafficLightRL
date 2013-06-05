@@ -12,7 +12,7 @@ import scala.collection.mutable
 
 class Road extends RoadSection {
   val ROAD_LENGTH = 100
-  private var lane : mutable.Queue[Option[Car]] = mutable.Queue.fill(ROAD_LENGTH)(None)
+  private var lane : mutable.Seq[Option[Car]] = mutable.Seq(ROAD_LENGTH)(None)
   private var trafficLight : TrafficLightColour = Red
   private var intersection : Option[Intersection] = None
 
