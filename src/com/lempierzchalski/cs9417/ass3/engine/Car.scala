@@ -43,8 +43,4 @@ class Car(createdOn : RoadSection, startPosition : Int) {
       }
     }
   }
-
-  def horn = {
-    println("Honk!")
-  }
 }
