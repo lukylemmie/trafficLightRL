@@ -23,6 +23,6 @@ object RunSim extends App {
     fileName
   }
   val fileWriter = new PrintWriter(new FileWriter(fileName))
-  for (kv <- trafficModelAdapter.getReinforcementLearner.qValueTable) {fileWriter.println(kv)}//; println(kv)}
+  for (kv <- trafficModelAdapter.getReinforcementLearner.qTable) {fileWriter.println(kv)}//; println(kv)}
   fileWriter.close()
 }
