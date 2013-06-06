@@ -28,8 +28,8 @@ class TrafficModelAdapter(val intersection: Intersection) {
       case DoNothing => intersection.timeStep()
       case ToggleLights => intersection.switchLights(); intersection.timeStep()
     }
-    val reward = if(intersection.isCarWaiting) -1 else 0
     val newState = getState
+    val reward = if(intersection.isCarWaiting) -1 else 0
     (newState, reward)
   }
 
@@ -37,10 +37,13 @@ class TrafficModelAdapter(val intersection: Intersection) {
     validActions, takeActionWithReward, futureDiscount = 0.9, learningRate = 0.1
   )
 
-  val proportionCarInserts = 3
-  def sim() {
-    for (time <- 0 until 1000) {
-      if (util.Random.nextInt(proportionCarInserts) == 0 ) intersection.insertCar(util.Random.nextInt(2))
+  val proportionCarInserts = 10
+  def sim(endTime: Int) {
+    for (time <- 0 until endTime) {
+      for ( i <- 0 until 2) {
+        if (util.Random.nextInt(proportionCarInserts) == 0) intersection.insertCar(i)
+      }
+      //intersection.printState()
       reinforcementLearner.learn(getState)
     }
   }
