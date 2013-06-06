@@ -48,7 +48,9 @@ class Intersection extends RoadSection {
   def nearestCars() : Seq[Option[Int]] = {
     val nearestCars : Seq[Option[Int]] = List[Option[Int]]()
     for(road <- roads){
+      println(f"adding to list ${road.nearestCar()}")
       nearestCars :+ road.nearestCar()
+      println(f"nearestCars = $nearestCars")
     }
     nearestCars
   }
