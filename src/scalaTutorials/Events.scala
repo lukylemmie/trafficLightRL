@@ -19,6 +19,8 @@ object Events extends App {
   val artImage = javax.imageio.ImageIO.read(new java.io.File("./src/img/Dot.png"))
   var imgx = 0
   var imgy = 0
+  val delay = 100
+  val dots = Array.fill(30)(new java.awt.Point(100 + until.Random.nextInt(300), 100 + util.random.nextInt(300)))
 
   val panel = new Panel {
     override def paint(g:Graphics2D) {
@@ -28,6 +30,10 @@ object Events extends App {
       for(path <- paths) g.draw(path)
       g.draw(currentPath)
       g.drawImage(artImage,imgx,imgy,null)
+      g.setPaint(Color.green)
+      for(p <- dots){
+        g.fill(new Ellipse2D.Double(p.x-2, p.y-2, 5, 5))
+      }
     }
     listenTo(mouse.clicks, mouse.moves,keys)
     reactions += {
@@ -46,15 +52,36 @@ object Events extends App {
       case e : MouseEntered =>
         requestFocus()
       case e : KeyPressed =>
+        val shift = 1
         e.key match {
           case Key.Up =>
+            if(paths.forall(!_.intersects(imgx, imgy - shift, artImage.getWidth, artImage.getHeight))){
+              imgy -= shift
+              repaint()
+            }
           case Key.Down =>
+            if(paths.forall(!_.intersects(imgx, imgy + shift, artImage.getWidth, artImage.getHeight))){
+              imgy += shift
+              repaint()
+            }
           case Key.Left =>
+            if(paths.forall(!_.intersects(imgx - shift, imgy, artImage.getWidth, artImage.getHeight))){
+              imgx -= shift
+              repaint()
+            }
           case Key.Right =>
+            if(paths.forall(!_.intersects(imgx + shift, imgy, artImage.getWidth, artImage.getHeight))){
+              imgx += shift
+              repaint()
+            }
         }
     }
     preferredSize = new Dimension(600,600)
   }
+
+  val timer = new javax.swing.timer(delay,Swing.ActionListener(e => {
+
+  }))
 
   val frame = new MainFrame{
     title = "Events"
