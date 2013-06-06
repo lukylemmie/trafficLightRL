@@ -33,9 +33,11 @@ class TrafficModelAdapter(val intersection: Intersection) {
     (newState, reward)
   }
 
-  private val reinforcementLearner = new ReinforcementLearner[IntersectionState, IntersectionAction](
+  private var reinforcementLearner = ReinforcementLearner.construct[IntersectionState, IntersectionAction](
     validActions, takeActionWithReward, futureDiscount = 0.9, learningRate = 0.1
   )
+
+  def getReinforcementLearner = reinforcementLearner
 
   val proportionCarInserts = 10
   def sim(endTime: Int) {
@@ -44,11 +46,7 @@ class TrafficModelAdapter(val intersection: Intersection) {
         if (util.Random.nextInt(proportionCarInserts) == 0) intersection.insertCar(i)
       }
       //intersection.printState()
-      reinforcementLearner.learn(getState)
+      reinforcementLearner = reinforcementLearner.learn(getState)
     }
   }
-
-  def getQTable = reinforcementLearner.getQTable
-  def getQValueTable = reinforcementLearner.getQValueTable
-  def getQCountTable = reinforcementLearner.getQCountTable
 }

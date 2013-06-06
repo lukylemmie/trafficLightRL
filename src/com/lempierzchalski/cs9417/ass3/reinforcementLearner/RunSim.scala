@@ -1,7 +1,7 @@
 package com.lempierzchalski.cs9417.ass3.reinforcementLearner
 
 import com.lempierzchalski.cs9417.ass3.engine.Intersection
-import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{StateSpaceEnumerator, TrafficModelAdapter}
+import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.TrafficModelAdapter
 import java.io.{FileWriter, PrintWriter, File}
 
 /**
@@ -27,6 +27,6 @@ object RunSim extends App {
     fileName
   }
   val fileWriter = new PrintWriter(new FileWriter(fileName))
-  for (kv <- trafficModelAdapter.getQTable) {fileWriter.println(kv)}//; println(kv)}
+  for (kv <- trafficModelAdapter.getReinforcementLearner.qValueTable) {fileWriter.println(kv)}//; println(kv)}
   fileWriter.close()
 }

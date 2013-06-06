@@ -10,6 +10,7 @@ import scala.collection.immutable
  * To change this template use File | Settings | File Templates.
  */
 class TestClass {
+  var hello = 1
   private var katIDs: immutable.Set[Int] = Set(1, 2, 3, 4)
   def updateKatIDs(newID: Int) {
     katIDs = katIDs + newID

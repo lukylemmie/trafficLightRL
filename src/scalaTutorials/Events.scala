@@ -81,7 +81,7 @@ object Events extends App {
   }
 
   val timer = new javax.swing.Timer(delay,Swing.ActionListener(e => {
-    artImage.x
+    //artImage.x
     for(p <- dots) {
       p.x += 1//util.Random.nextInt(3) - 1
       p.y += 0//util.Random.nextInt(3) - 1
