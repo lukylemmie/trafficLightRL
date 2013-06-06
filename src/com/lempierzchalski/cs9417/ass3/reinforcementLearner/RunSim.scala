@@ -17,11 +17,7 @@ object RunSim extends App {
   val fileName = {
     var i = 0
     var fileName = ""
-    while({
-      fileName = f"./out/data$i.txt"
-      val f = new File(fileName)
-      f.exists()
-    }) {
+    while({fileName = f"./out/data$i.txt"; val f = new File(fileName); f.exists()}) {
       i += 1
     }
     fileName
