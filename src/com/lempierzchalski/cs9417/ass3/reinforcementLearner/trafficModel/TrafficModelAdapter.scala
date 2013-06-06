@@ -40,7 +40,7 @@ class TrafficModelAdapter(val intersection: Intersection) {
   val proportionCarInserts = 10
   def sim(endTime: Int) {
     for (time <- 0 until endTime) {
-      for ( i <- 0 until 2) {
+      for ( i <- 0 until intersection.ROAD_COUNT) {
         if (util.Random.nextInt(proportionCarInserts) == 0) intersection.insertCar(i)
       }
       //intersection.printState()
@@ -49,4 +49,6 @@ class TrafficModelAdapter(val intersection: Intersection) {
   }
 
   def getQTable = reinforcementLearner.getQTable
+  def getQValueTable = reinforcementLearner.getQValueTable
+  def getQCountTable = reinforcementLearner.getQCountTable
 }
