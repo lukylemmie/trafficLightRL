@@ -15,14 +15,14 @@ class Intersection extends RoadSection {
   val ROAD_COUNT = 2
 
   private var coolDown = 0
-  private val roads = new Array[Road](ROAD_COUNT)
+  private var roads = List[Road]()
   private var carWaiting = false
 
   roadSetup()
 
   def roadSetup(){
     for(i <- Range(0,ROAD_COUNT)){
-      roads(i) = new Road
+      roads = roads + new Road
       roads(i).setIntersection(Some(this))
       if(i % 2 == 0){
         roads(i).switchLights()
@@ -46,21 +46,11 @@ class Intersection extends RoadSection {
   }
 
   def nearestCars() : Seq[Option[Int]] = {
-    val nearestCars : Seq[Option[Int]] = List[Option[Int]]()
-    for(road <- roads){
-      println(f"adding to list ${road.nearestCar()}")
-      nearestCars :+ road.nearestCar()
-      println(f"nearestCars = $nearestCars")
-    }
-    nearestCars
+    roads.map(_.nearestCar())
   }
 
   def checkLights() : Seq[TrafficLightColour] = {
-    val trafficLights : Seq[TrafficLightColour] = List[TrafficLightColour]()
-    for(road <- roads){
-      trafficLights :+ road.getTrafficLight
-    }
-    trafficLights
+    roads.map(_.getTrafficLight)
   }
 
   def getCoolDown: Int = {
@@ -90,6 +80,7 @@ class Intersection extends RoadSection {
       println(f"Light Colour: ${roads(i).getTrafficLight}")
 //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
     }
+    println(nearestCars())
   }
 
   def insertCar(i : Int){

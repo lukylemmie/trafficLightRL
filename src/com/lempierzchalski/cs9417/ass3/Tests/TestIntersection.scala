@@ -31,10 +31,11 @@ object TestIntersection extends App {
   intersection.insertCar(1)
   intersection.printState()
 
-  for(i <- 0 until 80) intersection.timeStep()
+  for(i <- 0 until 75) intersection.timeStep()
   intersection.printState()
+  intersection.nearestCars()
 
-  for(i <- 0 until 20) intersection.timeStep()
+  for(i <- 0 until 25) intersection.timeStep()
   intersection.printState()
 
   intersection.switchLights()
