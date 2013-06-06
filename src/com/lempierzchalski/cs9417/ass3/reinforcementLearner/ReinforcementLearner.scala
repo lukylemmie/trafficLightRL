@@ -9,9 +9,9 @@ import collection.immutable
  * Project: trafficLightRL
  */
 class ReinforcementLearner[State, Action](
-                                           val validActions: State => Set[Action],
+                                           val validActions: Set[Action],
                                            val takeActionWithReward: (State, Action) => (State, Double)
                                            ){
-  var stateUtilities: Map[State, Double] = immutable.HashMap.empty
+  var stateQ: Map[State, Double] = immutable.HashMap.empty
 
 }
