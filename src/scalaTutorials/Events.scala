@@ -16,7 +16,7 @@ import java.awt.geom._
 object Events extends App {
   var paths = List[GeneralPath]()
   var currentPath = new GeneralPath()
-  val artImage = javax.imageio.ImageIO.read(new java.io.File("./src/img/Dot.png"))
+  val artImage = javax.imageio.ImageIO.read(new java.io.File("./src/img/redCar.png"))
   var imgx = 0
   var imgy = 0
   val delay = 10
@@ -81,9 +81,10 @@ object Events extends App {
   }
 
   val timer = new javax.swing.Timer(delay,Swing.ActionListener(e => {
+    artImage.x
     for(p <- dots) {
-      p.x += util.Random.nextInt(3) - 1
-      p.y += util.Random.nextInt(3) - 1
+      p.x += 1//util.Random.nextInt(3) - 1
+      p.y += 0//util.Random.nextInt(3) - 1
     }
     panel.repaint()
   }))
