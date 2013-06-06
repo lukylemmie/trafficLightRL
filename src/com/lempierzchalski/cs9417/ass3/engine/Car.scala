@@ -26,7 +26,7 @@ class Car(createdOn : RoadSection, startPosition : Int) {
 //        println(f"section.checkPositionEmpty(${position - 1}) = ${section.checkPositionEmpty(position - 1)}")
         if(position == 0){
           section.getTrafficLight match {
-            case Red => waiting = true; println("Car waiting, minus points!")//TODO: modify score here
+            case Red => waiting = true; println("Car waiting, minus points!")
             case Green => waiting = false; section.giveCarToIntersection()
           }
         } else if(section.checkPositionEmpty(position - 1)){

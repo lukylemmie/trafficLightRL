@@ -19,8 +19,9 @@ object Events extends App {
   val artImage = javax.imageio.ImageIO.read(new java.io.File("./src/img/Dot.png"))
   var imgx = 0
   var imgy = 0
-  val delay = 100
-  val dots = Array.fill(30)(new java.awt.Point(100 + util.Random.nextInt(300), 100 + util.Random.nextInt(300)))
+  val delay = 10
+  val dots = Array.fill(600)(new java.awt.Point(100 + util.Random.nextInt(400), 100 + util.Random.nextInt(400)))
+  val circleRad = 10
 
   val panel = new Panel {
     override def paint(g:Graphics2D) {
@@ -32,7 +33,7 @@ object Events extends App {
       g.drawImage(artImage,imgx,imgy,null)
       g.setPaint(Color.green)
       for(p <- dots){
-        g.fill(new Ellipse2D.Double(p.x-2, p.y-2, 5, 5))
+        g.fill(new Ellipse2D.Double(p.x - circleRad / 2, p.y - circleRad / 2, circleRad, circleRad))
       }
     }
     listenTo(mouse.clicks, mouse.moves,keys)
@@ -80,7 +81,11 @@ object Events extends App {
   }
 
   val timer = new javax.swing.Timer(delay,Swing.ActionListener(e => {
-
+    for(p <- dots) {
+      p.x += util.Random.nextInt(3) - 1
+      p.y += util.Random.nextInt(3) - 1
+    }
+    panel.repaint()
   }))
 
   val frame = new MainFrame{
@@ -91,4 +96,5 @@ object Events extends App {
 
   frame.open()
   panel.requestFocus()
+  timer.start()
 }

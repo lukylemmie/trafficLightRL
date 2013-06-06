@@ -14,8 +14,6 @@ class Intersection extends RoadSection {
 
   private var coolDown = 0
   private val roads = new Array[Road](ROAD_COUNT)
-  private val score = 1000
-
   private var carWaiting = false
 
   roadSetup()
@@ -45,12 +43,18 @@ class Intersection extends RoadSection {
     if(coolDown > 0) coolDown -= 1
   }
 
-  def nearestCar(i : Int) : Option[Int] = {
-    roads(i).nearestCar()
+  def nearestCar() : Seq[Option[Int]] = {
+    val nearestCars : Seq[Option[Int]] = Seq[Option[Int]]
+    for(road <- roads){
+      nearestCars += road.nearestCar()
+    }
   }
 
-  def checkLight(i: Int) : TrafficLightColour = {
-    roads(i).getTrafficLight
+  def checkLight() : Seq[TrafficLightColour] = {
+    val trafficLights : Seq[TrafficLightColour] = Seq[TrafficLightColour]
+    for(road <- roads){
+      nearestCars += road.getTrafficLight
+    }
   }
 
   def getCoolDown: Int = {
@@ -71,7 +75,7 @@ class Intersection extends RoadSection {
   def printState(){
     println()
     println()
-    println(f"The current score( $score ) and state is:")
+    println(f"The state is:")
     println(f"coolDown = $coolDown")
     for(i <- Range(0, ROAD_COUNT)){
 //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
