@@ -11,6 +11,7 @@ import scala.collection.mutable
  */
 class Intersection extends RoadSection {
   //TODO: IMPLEMENT
+  private val DEBUG = false
   private val SWITCH_COOL_DOWN = 3 // time steps
   val ROAD_COUNT = 2
 
@@ -59,7 +60,7 @@ class Intersection extends RoadSection {
 
   def switchLights(){
     if(coolDown > 0){
-      println("Can't change lights yet")
+      if(DEBUG)println("Can't change lights yet")
     } else {
       for(road <- roads){
         road.switchLights()

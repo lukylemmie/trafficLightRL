@@ -12,6 +12,7 @@ import scala.collection.mutable
 
 class Road extends RoadSection {
   val ROAD_LENGTH = 100
+  private val DEBUG = false
   private val lane: mutable.Seq[Option[Car]] = mutable.Seq.fill(ROAD_LENGTH)(None)
   private var trafficLight : TrafficLightColour = Red
   private var intersection : Option[Intersection] = None
@@ -25,7 +26,7 @@ class Road extends RoadSection {
 
   def giveCarToIntersection(){
     lane(0) = None; //TODO: pass lane(1) to intersection
-    println("A Car went to Intersection")
+    if(DEBUG)println("A Car went to Intersection")
   }
 
   def moveCar(from : Int, to : Int){
@@ -34,7 +35,7 @@ class Road extends RoadSection {
       lane(to) = lane(from)
       lane(from) = None
     } else {
-      println("Can't move there because there's something there!")
+      if(DEBUG)println("Can't move there because there's something there!")
     }
   }
 

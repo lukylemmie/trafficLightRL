@@ -9,6 +9,7 @@ package com.lempierzchalski.cs9417.ass3.engine
  */
 class Car(createdOn : RoadSection, startPosition : Int) {
   //TODO: Going to turn
+  private val DEBUG = false
   private var position = startPosition
   private var roadSection = createdOn
   private var waiting = false
@@ -26,7 +27,7 @@ class Car(createdOn : RoadSection, startPosition : Int) {
 //        println(f"section.checkPositionEmpty(${position - 1}) = ${section.checkPositionEmpty(position - 1)}")
         if(position == 0){
           section.getTrafficLight match {
-            case Red => waiting = true; println("Car waiting, minus points!")
+            case Red => waiting = true; if(DEBUG)("Car waiting, minus points!")
             case Green => waiting = false; section.giveCarToIntersection()
           }
         } else if(section.checkPositionEmpty(position - 1)){
@@ -38,7 +39,7 @@ class Car(createdOn : RoadSection, startPosition : Int) {
         }
       }
       case section : Intersection => {
-        println("Car is on an Intersection!")
+        if(DEBUG)println("Car is on an Intersection!")
         //TODO: movement of car in intersection
       }
     }
