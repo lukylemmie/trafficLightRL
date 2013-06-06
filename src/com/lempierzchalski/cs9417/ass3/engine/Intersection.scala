@@ -12,7 +12,7 @@ import scala.collection.mutable
 class Intersection extends RoadSection {
   //TODO: IMPLEMENT
   private val SWITCH_COOL_DOWN = 3 // time steps
-  private val ROAD_COUNT = 2
+  val ROAD_COUNT = 2
 
   private var coolDown = 0
   private val roads = new Array[Road](ROAD_COUNT)
