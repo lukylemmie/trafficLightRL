@@ -45,7 +45,7 @@ class Intersection extends RoadSection {
     if(coolDown > 0) coolDown -= 1
   }
 
-  def nearestCar() : Seq[Option[Int]] = {
+  def nearestCars() : Seq[Option[Int]] = {
     val nearestCars : Seq[Option[Int]] = mutable.Seq[Option[Int]]()
     for(road <- roads){
       nearestCars :+ road.nearestCar()
@@ -53,7 +53,7 @@ class Intersection extends RoadSection {
     nearestCars
   }
 
-  def checkLight() : Seq[TrafficLightColour] = {
+  def checkLights() : Seq[TrafficLightColour] = {
     val trafficLights : Seq[TrafficLightColour] = mutable.Seq[TrafficLightColour]()
     for(road <- roads){
       trafficLights :+ road.getTrafficLight
