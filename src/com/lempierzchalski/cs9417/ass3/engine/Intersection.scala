@@ -83,7 +83,7 @@ class Intersection extends RoadSection {
 //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
     }
     println(nearestCars())
-    println(f"carWaiting = $carWaiting")
+    println(f"carWaiting = $isCarWaiting")
   }
 
   def insertCar(i : Int){
