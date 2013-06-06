@@ -1,5 +1,7 @@
 package com.lempierzchalski.cs9417.ass3.engine
 
+import scala.collection.mutable
+
 /**
  * Created with IntelliJ IDEA.
  * User: Andrew2012
@@ -44,17 +46,19 @@ class Intersection extends RoadSection {
   }
 
   def nearestCar() : Seq[Option[Int]] = {
-    val nearestCars : Seq[Option[Int]] = Seq[Option[Int]]
+    val nearestCars : Seq[Option[Int]] = mutable.Seq[Option[Int]]()
     for(road <- roads){
-      nearestCars += road.nearestCar()
+      nearestCars :+ road.nearestCar()
     }
+    nearestCars
   }
 
   def checkLight() : Seq[TrafficLightColour] = {
-    val trafficLights : Seq[TrafficLightColour] = Seq[TrafficLightColour]
+    val trafficLights : Seq[TrafficLightColour] = mutable.Seq[TrafficLightColour]()
     for(road <- roads){
-      nearestCars += road.getTrafficLight
+      trafficLights :+ road.getTrafficLight
     }
+    trafficLights
   }
 
   def getCoolDown: Int = {
