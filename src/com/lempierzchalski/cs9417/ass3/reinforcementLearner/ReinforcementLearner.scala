@@ -10,11 +10,11 @@ import util.Random
  * Project: trafficLightRL
  */
 class ReinforcementLearner[State, Action](
-                                           val validActions: Seq[Action],
-                                           val takeActionWithReward: (State, Action) => (State, Double),
-                                           val futureDiscount: Double,
-                                           val learningRate: Double
-                                           ){
+                                          val validActions: Seq[Action],
+                                          val takeActionWithReward: (State, Action) => (State, Double),
+                                          val futureDiscount: Double,
+                                          val learningRate: Double
+                                          ){
 
   private var Q: Map[(State, Action), Double] = immutable.HashMap.empty
 

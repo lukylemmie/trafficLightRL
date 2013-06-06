@@ -22,7 +22,7 @@ class Intersection extends RoadSection {
 
   def roadSetup(){
     for(i <- Range(0,ROAD_COUNT)){
-      roads = roads + new Road
+      roads = roads :+ new Road()
       roads(i).setIntersection(Some(this))
       if(i % 2 == 0){
         roads(i).switchLights()
