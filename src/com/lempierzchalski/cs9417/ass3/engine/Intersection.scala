@@ -17,7 +17,6 @@ class Intersection extends RoadSection {
 
   private var coolDown = 0
   private var roads = List[Road]()
-  private var carWaiting = false
 
   roadSetup()
 
@@ -32,16 +31,18 @@ class Intersection extends RoadSection {
   }
 
   def isCarWaiting : Boolean = {
+    var carWaiting = false
+    for(road <- roads){
+      if(road.carWaitingAtIntersection()){
+        carWaiting = true
+      }
+    }
     carWaiting
   }
 
   def timeStep(){
     for(road <- roads){
       road.timeStep()
-      carWaiting = false
-      if(road.carWaitingAtIntersection()){
-        carWaiting = true
-      }
     }
     if(coolDown > 0) coolDown -= 1
   }
@@ -82,6 +83,7 @@ class Intersection extends RoadSection {
 //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
     }
     println(nearestCars())
+    println(f"carWaiting = $carWaiting")
   }
 
   def insertCar(i : Int){
