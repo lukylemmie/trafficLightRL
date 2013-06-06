@@ -16,6 +16,8 @@ class Intersection extends RoadSection {
   private val roads = new Array[Road](ROAD_COUNT)
   private var score = 1000;
 
+  private var carWaiting = false
+
   roadSetup()
 
   def roadSetup(){
@@ -28,11 +30,16 @@ class Intersection extends RoadSection {
     }
   }
 
+  def getCarWaiting : Boolean = {
+    carWaiting
+  }
+
   def timeStep(){
     for(road <- roads){
       road.timeStep()
+      carWaiting = false
       if(road.carWaitingAtIntersection()){
-        score -= 1
+        carWaiting = true
       }
     }
     if(coolDown > 0) coolDown -= 1
