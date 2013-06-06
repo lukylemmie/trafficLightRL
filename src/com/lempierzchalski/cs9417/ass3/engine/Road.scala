@@ -12,7 +12,7 @@ import scala.collection.mutable
 
 class Road extends RoadSection {
   val ROAD_LENGTH = 100
-  private var lane : mutable.Seq[Option[Car]] = mutable.Seq.fill(ROAD_LENGTH)(None)
+  private val lane: mutable.Seq[Option[Car]] = mutable.Seq.fill(ROAD_LENGTH)(None)
   private var trafficLight : TrafficLightColour = Red
   private var intersection : Option[Intersection] = None
 
@@ -53,7 +53,7 @@ class Road extends RoadSection {
 
   def nearestCar() : Option[Int] = { //TODO: Refactor?
     val MAX_RETURN = 8
-    var output = lane.find(_ ne None)
+    val output = lane.find(_ ne None)
     output match {
       case None => None
       case Some(optionCar) => {
@@ -136,26 +136,4 @@ class Road extends RoadSection {
     }
   }
 
-//  def timeStepOld() {
-//    lane.head match{
-//      case None => {
-//        lane.dequeue()
-//        lane += None
-//      }
-//      case Some(_) => {
-//        trafficLight match {
-//          case Green => {
-//            lane.dequeue() //TODO: put car onto intersection when implemented
-//            lane += None
-//          }
-//          case Red => {
-//            var i = lane.indexOf(None)
-//            lane = lane.take(i) ++ lane.drop(i + 1)
-//            lane += None
-//            //println("Debug: car at red light")
-//          }
-//        }
-//      }
-//    }
-//  }
 }

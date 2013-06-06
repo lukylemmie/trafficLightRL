@@ -20,7 +20,7 @@ object Events extends App {
   var imgx = 0
   var imgy = 0
   val delay = 100
-  val dots = Array.fill(30)(new java.awt.Point(100 + until.Random.nextInt(300), 100 + util.random.nextInt(300)))
+  val dots = Array.fill(30)(new java.awt.Point(100 + util.Random.nextInt(300), 100 + util.Random.nextInt(300)))
 
   val panel = new Panel {
     override def paint(g:Graphics2D) {
@@ -79,7 +79,7 @@ object Events extends App {
     preferredSize = new Dimension(600,600)
   }
 
-  val timer = new javax.swing.timer(delay,Swing.ActionListener(e => {
+  val timer = new javax.swing.Timer(delay,Swing.ActionListener(e => {
 
   }))
 

@@ -14,7 +14,7 @@ class Intersection extends RoadSection {
 
   private var coolDown = 0
   private val roads = new Array[Road](ROAD_COUNT)
-  private var score = 1000;
+  private val score = 1000
 
   private var carWaiting = false
 

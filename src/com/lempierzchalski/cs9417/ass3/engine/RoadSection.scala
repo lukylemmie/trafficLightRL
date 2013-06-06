@@ -7,5 +7,4 @@ package com.lempierzchalski.cs9417.ass3.engine
  * Time: 11:42 AM
  * To change this template use File | Settings | File Templates.
  */
-trait RoadSection {
-}
+trait RoadSection
