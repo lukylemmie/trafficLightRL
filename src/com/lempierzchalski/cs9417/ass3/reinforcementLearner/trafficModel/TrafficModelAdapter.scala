@@ -73,4 +73,8 @@ class TrafficModelAdapter(val intersection: Intersection,
       reinforcementLearner = reinforcementLearner.learn(getState)
     }
   }
+
+  def simWithScoring(numScores: Int): Seq[Int] = {
+    ???
+  }
 }
