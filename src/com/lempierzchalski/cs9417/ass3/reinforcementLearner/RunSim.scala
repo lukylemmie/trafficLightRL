@@ -16,7 +16,7 @@ object RunSim extends App {
                                                     epsilonGreedyParameter = 0.1,
                                                     learningRate = 0.1,
                                                     futureDiscount = 0.9)
-  trafficModelAdapter.sim(endTime = 1000000)
+  trafficModelAdapter.sim(endTime = 1000000, proportionCarInserts = 10)
   val fileName = {
     var i = 0
     var fileName = ""

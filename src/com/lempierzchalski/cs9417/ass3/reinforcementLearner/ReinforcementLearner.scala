@@ -11,7 +11,10 @@ import util.Random
  */
 case class ReinforcementLearner[State, Action](
                                                 validActions: Set[Action],
-                                                chooseAction: (State, Map[(State, Action), (Double, Int)]) => Action,
+                                                chooseAction: (State,
+                                                               Set[Action],
+                                                               ReinforcementLearner.QTableType[State, Action]
+                                                               ) => Action,
                                                 takeActionWithReward: (State, Action) => (State, Double),
                                                 futureDiscount: Double,
                                                 learningRate: Double,
@@ -22,35 +25,38 @@ case class ReinforcementLearner[State, Action](
 
   def qCountTable: Map[(State, Action), Int] = qTable.mapValues( _._2 )
 
+
   def learn(currentState: State): ReinforcementLearner[State, Action] = {
-    val action = chooseAction(currentState, qTable)
+    val action = chooseAction(currentState, validActions, qTable)
     val (newState, reward) = takeActionWithReward(currentState, action)
     val (oldQReward, oldCount) = qTable.getOrElse((currentState, action), (0.0, 0))
     val (newQReward, _) = validActions.map( anAction => qTable.getOrElse((newState, anAction), (0.0, 0)) ).max
     val updatedQReward = (1 - learningRate) * oldQReward + learningRate * (reward + futureDiscount * newQReward)
     val newQTable = qTable.updated((currentState, action), (updatedQReward, oldCount + 1))
-    ReinforcementLearner( validActions,
-                          chooseAction,
-                          takeActionWithReward,
-                          futureDiscount,
-                          learningRate,
-                          newQTable)
+    ReinforcementLearner(validActions,
+                         chooseAction,
+                         takeActionWithReward,
+                         futureDiscount,
+                         learningRate,
+                         newQTable)
   }
 
 }
 
 object ReinforcementLearner{
+  type QTableType[State, Action] = Map[(State, Action), (Double, Int)]
+
   def construct[State, Action](validActions: Set[Action],
-                               chooseAction: (State, Map[(State, Action), (Double, Int)]) => Action,
+                               chooseAction: (State, Set[Action], QTableType[State, Action]) => Action,
                                takeActionWithReward: (State, Action) => (State, Double),
                                futureDiscount: Double,
                                learningRate: Double)
                                : ReinforcementLearner[State, Action] = {
-    ReinforcementLearner( validActions,
-                          chooseAction,
-                          takeActionWithReward,
-                          futureDiscount,
-                          learningRate,
-                          qTable = Map.empty)
+    ReinforcementLearner(validActions,
+                         chooseAction,
+                         takeActionWithReward,
+                         futureDiscount,
+                         learningRate,
+                         qTable = Map.empty)
   }
 }

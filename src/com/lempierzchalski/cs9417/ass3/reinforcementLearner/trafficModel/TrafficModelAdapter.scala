@@ -2,8 +2,7 @@ package com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel
 
 import com.lempierzchalski.cs9417.ass3.engine.{TrafficLightColour, Intersection}
 import scala.collection.immutable
-import com.lempierzchalski.cs9417.ass3.reinforcementLearner.ReinforcementLearner
-import util.Random
+import com.lempierzchalski.cs9417.ass3.reinforcementLearner.{ActionChoiceStrategies, ReinforcementLearner}
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,19 +26,6 @@ class TrafficModelAdapter(val intersection: Intersection,
   }
 
   val validIntersectionActions = immutable.Set[IntersectionAction](DoNothing, ToggleLights)
-  def chooseActionWithEpsilonGreedy(state: IntersectionState,
-                                    qTable: Map[(IntersectionState, IntersectionAction), (Double, Int)]
-                                    ): IntersectionAction = {
-    if (Random.nextDouble() < epsilonGreedyParameter) {
-      validIntersectionActions.toSeq(Random.nextInt(validIntersectionActions.size))
-    } else {
-      val validActionsSeq = validIntersectionActions.toSeq
-      val actionUtilities = validActionsSeq.map( (state, _) ).map( qTable.getOrElse(_, (0.0, 0))._1 )
-      val actionUtilityPairs = validActionsSeq.zip(actionUtilities)
-      val (chosenAction, _) = actionUtilityPairs.maxBy( _._2 )
-      chosenAction
-    }
-  }
 
   def takeIntersectionActionWithReward(state: IntersectionState,
                                        action: IntersectionAction
@@ -55,7 +41,7 @@ class TrafficModelAdapter(val intersection: Intersection,
 
   private var reinforcementLearner = ReinforcementLearner.construct[IntersectionState, IntersectionAction](
     validActions = validIntersectionActions,
-    chooseAction = chooseActionWithEpsilonGreedy,
+    chooseAction = ActionChoiceStrategies.EpsilonGreedyActionChoice(epsilon = epsilonGreedyParameter),
     takeActionWithReward = takeIntersectionActionWithReward,
     futureDiscount,
     learningRate
@@ -63,18 +49,16 @@ class TrafficModelAdapter(val intersection: Intersection,
 
   def getReinforcementLearner = reinforcementLearner
 
-  val proportionCarInserts = 10
-  def sim(endTime: Int) {
+  def sim(endTime: Int, proportionCarInserts: Int) {
     for (time <- 0 until endTime) {
       for ( i <- 0 until intersection.ROAD_COUNT) {
         if (util.Random.nextInt(proportionCarInserts) == 0) intersection.insertCar(i)
       }
-      //intersection.printState()
       reinforcementLearner = reinforcementLearner.learn(getState)
     }
   }
 
-  def simWithScoring(numScores: Int, timeStepsPerScore: Int): Seq[Int] = {
+  def simWithScoring(numScores: Int, timeStepsPerScore: Int, proportionCarInserts: Int): Seq[Int] = {
     for (scoreBatch <- 0 until numScores) yield {
       var score = 0
       for (timeStep <- 0 until timeStepsPerScore) {
