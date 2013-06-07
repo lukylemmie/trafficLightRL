@@ -12,13 +12,13 @@ import com.lempierzchalski.cs9417.ass3.engine.Road
 object TestRoad extends App {
   val road = new Road()
 
-  road.printRoad()
+  println(road.printRoad())
   road.printNearest()
   road.insertCar()
   road.printNearest()
-  road.printRoad()
+  println(road.printRoad())
   road.timeStep()
-  road.printRoad()
+  println(road.printRoad())
   road.printLights()
   road.switchLights()
   road.printLights()
@@ -26,22 +26,22 @@ object TestRoad extends App {
 
   for(i <- Range(0,5)){
     road.timeStep()
-    road.printRoad()
+    println(road.printRoad())
   }
 
   road.insertCar()
-  road.printRoad()
+  println(road.printRoad())
   road.timeStep()
   road.timeStep()
-  road.printRoad()
+  println(road.printRoad())
   road.printNearest()
   road.insertCar()
   road.insertCar()
-  road.printRoad()
+  println(road.printRoad())
 
   for(i <- Range(0,50)){
     road.timeStep()
-    road.printRoad()
+    println(road.printRoad())
   }
 
   road.insertCar()
@@ -49,15 +49,15 @@ object TestRoad extends App {
 
   for(i <- Range(0,50)){
     road.timeStep()
-    road.printRoad()
+    println(road.printRoad())
     road.printNearest()
   }
   road.printLights()
   road.switchLights()
   road.timeStep()
-  road.printRoad()
+  println(road.printRoad())
   road.timeStep()
-  road.printRoad()
+  println(road.printRoad())
   road.timeStep()
-  road.printRoad()
+  println(road.printRoad())
 }

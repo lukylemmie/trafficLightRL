@@ -125,14 +125,16 @@ class Road extends RoadSection {
     }
   }
 
-  def printRoad() {
+  def printRoad() : String = {
+    var output : String = ""
     for (car <- lane){
       car match {
-        case None => printf("-")
-        case Some(_) => printf("C")
+        case None => output += "-"
+        case Some(_) => output += "C"
       }
     }
-    println()
+    output += "\n"
+    output
   }
 
   def timeStep() {

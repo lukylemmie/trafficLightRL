@@ -74,20 +74,21 @@ class Intersection extends RoadSection {
     }
   }
 
-  def printState(){
-    println()
-    println()
-    println(f"The state is:")
-    println(f"coolDown = $coolDown")
+  def printState() : String = {
+    var output = ""
+    output += f"\n\n"
+    output += f"The state is:\n"
+    output += f"coolDown = $coolDown\n"
     for(i <- Range(0, ROAD_COUNT)){
 //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
-      println(f"Road $i:")
-      roads(i).printRoad()
-      println(f"Light Colour: ${roads(i).getTrafficLight}")
+      output += f"Road $i:\n"
+      output += roads(i).printRoad()
+      output += f"Light Colour: ${roads(i).getTrafficLight}\n"
 //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
     }
-    println(nearestCars())
-    println(f"carWaiting = $isCarWaiting")
+    output += f"nearestCars() = ${nearestCars()}\n"
+    output += f"carWaiting = $isCarWaiting\n"
+    output
   }
 
   def insertCar(i : Int){
