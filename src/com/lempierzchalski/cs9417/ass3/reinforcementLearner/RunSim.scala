@@ -1,7 +1,7 @@
 package com.lempierzchalski.cs9417.ass3.reinforcementLearner
 
 import com.lempierzchalski.cs9417.ass3.engine.Intersection
-import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.TrafficModelAdapter
+import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{DoNothing, ToggleLights, TrafficModelAdapter}
 import com.lempierzchalski.cs9417.ass3.myUtil.Util
 import java.io.{FileWriter, PrintWriter, File}
 
@@ -22,7 +22,7 @@ object RunSim extends App {
       numScores = 1000,
       timeStepsPerScore = 1000,
       proportionCarInserts = 5,
-      myChooseAction = ActionChoiceStrategies.EpsilonGreedyActionChoice(epsilon = 0.1))
+      myChooseAction = ActionChoiceStrategies.RandomActionChoice(Set(DoNothing, ToggleLights)))
   val qTablePrintWriter = Util.indexedFilePrintWriter(fileDir = "./out/", fileName = "qTable", fileType = ".txt")
   for (kv <- reinforcementLearner.qTable) {qTablePrintWriter.println(kv)}
   qTablePrintWriter.close()

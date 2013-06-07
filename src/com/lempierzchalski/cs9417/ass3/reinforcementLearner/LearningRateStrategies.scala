@@ -13,7 +13,7 @@ object LearningRateStrategies {
 
   def constantRate[State, Action](learningRate: Double):
     LearningRateFunction[State, Action] =
-    (_, _, _) => learningRate
+    (state, action, qTable) => learningRate
 
   def convergingRate[State, Action]:
     LearningRateFunction[State, Action] =

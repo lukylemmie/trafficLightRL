@@ -28,13 +28,13 @@ case class ReinforcementLearner[State, Action](
   def qCountTable: Map[(State, Action), Int] = qTable.mapValues( _._2 )
 
   def learn(currentState: State): ReinforcementLearner[State, Action] = {
-    val action = chooseAction(currentState, validActions, qTable)
-    val (newState, reward) = takeActionWithReward(currentState, action)
-    val (oldQReward, oldCount) = qTable.getOrElse((currentState, action), (0.0, 0))
-    val (newQReward, _) = validActions.map( anAction => qTable.getOrElse((newState, anAction), (0.0, 0)) ).max
-    val currentLearningRate = learningRate(currentState, action, qTable)
-    val updatedQReward =  (1 - currentLearningRate) * oldQReward
-                          + currentLearningRate * (reward + futureDiscount * newQReward)
+    val action                  = chooseAction(currentState, validActions, qTable)
+    val (newState, reward)      = takeActionWithReward(currentState, action)
+    val (oldQReward, oldCount)  = qTable.getOrElse((currentState, action), (0.0, 0))
+    val (newQReward, _)         = validActions.map( anAction => qTable.getOrElse((newState, anAction), (0.0, 0)) ).max
+    val currentLearningRate     = learningRate(currentState, action, qTable)
+    val updatedQReward          = (1 - currentLearningRate) * oldQReward +
+                                  currentLearningRate * (reward + futureDiscount * newQReward)
     val newQTable = qTable.updated((currentState, action), (updatedQReward, oldCount + 1))
     ReinforcementLearner(
                             validActions,

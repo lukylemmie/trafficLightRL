@@ -49,11 +49,11 @@ class TrafficModelAdapter(val intersection: Intersection,
                                     => IntersectionAction)
       : (ReinforcementLearner[IntersectionState, IntersectionAction], Seq[Int]) = {
     var reinforcementLearner = ReinforcementLearner.construct[IntersectionState, IntersectionAction](
-      validActions = validIntersectionActions,
-      chooseAction = ActionChoiceStrategies.EpsilonGreedyActionChoice(epsilon = epsilonGreedyParameter),
-      takeActionWithReward = takeIntersectionActionWithReward,
-      futureDiscount = futureDiscountParameter,
-      learningRate = LearningRateStrategies.constantRate(learningRate = learningRateParameter)
+      validActions          = validIntersectionActions,
+      chooseAction          = ActionChoiceStrategies.EpsilonGreedyActionChoice(epsilon = epsilonGreedyParameter),
+      takeActionWithReward  = takeIntersectionActionWithReward,
+      futureDiscount        = futureDiscountParameter,
+      learningRate          = LearningRateStrategies.constantRate(learningRate = learningRateParameter)
     )
     val intersectionStatePrintWriter = Util.indexedFilePrintWriter(fileDir = "./out/",
                                                                    fileName = "state",
@@ -66,7 +66,7 @@ class TrafficModelAdapter(val intersection: Intersection,
         }
         reinforcementLearner = reinforcementLearner.learn(getState)
         score -= intersection.countWaiting()
-        intersectionStatePrintWriter.println(intersection.printState())
+        //intersectionStatePrintWriter.println(intersection.printState())
       }
       score
     }
