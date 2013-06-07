@@ -35,13 +35,14 @@ class Intersection extends RoadSection {
   }
 
   def isCarWaiting : Boolean = {
-    var carWaiting = false
-    for(road <- roads){
-      if(road.carWaitingAtIntersection()){
-        carWaiting = true
-      }
-    }
-    carWaiting
+//    var carWaiting = false
+//    for(road <- roads){
+//      if(road.carWaitingAtIntersection()){
+//        carWaiting = true
+//      }
+//    }
+    !roads.forall(!_.carWaitingAtIntersection())
+//    carWaiting
   }
 
   def timeStep(){

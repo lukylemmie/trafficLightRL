@@ -46,7 +46,8 @@ class TrafficModelAdapter(val intersection: Intersection,
                      myChooseAction: (IntersectionState,
                                     Set[IntersectionAction],
                                     ActionChoiceStrategies.QTableType[IntersectionState, IntersectionAction])
-                                    => IntersectionAction)
+                                    => IntersectionAction,
+                     debug: Boolean = false)
       : (ReinforcementLearner[IntersectionState, IntersectionAction], Seq[Int]) = {
     var reinforcementLearner = ReinforcementLearner.construct[IntersectionState, IntersectionAction](
       validActions          = validIntersectionActions,
@@ -66,7 +67,7 @@ class TrafficModelAdapter(val intersection: Intersection,
         }
         reinforcementLearner = reinforcementLearner.learn(getState)
         score -= intersection.countWaiting()
-        //intersectionStatePrintWriter.println(intersection.printState())
+        if (debug) intersectionStatePrintWriter.println(intersection.printState())
       }
       score
     }
