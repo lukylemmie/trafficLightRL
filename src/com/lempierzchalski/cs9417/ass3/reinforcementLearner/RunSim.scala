@@ -2,6 +2,7 @@ package com.lempierzchalski.cs9417.ass3.reinforcementLearner
 
 import com.lempierzchalski.cs9417.ass3.engine.Intersection
 import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.TrafficModelAdapter
+import com.lempierzchalski.cs9417.ass3.myUtil.Util
 import java.io.{FileWriter, PrintWriter, File}
 
 /**
@@ -17,15 +18,15 @@ object RunSim extends App {
                                                     learningRate = 0.1,
                                                     futureDiscount = 0.9)
   trafficModelAdapter.sim(endTime = 1000000, proportionCarInserts = 10)
-  val fileName = {
-    var i = 0
-    var fileName = ""
-    while({fileName = f"./out/data$i.txt"; val f = new File(fileName); f.exists()}) {
-      i += 1
-    }
-    fileName
-  }
-  val fileWriter = new PrintWriter(new FileWriter(fileName))
+//  val fileName = {
+//    var i = 0
+//    var fileName = ""
+//    while({fileName = f"./out/data$i.txt"; val f = new File(fileName); f.exists()}) {
+//      i += 1
+//    }
+//    fileName
+//  }
+  val fileWriter = Util.indexedFilePrintWriter(fileDir = "./out/", fileName = "data", fileType = ".txt")
   for (kv <- trafficModelAdapter.getReinforcementLearner.qTable) {fileWriter.println(kv)}//; println(kv)}
   fileWriter.close()
 }
