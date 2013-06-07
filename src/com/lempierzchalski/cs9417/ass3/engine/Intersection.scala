@@ -83,8 +83,8 @@ class Intersection extends RoadSection {
     for(i <- Range(0, ROAD_COUNT)){
 //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
       output += f"Road $i:\n"
-      output += roads(i).printRoad()
       output += f"Light Colour: ${roads(i).getTrafficLight}\n"
+      output += roads(i).printRoad()
 //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
     }
     output += f"nearestCars() = ${nearestCars()}\n"
