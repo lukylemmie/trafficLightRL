@@ -74,7 +74,17 @@ class TrafficModelAdapter(val intersection: Intersection,
     }
   }
 
-  def simWithScoring(numScores: Int): Seq[Int] = {
-    ???
+  def simWithScoring(numScores: Int, timeStepsPerScore: Int): Seq[Int] = {
+    for (scoreBatch <- 0 until numScores) yield {
+      var score = 0
+      for (timeStep <- 0 until timeStepsPerScore) {
+        for ( i <- 0 until intersection.ROAD_COUNT) {
+          if (util.Random.nextInt(proportionCarInserts) == 0) intersection.insertCar(i)
+        }
+        reinforcementLearner = reinforcementLearner.learn(getState)
+        score -= intersection.countWaiting()
+      }
+      score
+    }
   }
 }
