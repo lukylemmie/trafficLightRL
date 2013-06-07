@@ -2,7 +2,8 @@ package com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel
 
 import com.lempierzchalski.cs9417.ass3.engine.{TrafficLightColour, Intersection}
 import scala.collection.immutable
-import com.lempierzchalski.cs9417.ass3.reinforcementLearner.{ActionChoiceStrategies, ReinforcementLearner}
+import com.lempierzchalski.cs9417.ass3.reinforcementLearner.{LearningRateStrategies, ActionChoiceStrategies, ReinforcementLearner}
+import com.lempierzchalski.cs9417.ass3.myUtil.Util
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,8 +15,8 @@ import com.lempierzchalski.cs9417.ass3.reinforcementLearner.{ActionChoiceStrateg
 
 class TrafficModelAdapter(val intersection: Intersection,
                           epsilonGreedyParameter: Double,
-                          futureDiscount: Double,
-                          learningRate: Double) {
+                          futureDiscountParameter: Double,
+                          learningRateParameter: Double) {
   type NearestCarsState = Seq[Option[Int]]
   type TrafficLightsState = Seq[TrafficLightColour]
   type LightsCooldownState = Int
@@ -39,27 +40,25 @@ class TrafficModelAdapter(val intersection: Intersection,
     (newState, reward)
   }
 
-  private var reinforcementLearner = ReinforcementLearner.construct[IntersectionState, IntersectionAction](
-    validActions = validIntersectionActions,
-    chooseAction = ActionChoiceStrategies.EpsilonGreedyActionChoice(epsilon = epsilonGreedyParameter),
-    takeActionWithReward = takeIntersectionActionWithReward,
-    futureDiscount,
-    learningRate
-  )
-
-  def getReinforcementLearner = reinforcementLearner
-
-  def sim(endTime: Int, proportionCarInserts: Int) {
-    for (time <- 0 until endTime) {
-      for ( i <- 0 until intersection.ROAD_COUNT) {
-        if (util.Random.nextInt(proportionCarInserts) == 0) intersection.insertCar(i)
-      }
-      reinforcementLearner = reinforcementLearner.learn(getState)
-    }
-  }
-
-  def simWithScoring(numScores: Int, timeStepsPerScore: Int, proportionCarInserts: Int): Seq[Int] = {
-    for (scoreBatch <- 0 until numScores) yield {
+  def simWithScoring(numScores: Int,
+                     timeStepsPerScore: Int,
+                     proportionCarInserts: Int,
+                     myChooseAction: (IntersectionState,
+                                    Set[IntersectionAction],
+                                    ActionChoiceStrategies.QTableType[IntersectionState, IntersectionAction])
+                                    => IntersectionAction)
+      : (ReinforcementLearner[IntersectionState, IntersectionAction], Seq[Int]) = {
+    var reinforcementLearner = ReinforcementLearner.construct[IntersectionState, IntersectionAction](
+      validActions = validIntersectionActions,
+      chooseAction = ActionChoiceStrategies.EpsilonGreedyActionChoice(epsilon = epsilonGreedyParameter),
+      takeActionWithReward = takeIntersectionActionWithReward,
+      futureDiscount = futureDiscountParameter,
+      learningRate = LearningRateStrategies.constantRate(learningRate = learningRateParameter)
+    )
+    val intersectionStatePrintWriter = Util.indexedFilePrintWriter(fileDir = "./out/",
+                                                                   fileName = "state",
+                                                                   fileType = ".txt")
+    val scores = for (scoreBatch <- 0 until numScores) yield {
       var score = 0
       for (timeStep <- 0 until timeStepsPerScore) {
         for ( i <- 0 until intersection.ROAD_COUNT) {
@@ -67,8 +66,11 @@ class TrafficModelAdapter(val intersection: Intersection,
         }
         reinforcementLearner = reinforcementLearner.learn(getState)
         score -= intersection.countWaiting()
+        intersectionStatePrintWriter.println(intersection.printState())
       }
       score
     }
+    intersectionStatePrintWriter.close()
+    (reinforcementLearner, scores)
   }
 }

@@ -13,20 +13,20 @@ import java.io.{FileWriter, PrintWriter, File}
  * To change this template use File | Settings | File Templates.
  */
 object RunSim extends App {
-  val trafficModelAdapter = new TrafficModelAdapter(intersection = new Intersection(),
-                                                    epsilonGreedyParameter = 0.1,
-                                                    learningRate = 0.1,
-                                                    futureDiscount = 0.9)
-  trafficModelAdapter.sim(endTime = 1000000, proportionCarInserts = 10)
-//  val fileName = {
-//    var i = 0
-//    var fileName = ""
-//    while({fileName = f"./out/data$i.txt"; val f = new File(fileName); f.exists()}) {
-//      i += 1
-//    }
-//    fileName
-//  }
-  val fileWriter = Util.indexedFilePrintWriter(fileDir = "./out/", fileName = "data", fileType = ".txt")
-  for (kv <- trafficModelAdapter.getReinforcementLearner.qTable) {fileWriter.println(kv)}//; println(kv)}
-  fileWriter.close()
+  val trafficModelAdapter = new TrafficModelAdapter(
+      intersection = new Intersection(),
+      epsilonGreedyParameter = 0.1,
+      learningRateParameter = 0.1,
+      futureDiscountParameter = 0.9)
+  val (reinforcementLearner, scores) = trafficModelAdapter.simWithScoring(
+      numScores = 1000,
+      timeStepsPerScore = 1000,
+      proportionCarInserts = 5,
+      myChooseAction = ActionChoiceStrategies.EpsilonGreedyActionChoice(epsilon = 0.1))
+  val qTablePrintWriter = Util.indexedFilePrintWriter(fileDir = "./out/", fileName = "qTable", fileType = ".txt")
+  for (kv <- reinforcementLearner.qTable) {qTablePrintWriter.println(kv)}
+  qTablePrintWriter.close()
+  val scorePrintWriter = Util.indexedFilePrintWriter(fileDir = "./out./", fileName = "score", fileType = ".txt")
+  for ((score, index) <- scores.zipWithIndex) {scorePrintWriter.println((index, score))}
+  scorePrintWriter.close()
 }

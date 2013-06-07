@@ -14,15 +14,15 @@ import scala.collection.mutable
 
 object ActionChoiceStrategies {
   type QTableType[State, Action] = ReinforcementLearner.QTableType[State, Action]
+  type ActionChoiceFunction[State, Action] = (State, Set[Action], QTableType[State, Action]) => Action
   
-  def RandomActionChoice[State, Action](state: State,
-                            validActions: Set[Action],
-                            qTable: QTableType[State, Action]): Action = {
-    validActions.toSeq(Random.nextInt(validActions.size))
+  def RandomActionChoice[State, Action](validActions: Set[Action]):
+      ActionChoiceFunction[State, Action] = {
+    (_, _, _) => validActions.toSeq(Random.nextInt(validActions.size))
   }
   
   def EpsilonGreedyActionChoice[State, Action](epsilon: Double):
-      (State, Set[Action], QTableType[State, Action]) => Action =
+      ActionChoiceFunction[State, Action] =
     (state, validActions, qTable) => {
       if (Random.nextDouble() < epsilon) {
         validActions.toSeq(Random.nextInt(validActions.size))
@@ -36,10 +36,10 @@ object ActionChoiceStrategies {
     }
 
   def AlwaysChooseActionChoice[State, Action](action: Action):
-      (State, Set[Action], QTableType[State, Action]) => Action =  (_, _, _) => action
+      ActionChoiceFunction[State, Action] =  (_, _, _) => action
 
   def LoopActionChoice[State, Action](actionOrdering: Seq[Action]):
-      (State, Set[Action], QTableType[State, Action]) => Action =
+      ActionChoiceFunction[State, Action] =
   {
     val countContainer = mutable.Seq[Int](-1)
     (_, _, _) => {
