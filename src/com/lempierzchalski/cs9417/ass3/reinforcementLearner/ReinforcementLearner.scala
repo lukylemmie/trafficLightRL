@@ -9,26 +9,48 @@ import util.Random
  * Package: com.lempierzchalski.cs9417.ass3.reinforcementLearner
  * Project: trafficLightRL
  */
-class ReinforcementLearner[State, Action](
-                                          val validActions: Seq[Action],
-                                          val takeActionWithReward: (State, Action) => (State, Double),
-                                          val futureDiscount: Double,
-                                          val learningRate: Double
-                                          ){
+case class ReinforcementLearner[State, Action](
+                                                validActions: Set[Action],
+                                                chooseAction: (State, Map[(State, Action), (Double, Int)]) => Action,
+                                                takeActionWithReward: (State, Action) => (State, Double),
+                                                futureDiscount: Double,
+                                                learningRate: Double,
+                                                qTable: immutable.Map[(State, Action), (Double, Int)]
+                                                ){
+  
+  def qValueTable: Map[(State, Action), Double] = qTable.mapValues( _._1 )
 
-  private var Q: Map[(State, Action), Double] = immutable.HashMap.empty
+  def qCountTable: Map[(State, Action), Int] = qTable.mapValues( _._2 )
 
-  def getQTable = Q
-
-  private def getAction(state: State): Action = validActions(Random.nextInt(validActions.size))
-
-  def learn(currentState: State) {
-    val action = getAction(currentState)
+  def learn(currentState: State): ReinforcementLearner[State, Action] = {
+    val action = chooseAction(currentState, qTable)
     val (newState, reward) = takeActionWithReward(currentState, action)
-    val oldQVal = Q.getOrElse((currentState, action), 0.0)
-    val newQVal = validActions.map( anAction => Q.getOrElse((newState, anAction), 0.0) ).max
-    val updatedQVal = (1 - learningRate) * oldQVal + learningRate * (reward + futureDiscount * newQVal)
-    Q = Q.updated((currentState, action), updatedQVal)
+    val (oldQReward, oldCount) = qTable.getOrElse((currentState, action), (0.0, 0))
+    val (newQReward, _) = validActions.map( anAction => qTable.getOrElse((newState, anAction), (0.0, 0)) ).max
+    val updatedQReward = (1 - learningRate) * oldQReward + learningRate * (reward + futureDiscount * newQReward)
+    val newQTable = qTable.updated((currentState, action), (updatedQReward, oldCount + 1))
+    ReinforcementLearner( validActions,
+                          chooseAction,
+                          takeActionWithReward,
+                          futureDiscount,
+                          learningRate,
+                          newQTable)
   }
 
+}
+
+object ReinforcementLearner{
+  def construct[State, Action](validActions: Set[Action],
+                               chooseAction: (State, Map[(State, Action), (Double, Int)]) => Action,
+                               takeActionWithReward: (State, Action) => (State, Double),
+                               futureDiscount: Double,
+                               learningRate: Double)
+                               : ReinforcementLearner[State, Action] = {
+    ReinforcementLearner( validActions,
+                          chooseAction,
+                          takeActionWithReward,
+                          futureDiscount,
+                          learningRate,
+                          qTable = Map.empty)
+  }
 }

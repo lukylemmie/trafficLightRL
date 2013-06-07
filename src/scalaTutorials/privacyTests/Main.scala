@@ -12,4 +12,6 @@ object Main extends App {
   val myKatId = test.getKatID
   myKatId + 10
   println(myKatId)
+  test.hello = 3
+  println(test.hello)
 }
