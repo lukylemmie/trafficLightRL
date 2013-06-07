@@ -3,6 +3,7 @@ package com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel
 import com.lempierzchalski.cs9417.ass3.engine.{TrafficLightColour, Intersection}
 import scala.collection.immutable
 import com.lempierzchalski.cs9417.ass3.reinforcementLearner.ReinforcementLearner
+import util.Random
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +13,10 @@ import com.lempierzchalski.cs9417.ass3.reinforcementLearner.ReinforcementLearner
  * To change this template use File | Settings | File Templates.
  */
 
-class TrafficModelAdapter(val intersection: Intersection) {
+class TrafficModelAdapter(val intersection: Intersection,
+                          epsilonGreedyParameter: Double,
+                          futureDiscount: Double,
+                          learningRate: Double) {
   type NearestCarsState = Seq[Option[Int]]
   type TrafficLightsState = Seq[TrafficLightColour]
   type LightsCooldownState = Int
@@ -22,8 +26,24 @@ class TrafficModelAdapter(val intersection: Intersection) {
     (intersection.nearestCars(), intersection.checkLights(), intersection.getCoolDown)
   }
 
-  val validActions = immutable.Seq[IntersectionAction](DoNothing, ToggleLights)
-  def takeActionWithReward(state: IntersectionState, action: IntersectionAction): (IntersectionState, Double) = {
+  val validIntersectionActions = immutable.Set[IntersectionAction](DoNothing, ToggleLights)
+  def chooseActionWithEpsilonGreedy(state: IntersectionState,
+                                    qTable: Map[(IntersectionState, IntersectionAction), (Double, Int)]
+                                    ): IntersectionAction = {
+    if (Random.nextDouble() < epsilonGreedyParameter) {
+      validIntersectionActions.toSeq(Random.nextInt(validIntersectionActions.size))
+    } else {
+      val validActionsSeq = validIntersectionActions.toSeq
+      val actionUtilities = validActionsSeq.map( (state, _) ).map( qTable.getOrElse(_, (0.0, 0))._1 )
+      val actionUtilityPairs = validActionsSeq.zip(actionUtilities)
+      val (chosenAction, _) = actionUtilityPairs.maxBy( _._2 )
+      chosenAction
+    }
+  }
+
+  def takeIntersectionActionWithReward(state: IntersectionState,
+                                       action: IntersectionAction
+                                       ): (IntersectionState, Double) = {
     action match {
       case DoNothing => intersection.timeStep()
       case ToggleLights => intersection.switchLights(); intersection.timeStep()
@@ -34,7 +54,11 @@ class TrafficModelAdapter(val intersection: Intersection) {
   }
 
   private var reinforcementLearner = ReinforcementLearner.construct[IntersectionState, IntersectionAction](
-    validActions, takeActionWithReward, futureDiscount = 0.9, learningRate = 0.1
+    validActions = validIntersectionActions,
+    chooseAction = chooseActionWithEpsilonGreedy,
+    takeActionWithReward = takeIntersectionActionWithReward,
+    futureDiscount,
+    learningRate
   )
 
   def getReinforcementLearner = reinforcementLearner

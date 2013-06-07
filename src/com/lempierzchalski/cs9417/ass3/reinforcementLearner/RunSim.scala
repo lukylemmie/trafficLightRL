@@ -12,7 +12,10 @@ import java.io.{FileWriter, PrintWriter, File}
  * To change this template use File | Settings | File Templates.
  */
 object RunSim extends App {
-  val trafficModelAdapter = new TrafficModelAdapter(new Intersection())
+  val trafficModelAdapter = new TrafficModelAdapter(intersection = new Intersection(),
+                                                    epsilonGreedyParameter = 0.1,
+                                                    learningRate = 0.1,
+                                                    futureDiscount = 0.9)
   trafficModelAdapter.sim(endTime = 1000000)
   val fileName = {
     var i = 0
