@@ -30,6 +30,10 @@ class Intersection extends RoadSection {
     }
   }
 
+  def countWaiting() : Int = {
+    roads.map(_.countWaiting()).sum
+  }
+
   def isCarWaiting : Boolean = {
     var carWaiting = false
     for(road <- roads){

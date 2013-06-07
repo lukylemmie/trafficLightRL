@@ -14,7 +14,7 @@ class Car(createdOn : RoadSection, startPosition : Int) {
   private var roadSection = createdOn
   private var waiting = false
 
-  def getWaiting : Boolean = waiting
+  def isWaiting : Boolean = waiting
 
   def move(){
 //    println("Moving car!")

@@ -17,10 +17,17 @@ class Road extends RoadSection {
   private var trafficLight : TrafficLightColour = Red
   private var intersection : Option[Intersection] = None
 
+  def countWaiting () : Int = {
+    lane.count( {
+      case None => false
+      case Some(car) => car.isWaiting
+    })
+  }
+
   def carWaitingAtIntersection() : Boolean = {
     lane(0) match {
       case None => false
-      case Some(car) => car.getWaiting
+      case Some(car) => car.isWaiting
     }
   }
 
