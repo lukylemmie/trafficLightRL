@@ -1,6 +1,6 @@
 package com.lempierzchalski.cs9417.ass3.engine.Tests
 
-import com.lempierzchalski.cs9417.ass3.engine.{IntersectionMultiLanes, Intersection}
+import com.lempierzchalski.cs9417.ass3.engine.{IntersectionMultiLanes, IntersectionBase}
 
 /**
  * Created with IntelliJ IDEA.

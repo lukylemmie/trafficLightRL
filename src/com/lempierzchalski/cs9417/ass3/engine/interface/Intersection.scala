@@ -1,6 +1,7 @@
 package com.lempierzchalski.cs9417.ass3.engine.interface
 
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.{LightColoursChoice, LaneTypeChoice, CarSpawnChoice}
+import com.lempierzchalski.cs9417.ass3.engine.IntersectionBase
 
 /**
  * User: Pierzchalski
@@ -13,6 +14,6 @@ object Intersection {
             lightColours:           LightColoursChoice,
             numberOfIncomingRoads:  Int
             ): SimulationIntersection = {
-    ???
+    new IntersectionBase
   }
 }

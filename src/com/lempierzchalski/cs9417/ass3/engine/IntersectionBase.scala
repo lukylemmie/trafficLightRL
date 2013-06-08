@@ -9,7 +9,7 @@ import scala.collection.mutable
  * Time: 1:10 PM
  * To change this template use File | Settings | File Templates.
  */
-class Intersection (val ROAD_COUNT : Int = 2) extends RoadSection {
+class IntersectionBase (val ROAD_COUNT : Int = 2) extends RoadSection {
   //TODO: IMPLEMENT
   protected val DEBUG = false
   protected val SWITCH_COOL_DOWN = 3 // time steps
@@ -89,7 +89,7 @@ class Intersection (val ROAD_COUNT : Int = 2) extends RoadSection {
   }
 }
 
-class IntersectionMultiLanes extends  Intersection {
+class IntersectionMultiLanes extends  IntersectionBase {
   override def roadSetup(){
     for(i <- Range(0,ROAD_COUNT)){
       roads = roads :+ new Road(2)
@@ -101,7 +101,7 @@ class IntersectionMultiLanes extends  Intersection {
   }
 }
 
-class IntersectionAmber extends Intersection {
+class IntersectionAmber extends IntersectionBase {
   var lightsChanging = 0
 
   override def roadSetup(){

@@ -34,7 +34,7 @@ class Car(createdOn : RoadSection, startPosition : Int, lane : Int) {
           waiting = true
         }
       }
-      case section : Intersection => {
+      case section : IntersectionBase => {
         if(DEBUG)println("Car is on an Intersection!")
         //TODO: movement of car in intersection for animation purposes
       }

@@ -15,7 +15,7 @@ class Road (val laneCount : Int = 1) extends RoadSection {
   private val DEBUG = false
   private var lanes: mutable.Seq[mutable.Seq[Option[Car]]] = mutable.Seq()
   protected var trafficLight : TrafficLightColour = Red
-  private var intersection : Option[Intersection] = None
+  private var intersection : Option[IntersectionBase] = None
 
   initRoad()
 
@@ -92,6 +92,7 @@ class Road (val laneCount : Int = 1) extends RoadSection {
         }
       }
     }
+    if(DEBUG)println(f"nearestCars = $nearestCars")
     nearestCars
   }
 
@@ -104,7 +105,7 @@ class Road (val laneCount : Int = 1) extends RoadSection {
     }
   }
 
-  def setIntersection(aIntersection : Option[Intersection]){
+  def setIntersection(aIntersection : Option[IntersectionBase]){
     aIntersection match {
       case None => println("No intersection found")
       case Some(_) => intersection = aIntersection
