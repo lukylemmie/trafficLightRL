@@ -11,8 +11,8 @@ import scala.util.Random
  */
 sealed trait CarSpawnChoice
 
-case class UniformRate(probability: Double) extends CarSpawnChoice
-case object SpecDefault extends CarSpawnChoice
+case class UniformRateCarSpawn(probability: Double) extends CarSpawnChoice
+case object SpecDefaultCarSpawn extends CarSpawnChoice
 
 object CarSpawnChoice {
   def UniformRate(probability: Double): (Int, Int) => Boolean = (_, _) => Random.nextDouble() < probability

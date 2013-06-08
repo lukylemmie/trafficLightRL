@@ -21,43 +21,22 @@ object TestSuite extends App {
   val tests: Seq[SimParams] = Seq(
     SimParams(chooseActionChoice  = RandomAction,
               learningRateChoice  = ConstantRateLearning(0.1),
-              carSpawnChoice      = SpecDefault),
+              carSpawnChoice      = SpecDefaultCarSpawn),
 
     SimParams(chooseActionChoice  = EpsilonGreedyAction(0.1),
               learningRateChoice  = ConstantRateLearning(0.1),
-              carSpawnChoice      = SpecDefault),
+              carSpawnChoice      = SpecDefaultCarSpawn),
 
     {val actionList: Seq[IntersectionAction] = Stream.continually(DoNothing).take(9).toSeq ++ Seq(ToggleLights)
     SimParams(chooseActionChoice  = LoopAction(actionList) ,
               learningRateChoice  = ConstantRateLearning(0.1),
-              carSpawnChoice      = SpecDefault)},
+              carSpawnChoice      = SpecDefaultCarSpawn)},
 
     SimParams(chooseActionChoice  = EpsilonGreedyAction(0.2),
               learningRateChoice  = ConstantRateLearning(0.1),
-              carSpawnChoice      = SpecDefault)
+              carSpawnChoice      = SpecDefaultCarSpawn)
   )
-  tests.foreach({
-    case SimParams( seed:                   Int,
-                    chooseActionChoice:     ChooseActionChoice,
-                    learningRateChoice:     LearningRateChoice,
-                    carSpawnChoice:         CarSpawnChoice,
-                    laneTypeChoice:         LaneTypeChoice,
-                    lightColours:           LightColoursChoice,
-                    numberOfIncomingRoads:  Int,
-                    futureDiscount:         Double,
-                    printState:             Boolean) =>
-      for (_ <- 0 until runRepetitions) RunSim( seed,
-                                                chooseActionChoice,
-                                                learningRateChoice,
-                                                carSpawnChoice,
-                                                laneTypeChoice,
-                                                lightColours,
-                                                numberOfIncomingRoads,
-                                                futureDiscount,
-                                                printState,
-                                                numScores,
-                                                timeStepsPerScore)
-  })
+  tests.foreach(RunSim(_, numScores, timeStepsPerScore))
 }
 
 

@@ -42,12 +42,11 @@ class TrafficRLSimulation (val chooseActionChoice:     ChooseActionChoice,
   }
 
   val carSpawn = carSpawnChoice match {
-    case UniformRate(probability) => CarSpawnChoice.UniformRate(probability)
-    case SpecDefault => CarSpawnChoice.SpecDefault
+    case UniformRateCarSpawn(probability) => CarSpawnChoice.UniformRate(probability)
+    case SpecDefaultCarSpawn => CarSpawnChoice.SpecDefault
   }
 
-  val intersection = Intersection(carSpawnChoice:         CarSpawnChoice,
-                                  laneTypeChoice:         LaneTypeChoice,
+  val intersection = Intersection(laneTypeChoice:         LaneTypeChoice,
                                   lightColours:           LightColoursChoice,
                                   numberOfIncomingRoads:  Int)
 

@@ -5,6 +5,7 @@ import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
 import com.lempierzchalski.cs9417.ass3.myUtil
 import util.Random
 import scala.Some
+import com.lempierzchalski.cs9417.ass3.simulation.runSim.RunSim
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,6 +15,30 @@ import scala.Some
  * To change this template use File | Settings | File Templates.
  */
 object RunSim {
+  def apply(simParams: SimParams, numScores: Int, timeStepsPerScore: Int) {
+    simParams match {
+      case SimParams( seed:                   Int,
+                      chooseActionChoice:     ChooseActionChoice,
+                      learningRateChoice:     LearningRateChoice,
+                      carSpawnChoice:         CarSpawnChoice,
+                      laneTypeChoice:         LaneTypeChoice,
+                      lightColours:           LightColoursChoice,
+                      numberOfIncomingRoads:  Int,
+                      futureDiscount:         Double,
+                      printState:             Boolean) =>
+        RunSim( seed,
+                chooseActionChoice,
+                learningRateChoice,
+                carSpawnChoice,
+                laneTypeChoice,
+                lightColours,
+                numberOfIncomingRoads,
+                futureDiscount,
+                printState,
+                numScores,
+                timeStepsPerScore)
+    }
+  }
   def apply(seed:                   Int,
             chooseActionChoice:     ChooseActionChoice,
             learningRateChoice:     LearningRateChoice,

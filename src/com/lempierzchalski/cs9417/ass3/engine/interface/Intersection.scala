@@ -9,8 +9,7 @@ import com.lempierzchalski.cs9417.ass3.simulation.simParameters.{LightColoursCho
  * Project: trafficLightRL
  */
 object Intersection {
-  def apply(carSpawnChoice:         CarSpawnChoice,
-            laneTypeChoice:         LaneTypeChoice,
+  def apply(laneTypeChoice:         LaneTypeChoice,
             lightColours:           LightColoursChoice,
             numberOfIncomingRoads:  Int
             ): SimulationIntersection = {
