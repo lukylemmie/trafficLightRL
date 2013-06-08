@@ -10,46 +10,60 @@ import scala.collection.mutable
  * To change this template use File | Settings | File Templates.
  */
 
-class Road extends RoadSection {
+class Road (val laneCount : Int = 1) extends RoadSection {
   val ROAD_LENGTH = 100
   private val DEBUG = false
-  private val lane: mutable.Seq[Option[Car]] = mutable.Seq.fill(ROAD_LENGTH)(None)
+  private val lanes: mutable.Seq[mutable.Seq[Option[Car]]] = mutable.Seq()
   protected var trafficLight : TrafficLightColour = Red
   private var intersection : Option[Intersection] = None
 
+  initRoad()
+
+  def initRoad (){
+    for(i <- 0 until laneCount) lanes :+ mutable.Seq.fill(ROAD_LENGTH)(None)
+  }
+
   def countWaiting () : Int = {
-    lane.count( {
-      case None => false
-      case Some(car) => car.isWaiting
-    })
+    var sum = 0
+    for(lane <- lanes){
+      sum += lane.count( {
+        case None => false
+        case Some(car) => car.isWaiting
+      })
+    }
+    sum
   }
 
   def carWaitingAtIntersection() : Boolean = {
-    lane(0) match {
-      case None => false
-      case Some(car) => car.isWaiting
+    var carWaiting = false
+    for(lane <- lanes){
+      lane(0) match {
+        case None => carWaiting |= false
+        case Some(car) => carWaiting |= car.isWaiting
+      }
     }
+    carWaiting
   }
 
-  def giveCarToIntersection(){
-    lane(0) = None; //TODO: pass lane(1) to intersection for animation purposes
+  def giveCarToIntersection(laneNum : Int = 0) {
+    lanes(laneNum)(0) = None; //TODO: pass lane(1) to intersection for animation purposes
     if(DEBUG)println("A Car went to Intersection")
   }
 
-  def moveCar(from : Int, to : Int){
+  def moveCar(fromLane : Int = 0, from : Int, toLane : Int = 0, to : Int){
     assert(from >= 0 && from < ROAD_LENGTH && to >= 0 && to < ROAD_LENGTH )
-    if(lane(to) eq None){
-      lane(to) = lane(from)
-      lane(from) = None
+    if(lanes(toLane)(to) eq None){
+        lanes(toLane)(to) = lanes(fromLane)(from)
+        lanes(fromLane)(from) = None
     } else {
       if(DEBUG)println("Can't move there because there's something there!")
     }
   }
 
   //return True if position is empty in lane
-  def checkPositionEmpty(position : Int) : Boolean = {
+  def checkPositionEmpty(lanePosition : Int = 0, position : Int) : Boolean = {
     assert(position >= 0 && position < ROAD_LENGTH)
-    lane(position) match {
+    lanes(lanePosition)(position) match {
       case None => true
       case Some(_) => false
     }
@@ -59,32 +73,32 @@ class Road extends RoadSection {
     trafficLight
   }
 
-  def nearestCar() : Option[Int] = { //TODO: Refactor?
+  def nearestCar() : mutable.Seq[Option[Int]] = { //TODO: Refactor?
     val MAX_RETURN = 8
-    val output = lane.find(_ ne None)
-    output match {
-      case None => None
-      case Some(optionCar) => {
-        val i = lane.indexOf(optionCar)
-        if (i > MAX_RETURN) None else Some(i)
+    val nearestCars : mutable.Seq[Option[Int]] = mutable.Seq()
+    for(lane <- lanes){
+      val nearest = lane.find(_ ne None)
+      nearest match {
+        case None => nearestCars :+ None
+        case Some(optionCar) => {
+          val i = lane.indexOf(optionCar)
+          if (i > MAX_RETURN){
+            nearestCars :+ None
+          } else {
+            nearestCars :+ Some(i)
+          }
+        }
       }
     }
+    nearestCars
   }
-  //    if(output ne None){
-  //      var i = lane.indexOf(output.get)
-  //  //    println(f"Inside nearestCar: $i $output") //debug statement
-  //      if(i > MAX_RETURN)
-  //        None
-  //      else
-  //        Some(i)
-  //    } else {
-  //      None
-  //    }
 
   def printNearest(){
-    nearestCar() match {
-      case None => println(f"Nearest car is: None")
-      case Some(i) => println(f"Nearest car is: $i")
+    for(position <- nearestCar()){
+      position match {
+        case None => println(f"Nearest car is: None")
+        case Some(i) => println(f"Nearest car is: $i")
+      }
     }
   }
 
@@ -124,7 +138,8 @@ class Road extends RoadSection {
     }
   }
 
-  def insertCar() {
+  def insertCar(laneNum : Int = util.Random.nextInt(laneCount)) {
+    val lane = lanes(laneNum)
     lane.last match {
       case None => lane(lane.size - 1) = Some(new Car(this, lane.size - 1))
       case Some(_) => println("Either Road is Full or Time Step Required!")
@@ -133,21 +148,25 @@ class Road extends RoadSection {
 
   def printRoad() : String = {
     var output : String = ""
-    for (car <- lane){
-      car match {
-        case None => output += "-"
-        case Some(_) => output += "C"
+    for(lane <- lanes){
+      for (car <- lane){
+        car match {
+          case None => output += "-"
+          case Some(_) => output += "C"
+        }
       }
+      output += "\n"
     }
-    output += "\n"
     output
   }
 
   def timeStep() {
-    for(optCar <- lane){
-      optCar match {
-        case None => // nothing there
-        case Some(car) => car.move()
+    for(lane <- lanes){
+      for(optCar <- lane){
+        optCar match {
+          case None => // nothing there
+          case Some(car) => car.move()
+        }
       }
     }
   }

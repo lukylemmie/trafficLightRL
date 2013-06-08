@@ -14,7 +14,6 @@ class Intersection (val ROAD_COUNT : Int = 2) extends RoadSection {
   protected val DEBUG = false
   protected val SWITCH_COOL_DOWN = 3 // time steps
 
-
   protected var coolDown = 0
   protected var roads = List[Road]()
 
@@ -46,7 +45,7 @@ class Intersection (val ROAD_COUNT : Int = 2) extends RoadSection {
   }
 
   def nearestCars() : Seq[Option[Int]] = {
-    roads.map(_.nearestCar())
+    roads.map(_.nearestCar().flatten)
   }
 
   def checkLights() : Seq[TrafficLightColour] = {
