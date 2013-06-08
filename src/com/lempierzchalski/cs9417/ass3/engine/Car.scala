@@ -7,7 +7,7 @@ package com.lempierzchalski.cs9417.ass3.engine
  * Time: 1:47 PM
  * To change this template use File | Settings | File Templates.
  */
-class Car(createdOn : RoadSection, startPosition : Int) {
+class Car(createdOn : RoadSection, startPosition : Int, lane : Int) {
   //TODO: Going to turn
   private val DEBUG = false
   private var position = startPosition
@@ -23,12 +23,12 @@ class Car(createdOn : RoadSection, startPosition : Int) {
         if(position == 0){
           section.getTrafficLight match {
             case Red => waiting = true; if(DEBUG) println("Car waiting, minus points!")
-            case Green => waiting = false; section.giveCarToIntersection()
-            case Amber => waiting = false; section.giveCarToIntersection()
+            case Green => waiting = false; section.giveCarToIntersection(lane)
+            case Amber => waiting = false; section.giveCarToIntersection(lane)
           }
-        } else if(section.checkPositionEmpty(position - 1)){
+        } else if(section.checkPositionEmpty(lane, position = position - 1)){
           waiting = false
-          section.moveCar(position, position - 1)
+          section.moveCar(fromLane = lane, from = position, toLane = lane, to = position - 1)
           position -= 1
         } else {
           waiting = true

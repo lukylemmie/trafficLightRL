@@ -89,6 +89,18 @@ class Intersection (val ROAD_COUNT : Int = 2) extends RoadSection {
   }
 }
 
+class IntersectionMultiLanes extends  Intersection {
+  override def roadSetup(){
+    for(i <- Range(0,ROAD_COUNT)){
+      roads = roads :+ new Road(2)
+      roads(i).setIntersection(Some(this))
+      if(i % 2 == 0){
+        roads(i).setLights(Green)
+      }
+    }
+  }
+}
+
 class IntersectionAmber extends Intersection {
   var lightsChanging = 0
 
@@ -136,7 +148,7 @@ class IntersectionAmber extends Intersection {
       output += roads(i).printRoad()
       //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
     }
-    output += f"nearestCars() = ${nearestCars()}\n"
+    output += f"nearestCars() = ${nearestCars().flatten}\n"
     output += f"carWaiting = $isCarWaiting\n"
     output
   }
