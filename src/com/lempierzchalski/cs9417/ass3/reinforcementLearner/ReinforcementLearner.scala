@@ -34,13 +34,12 @@ case class ReinforcementLearner[State, Action](
     val updatedQReward          = (1 - currentLearningRate) * oldQReward +
                                   currentLearningRate * (reward + futureDiscount * newQReward)
     val newQTable = qTable.updated((currentState, action), (updatedQReward, oldCount + 1))
-    ReinforcementLearner(
-                            validActions,
-                            chooseAction,
-                            takeActionWithReward,
-                            futureDiscount,
-                            learningRate,
-                            newQTable)
+    ReinforcementLearner(validActions,
+                         chooseAction,
+                         takeActionWithReward,
+                         futureDiscount,
+                         learningRate,
+                         newQTable)
   }
 
 }
@@ -56,12 +55,11 @@ object ReinforcementLearner{
                                 learningRate: (State, Action,
                                   ReinforcementLearner.QTableType[State, Action]) => Double)
                                 : ReinforcementLearner[State, Action] = {
-    ReinforcementLearner(
-                          validActions,
-                          chooseAction,
-                          takeActionWithReward,
-                          futureDiscount,
-                          learningRate,
-                          qTable = Map.empty)
+    ReinforcementLearner(validActions,
+                         chooseAction,
+                         takeActionWithReward,
+                         futureDiscount,
+                         learningRate,
+                         qTable = Map.empty)
   }
 }
