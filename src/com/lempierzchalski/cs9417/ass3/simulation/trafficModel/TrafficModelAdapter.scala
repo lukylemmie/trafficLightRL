@@ -23,10 +23,10 @@ object TrafficModelAdapter {
   type TrafficReinforcementLearner  = ReinforcementLearner[IntersectionState, IntersectionAction]
 
   def getState(intersection: SimulationIntersection): IntersectionState = {
-    (intersection.nearestCars(), intersection.checkLights(), intersection.getCooldown)
+    (intersection.nearestCars, intersection.checkLights, intersection.getCooldown)
   }
 
-  def takeIntersectionActionWithReward(intersection: Intersection):
+  def takeIntersectionActionWithReward(intersection: SimulationIntersection):
       (IntersectionState, IntersectionAction) => (IntersectionState, Double) = {
     (state, action) => {
       action match {
