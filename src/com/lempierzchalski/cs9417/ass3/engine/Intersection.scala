@@ -45,7 +45,7 @@ class Intersection (val ROAD_COUNT : Int = 2) extends RoadSection {
   }
 
   def nearestCars() : Seq[Option[Int]] = {
-    roads.map(_.nearestCar().flatten)
+    roads.map(_.nearestCar()).flatten
   }
 
   def checkLights() : Seq[TrafficLightColour] = {
