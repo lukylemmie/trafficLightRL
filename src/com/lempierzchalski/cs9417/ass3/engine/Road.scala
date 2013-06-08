@@ -13,14 +13,16 @@ import scala.collection.mutable
 class Road (val laneCount : Int = 1) extends RoadSection {
   val ROAD_LENGTH = 100
   private val DEBUG = false
-  private val lanes: mutable.Seq[mutable.Seq[Option[Car]]] = mutable.Seq()
+  private var lanes: mutable.Seq[mutable.Seq[Option[Car]]] = mutable.Seq()
   protected var trafficLight : TrafficLightColour = Red
-  private var intersection : Option[Intersection] = None
+  private var intersection : Option[IntersectionBase] = None
 
   initRoad()
 
   def initRoad (){
-    for(i <- 0 until laneCount) lanes :+ mutable.Seq.fill(ROAD_LENGTH)(None)
+    for(i <- 0 until laneCount){
+      lanes = lanes :+ mutable.Seq.fill[Option[Car]](ROAD_LENGTH)(None)
+    }
   }
 
   def countWaiting () : Int = {
@@ -45,12 +47,12 @@ class Road (val laneCount : Int = 1) extends RoadSection {
     carWaiting
   }
 
-  def giveCarToIntersection(laneNum : Int = 0) {
+  def giveCarToIntersection(laneNum : Int) {
     lanes(laneNum)(0) = None; //TODO: pass lane(1) to intersection for animation purposes
     if(DEBUG)println("A Car went to Intersection")
   }
 
-  def moveCar(fromLane : Int = 0, from : Int, toLane : Int = 0, to : Int){
+  def moveCar(fromLane : Int, from : Int, toLane : Int, to : Int){
     assert(from >= 0 && from < ROAD_LENGTH && to >= 0 && to < ROAD_LENGTH )
     if(lanes(toLane)(to) eq None){
         lanes(toLane)(to) = lanes(fromLane)(from)
@@ -61,7 +63,7 @@ class Road (val laneCount : Int = 1) extends RoadSection {
   }
 
   //return True if position is empty in lane
-  def checkPositionEmpty(lanePosition : Int = 0, position : Int) : Boolean = {
+  def checkPositionEmpty(lanePosition : Int, position : Int) : Boolean = {
     assert(position >= 0 && position < ROAD_LENGTH)
     lanes(lanePosition)(position) match {
       case None => true
@@ -73,7 +75,7 @@ class Road (val laneCount : Int = 1) extends RoadSection {
     trafficLight
   }
 
-  def nearestCar() : mutable.Seq[Option[Int]] = { //TODO: Refactor?
+  def nearestCar() : Seq[Option[Int]] = { //TODO: Refactor?
     val MAX_RETURN = 8
     val nearestCars : mutable.Seq[Option[Int]] = mutable.Seq()
     for(lane <- lanes){
@@ -90,6 +92,7 @@ class Road (val laneCount : Int = 1) extends RoadSection {
         }
       }
     }
+    if(DEBUG)println(f"nearestCars = $nearestCars")
     nearestCars
   }
 
@@ -102,7 +105,7 @@ class Road (val laneCount : Int = 1) extends RoadSection {
     }
   }
 
-  def setIntersection(aIntersection : Option[Intersection]){
+  def setIntersection(aIntersection : Option[IntersectionBase]){
     aIntersection match {
       case None => println("No intersection found")
       case Some(_) => intersection = aIntersection
@@ -141,7 +144,7 @@ class Road (val laneCount : Int = 1) extends RoadSection {
   def insertCar(laneNum : Int = util.Random.nextInt(laneCount)) {
     val lane = lanes(laneNum)
     lane.last match {
-      case None => lane(lane.size - 1) = Some(new Car(this, lane.size - 1))
+      case None => lane(lane.size - 1) = Some(new Car(this, lane.size - 1, laneNum))
       case Some(_) => println("Either Road is Full or Time Step Required!")
     }
   }

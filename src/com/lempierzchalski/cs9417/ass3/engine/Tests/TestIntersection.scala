@@ -1,6 +1,6 @@
 package com.lempierzchalski.cs9417.ass3.Tests
 
-import com.lempierzchalski.cs9417.ass3.engine.Intersection
+import com.lempierzchalski.cs9417.ass3.engine.IntersectionBase
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +10,7 @@ import com.lempierzchalski.cs9417.ass3.engine.Intersection
  * To change this template use File | Settings | File Templates.
  */
 object TestIntersection extends App {
-  val intersection = new Intersection
+  val intersection = new IntersectionBase
 
   println(intersection.printState())
   intersection.timeStep()

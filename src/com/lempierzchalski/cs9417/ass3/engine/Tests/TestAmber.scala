@@ -1,6 +1,6 @@
 package com.lempierzchalski.cs9417.ass3.engine.Tests
 
-import com.lempierzchalski.cs9417.ass3.engine.{IntersectionAmber, Intersection}
+import com.lempierzchalski.cs9417.ass3.engine.{IntersectionAmber, IntersectionBase}
 
 /**
  * Created with IntelliJ IDEA.
