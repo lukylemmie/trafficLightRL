@@ -13,7 +13,7 @@ import scala.collection.mutable
  */
 
 object ActionChoiceStrategies {
-  type QTableType[State, Action] = ReinforcementLearner.QTableType[State, Action]
+  type QTableType[State, Action] = ReinforcementLearner.QTable[State, Action]
   type ActionChoiceFunction[State, Action] = (State, Set[Action], QTableType[State, Action]) => Action
   
   def RandomActionChoice[State, Action](validActions: Set[Action]):
