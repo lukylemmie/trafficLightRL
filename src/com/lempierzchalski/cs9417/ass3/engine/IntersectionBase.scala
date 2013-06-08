@@ -1,6 +1,7 @@
 package com.lempierzchalski.cs9417.ass3.engine
 
 import scala.collection.mutable
+import com.lempierzchalski.cs9417.ass3.engine.interface.SimulationIntersection
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,7 +10,7 @@ import scala.collection.mutable
  * Time: 1:10 PM
  * To change this template use File | Settings | File Templates.
  */
-class IntersectionBase (val ROAD_COUNT : Int = 2) extends RoadSection {
+class IntersectionBase (val ROAD_COUNT : Int = 2) extends RoadSection with SimulationIntersection {
   //TODO: IMPLEMENT
   protected val DEBUG = false
   protected val SWITCH_COOL_DOWN = 3 // time steps
@@ -87,6 +88,10 @@ class IntersectionBase (val ROAD_COUNT : Int = 2) extends RoadSection {
   def insertCar(i : Int){
     roads(i).insertCar()
   }
+
+  def roadCount: Int = ROAD_COUNT
+
+  def getCooldown: Int = coolDown
 }
 
 class IntersectionMultiLanes extends  IntersectionBase {
