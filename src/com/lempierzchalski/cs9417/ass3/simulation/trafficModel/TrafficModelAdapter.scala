@@ -4,6 +4,7 @@ import com.lempierzchalski.cs9417.ass3.engine.{TrafficLightColour, Intersection}
 import scala.collection.immutable
 import com.lempierzchalski.cs9417.ass3.reinforcementLearner.{LearningRateStrategies, ActionChoiceStrategies, ReinforcementLearner}
 import com.lempierzchalski.cs9417.ass3.myUtil.Util
+import com.lempierzchalski.cs9417.ass3.engine.interface.SimulationIntersection
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,8 +22,8 @@ object TrafficModelAdapter {
   type IntersectionState            = (NearestCarsState, TrafficLightsState, LightsCooldownState)
   type TrafficReinforcementLearner  = ReinforcementLearner[IntersectionState, IntersectionAction]
 
-  def getState(intersection: Intersection): IntersectionState = {
-    (intersection.nearestCars(), intersection.checkLights(), intersection.getCoolDown)
+  def getState(intersection: SimulationIntersection): IntersectionState = {
+    (intersection.nearestCars(), intersection.checkLights(), intersection.getCooldown)
   }
 
   def takeIntersectionActionWithReward(intersection: Intersection):
