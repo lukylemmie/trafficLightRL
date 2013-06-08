@@ -3,13 +3,9 @@ package com.lempierzchalski.cs9417.ass3.clui
 import com.lempierzchalski.cs9417.ass3.simulation.runSim.RunSim
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
 import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.ToggleLights
-import com.lempierzchalski.cs9417.ass3.clui.ChoosingChooseAction
-import com.lempierzchalski.cs9417.ass3.clui.Predef
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.RepeatAction
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.EpsilonGreedyAction
-import com.lempierzchalski.cs9417.ass3.clui.PredefOrNew
 import scala.Some
-import com.lempierzchalski.cs9417.ass3.clui.ChoosingLearningRate
 
 /**
  * User: Pierzchalski

@@ -1,9 +1,7 @@
 package com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel
 
-import com.lempierzchalski.cs9417.ass3.engine.{TrafficLightColour, Intersection}
-import scala.collection.immutable
-import com.lempierzchalski.cs9417.ass3.reinforcementLearner.{LearningRateStrategies, ActionChoiceStrategies, ReinforcementLearner}
-import com.lempierzchalski.cs9417.ass3.myUtil.Util
+import com.lempierzchalski.cs9417.ass3.engine.TrafficLightColour
+import com.lempierzchalski.cs9417.ass3.reinforcementLearner.ReinforcementLearner
 import com.lempierzchalski.cs9417.ass3.engine.interface.SimulationIntersection
 
 /**

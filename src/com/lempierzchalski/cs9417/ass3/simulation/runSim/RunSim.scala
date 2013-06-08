@@ -3,9 +3,7 @@ package com.lempierzchalski.cs9417.ass3.simulation.runSim
 import com.lempierzchalski.cs9417.ass3.simulation.TrafficRLSimulation
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
 import com.lempierzchalski.cs9417.ass3.myUtil
-import util.Random
 import scala.Some
-import com.lempierzchalski.cs9417.ass3.simulation.runSim.RunSim
 
 /**
  * Created with IntelliJ IDEA.
