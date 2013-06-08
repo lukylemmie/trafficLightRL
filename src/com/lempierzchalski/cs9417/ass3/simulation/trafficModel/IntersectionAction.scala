@@ -11,3 +11,8 @@ sealed trait IntersectionAction
 
 case object ToggleLights extends IntersectionAction
 case object DoNothing extends IntersectionAction
+
+
+object IntersectionAction {
+  val allActions: Set[IntersectionAction] = Set(ToggleLights, DoNothing)
+}

@@ -18,11 +18,11 @@ object RunSim extends App {
       learningRateParameter = 0.1,
       futureDiscountParameter = 0.9)
   val (reinforcementLearner, scores) = trafficModelAdapter.simWithScoring(
-      numScores = 1,
+      numScores = 1000,
       timeStepsPerScore = 1000,
-      proportionCarInserts = 5,
+      proportionCarInserts = 10,
       myChooseAction = ActionChoiceStrategies.RandomActionChoice(Set(DoNothing, ToggleLights)),
-      debug = true)
+      debug = false)
   val qTablePrintWriter = Util.indexedFilePrintWriter(fileDir = "./out/", fileName = "qTable", fileType = ".txt")
   for (kv <- reinforcementLearner.qTable) {qTablePrintWriter.println(kv)}
   qTablePrintWriter.close()

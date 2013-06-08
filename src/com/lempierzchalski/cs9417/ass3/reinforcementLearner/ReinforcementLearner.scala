@@ -9,17 +9,15 @@ import util.Random
  * Package: com.lempierzchalski.cs9417.ass3.reinforcementLearner
  * Project: trafficLightRL
  */
+
 case class ReinforcementLearner[State, Action](
                                                   validActions: Set[Action],
-                                                  chooseAction: (State,
-                                                      Set[Action],
-                                                      ReinforcementLearner.QTableType[State, Action]
-                                                      ) => Action,
+                                                  chooseAction: (State, Set[Action],
+                                                      ReinforcementLearner.QTableType[State, Action]) => Action,
                                                   takeActionWithReward: (State, Action) => (State, Double),
                                                   futureDiscount: Double,
                                                   learningRate: (State, Action,
-                                                                  ReinforcementLearner.QTableType[State, Action])
-                                                      => Double,
+                                                      ReinforcementLearner.QTableType[State, Action]) => Double,
                                                   qTable: immutable.Map[(State, Action), (Double, Int)]
                                                   ){
 
