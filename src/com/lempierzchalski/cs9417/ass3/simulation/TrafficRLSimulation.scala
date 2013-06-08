@@ -2,10 +2,11 @@ package com.lempierzchalski.cs9417.ass3.simulation
 
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
 import com.lempierzchalski.cs9417.ass3.reinforcementLearner.{ReinforcementLearner, LearningRateStrategies, ActionChoiceStrategies}
-import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{TrafficModelAdapter, ToggleLights, DoNothing, IntersectionAction}
+import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{TrafficModelAdapter, IntersectionAction}
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.LoopAction
-import com.lempierzchalski.cs9417.ass3.engine.{TrafficLightColour, Intersection}
-import com.lempierzchalski.cs9417.ass3.myUtil.Util
+import com.lempierzchalski.cs9417.ass3.engine.Intersection
+import collection.mutable
+import java.io.{PrintWriter, FileWriter}
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,22 +18,25 @@ import com.lempierzchalski.cs9417.ass3.myUtil.Util
 
 class TrafficRLSimulation (val chooseActionChoice: ChooseActionChoice,
                            val learningRateChoice: LearningRateChoice,
-                           val futureDiscount: Double) {
+                           val futureDiscount: Double,
+                           val insertCar: (Int, Int) => Boolean) {
 
+  type State                        = TrafficModelAdapter.IntersectionState
+  type Action                       = IntersectionAction
   type TrafficReinforcementLearner  = TrafficModelAdapter.TrafficReinforcementLearner
 
   val validActions = IntersectionAction.allActions
 
   val chooseAction = chooseActionChoice match {
-    case RandomAction                 => ActionChoiceStrategies.RandomActionChoice(validActions)
-    case LoopAction(actions)          => ActionChoiceStrategies.LoopActionChoice(actions)
-    case RepeatAction(someAction)     => ActionChoiceStrategies.AlwaysChooseActionChoice(someAction)
-    case EpsilonGreedyAction(epsilon) => ActionChoiceStrategies.EpsilonGreedyActionChoice(epsilon)
+    case RandomAction                 => ActionChoiceStrategies.RandomActionChoice[State, Action](validActions)
+    case LoopAction(actions)          => ActionChoiceStrategies.LoopActionChoice[State, Action](actions)
+    case RepeatAction(someAction)     => ActionChoiceStrategies.AlwaysChooseActionChoice[State, Action](someAction)
+    case EpsilonGreedyAction(epsilon) => ActionChoiceStrategies.EpsilonGreedyActionChoice[State, Action](epsilon)
   }
 
   val learningRate = learningRateChoice match {
-    case ConstantRateLearning(learningRateParameter)  => LearningRateStrategies.constantRate(learningRateParameter)
-    case ConvergingRateLearning                       => LearningRateStrategies.convergingRate
+    case ConstantRateLearning(learningRateParameter)  => LearningRateStrategies.constantRate[State, Action](learningRateParameter)
+    case ConvergingRateLearning                       => LearningRateStrategies.convergingRate[State, Action]
   }
 
   val intersection = new Intersection()
@@ -51,9 +55,8 @@ class TrafficRLSimulation (val chooseActionChoice: ChooseActionChoice,
 
   def simWithScoring(numScores: Int,
                      timeStepsPerScore: Int,
-                     insertCar: (Int, Int) => Boolean,
-                     debug: Boolean = false): (TrafficReinforcementLearner, Seq[Int], Option[String]) = {
-    var stateOutput = ""
+                     printStateFileWriter: Option[PrintWriter] = None):
+                         (TrafficReinforcementLearner, Seq[Int]) = {
     var time = 0
     val scores = for (scoreBatch <- 0 until numScores) yield {
       var score = 0
@@ -64,10 +67,13 @@ class TrafficRLSimulation (val chooseActionChoice: ChooseActionChoice,
         RL     = RL.learn(TrafficModelAdapter.getState(intersection))
         score -= intersection.countWaiting()
         time  += 1
-        if (debug) stateOutput += f"Time: $time\n" ++ intersection.printState()
+        printStateFileWriter match {
+          case None => {}
+          case Some(fileWriter) => fileWriter.println(f"Time: $time\n" ++ intersection.printState())
+        }
       }
       score
     }
-    (reinforcementLearner, scores, if (debug) Some(stateOutput) else None )
+    (reinforcementLearner, scores)
   }
 }

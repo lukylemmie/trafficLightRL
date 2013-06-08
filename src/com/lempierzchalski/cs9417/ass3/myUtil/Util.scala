@@ -21,4 +21,24 @@ object Util {
     }
     new PrintWriter(new FileWriter(indexedFileName))
   }
+
+  def indexedDirectoryPrintWriter(fileDir: String, fullFileName: String): PrintWriter = {
+    val indexedFileName = {
+      var i = 0
+      var indexedFileName = ""
+      while(
+        {
+          val indexedFileDir = f"$fileDir$i"
+          new File(indexedFileDir).mkdirs()
+          indexedFileName = f"$indexedFileDir/$fullFileName";
+          val f = new File(indexedFileName)
+          f.exists()
+        }
+      ) {
+        i += 1
+      }
+      indexedFileName
+    }
+    new PrintWriter(new FileWriter(indexedFileName))
+  }
 }

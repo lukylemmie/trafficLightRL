@@ -27,7 +27,7 @@ object ActionChoiceStrategies {
       if (Random.nextDouble() < epsilon) {
         validActions.toSeq(Random.nextInt(validActions.size))
       } else {
-        val validActionsSeq = validActions.toSeq
+        val validActionsSeq = util.Random.shuffle(validActions.toSeq)
         val actionUtilities = validActionsSeq.map( (state, _) ).map( qTable.getOrElse(_, (0.0, 0))._1 )
         val actionUtilityPairs = validActionsSeq.zip(actionUtilities)
         val (chosenAction, _) = actionUtilityPairs.maxBy( _._2 )

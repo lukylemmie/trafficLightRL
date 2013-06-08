@@ -1,12 +1,12 @@
-package com.lempierzchalski.cs9417.ass3.simulation.simParameters
+package com.lempierzchalski.cs9417.ass3.simulationRuns
 
 /**
  * Created with IntelliJ IDEA.
  * User: Pierzchalski
  * Date: 8/06/13
- * Time: 12:19 PM
+ * Time: 3:04 PM
  * To change this template use File | Settings | File Templates.
  */
-trait ChooseAction {
+object TestSuite extends App {
 
 }

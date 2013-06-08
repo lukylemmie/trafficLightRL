@@ -30,7 +30,7 @@ object TrafficModelAdapter {
     (state, action) => {
       action match {
         case DoNothing => intersection.timeStep()
-        case ToggleLights => intersection.switchLights()
+        case ToggleLights => intersection.switchLights(); intersection.timeStep()
       }
       (getState(intersection), if (intersection.isCarWaiting) -1 else 0)
     }
