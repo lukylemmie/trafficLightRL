@@ -1,7 +1,6 @@
 package com.lempierzchalski.cs9417.ass3.reinforcementLearner
 
 import collection.immutable
-import util.Random
 
 /**
  * User: Pierzchalski
@@ -46,9 +45,6 @@ case class ReinforcementLearner[State, Action](
 
 object ReinforcementLearner{
   type QTable[State, Action] = Map[(State, Action), (Double, Int)]
-  //type ChooseActionFunction[State, Action] = (State, Set[Action], QTable[State, Action]) => Action
-  //type TakeActionWithRewardFunction[State, Action] = (State, Action) => (State, Double)
-  //type LearningRateFunction[State, Action] = (State, Action, QTable[State, Action]) => Double
 
   def construct[State, Action](
                                 validActions: Set[Action],
