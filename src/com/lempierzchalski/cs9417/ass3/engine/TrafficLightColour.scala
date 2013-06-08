@@ -11,4 +11,6 @@ sealed trait TrafficLightColour
 
 case object Red extends TrafficLightColour
 case object Green extends TrafficLightColour
-//case object Amber extends TrafficLightColour
+case object Amber extends TrafficLightColour {
+  val duration = 2
+}
