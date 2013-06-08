@@ -1,9 +1,10 @@
 package com.lempierzchalski.cs9417.ass3.simulation.runSim
 
 import com.lempierzchalski.cs9417.ass3.simulation.TrafficRLSimulation
-import com.lempierzchalski.cs9417.ass3.simulation.simParameters.{LearningRateChoice, ChooseActionChoice, ConstantRateLearning, EpsilonGreedyAction}
+import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
 import com.lempierzchalski.cs9417.ass3.myUtil
 import util.Random
+import scala.Some
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,17 +17,16 @@ object RunSim {
   def apply(seed: Int,
             chooseActionChoice: ChooseActionChoice,
             learningRateChoice: LearningRateChoice,
+            carSpawnChoice: CarSpawnChoice,
             futureDiscountParameter: Double,
-            inverseCarRate: Double) {
+            printState: Boolean = false) {
     val startTime = System.currentTimeMillis()
     util.Random.setSeed(seed)
 
-    val insertWithUniformCarRate: (Int, Int) => Boolean = (time, roadIndex) => Random.nextDouble() < 1/inverseCarRate
-
     val sim = new TrafficRLSimulation(chooseActionChoice,
                                       learningRateChoice,
-                                      futureDiscount      = futureDiscountParameter,
-                                      insertCar           = insertWithUniformCarRate)
+                                      carSpawnChoice,
+                                      futureDiscount      = futureDiscountParameter)
 
 
     val fileDir = "./out/data"
@@ -34,7 +34,8 @@ object RunSim {
     val stateFileWriter  = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "state.txt")
     val (finalRL, scores) = sim.simWithScoring(numScores = 10,
                                                timeStepsPerScore = 1000,
-                                               printStateFileWriter = Some(stateFileWriter))
+                                               printStateFileWriter = if (printState) Some(stateFileWriter) else None)
+    if (!printState) stateFileWriter.println("Output suppressed")
     stateFileWriter.close()
 
     val simParamFileWriter = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "params.txt")
@@ -42,7 +43,7 @@ object RunSim {
     simParamFileWriter.println(f"Choose Action:   $chooseActionChoice")
     simParamFileWriter.println(f"Learning Rate:   $learningRateChoice")
     simParamFileWriter.println(f"Future Discount: $futureDiscountParameter")
-    simParamFileWriter.println(f"Insert Cars:     constant rate, rate = 1/$inverseCarRate")
+    simParamFileWriter.println(f"Car spawns:      $carSpawnChoice")
     simParamFileWriter.close()
 
     val qTableFileWriter = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "qTable.txt")

@@ -8,7 +8,7 @@ package com.lempierzchalski.cs9417.ass3.reinforcementLearner
  * To change this template use File | Settings | File Templates.
  */
 object LearningRateStrategies {
-  type QTableType[State, Action] = ReinforcementLearner.QTableType[State, Action]
+  type QTableType[State, Action] = ReinforcementLearner.QTable[State, Action]
   type LearningRateFunction[State, Action] = (State, Action, QTableType[State, Action]) => Double
 
   def constantRate[State, Action](learningRate: Double):

@@ -5,8 +5,7 @@ import com.lempierzchalski.cs9417.ass3.reinforcementLearner.{ReinforcementLearne
 import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{TrafficModelAdapter, IntersectionAction}
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.LoopAction
 import com.lempierzchalski.cs9417.ass3.engine.Intersection
-import collection.mutable
-import java.io.{PrintWriter, FileWriter}
+import java.io.PrintWriter
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,8 +17,9 @@ import java.io.{PrintWriter, FileWriter}
 
 class TrafficRLSimulation (val chooseActionChoice: ChooseActionChoice,
                            val learningRateChoice: LearningRateChoice,
+                           val carSpawnChoice: CarSpawnChoice,
                            val futureDiscount: Double,
-                           val insertCar: (Int, Int) => Boolean) {
+                           val printState: Boolean = false) {
 
   type State                        = TrafficModelAdapter.IntersectionState
   type Action                       = IntersectionAction
@@ -37,6 +37,11 @@ class TrafficRLSimulation (val chooseActionChoice: ChooseActionChoice,
   val learningRate = learningRateChoice match {
     case ConstantRateLearning(learningRateParameter)  => LearningRateStrategies.constantRate[State, Action](learningRateParameter)
     case ConvergingRateLearning                       => LearningRateStrategies.convergingRate[State, Action]
+  }
+
+  val carSpawn = carSpawnChoice match {
+    case UniformRate(probability) => CarSpawnChoice.UniformRate(probability)
+    case SpecDefault => CarSpawnChoice.SpecDefault
   }
 
   val intersection = new Intersection()
@@ -62,7 +67,7 @@ class TrafficRLSimulation (val chooseActionChoice: ChooseActionChoice,
       var score = 0
       for (timeStep <- 0 until timeStepsPerScore) {
         for ( roadIndex <- 0 until intersection.ROAD_COUNT) {
-          if (insertCar(time, roadIndex)) intersection.insertCar(roadIndex)
+          if (carSpawn(time, roadIndex)) intersection.insertCar(roadIndex)
         }
         RL     = RL.learn(TrafficModelAdapter.getState(intersection))
         score -= intersection.countWaiting()

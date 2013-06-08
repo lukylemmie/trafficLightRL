@@ -13,11 +13,11 @@ import util.Random
 case class ReinforcementLearner[State, Action](
                                                   validActions: Set[Action],
                                                   chooseAction: (State, Set[Action],
-                                                      ReinforcementLearner.QTableType[State, Action]) => Action,
+                                                      ReinforcementLearner.QTable[State, Action]) => Action,
                                                   takeActionWithReward: (State, Action) => (State, Double),
                                                   futureDiscount: Double,
                                                   learningRate: (State, Action,
-                                                      ReinforcementLearner.QTableType[State, Action]) => Double,
+                                                      ReinforcementLearner.QTable[State, Action]) => Double,
                                                   qTable: immutable.Map[(State, Action), (Double, Int)]
                                                   ){
 
@@ -45,15 +45,18 @@ case class ReinforcementLearner[State, Action](
 }
 
 object ReinforcementLearner{
-  type QTableType[State, Action] = Map[(State, Action), (Double, Int)]
+  type QTable[State, Action] = Map[(State, Action), (Double, Int)]
+  //type ChooseActionFunction[State, Action] = (State, Set[Action], QTable[State, Action]) => Action
+  //type TakeActionWithRewardFunction[State, Action] = (State, Action) => (State, Double)
+  //type LearningRateFunction[State, Action] = (State, Action, QTable[State, Action]) => Double
 
   def construct[State, Action](
                                 validActions: Set[Action],
-                                chooseAction: (State, Set[Action], QTableType[State, Action]) => Action,
+                                chooseAction: (State, Set[Action], QTable[State, Action]) => Action,
                                 takeActionWithReward: (State, Action) => (State, Double),
                                 futureDiscount: Double,
                                 learningRate: (State, Action,
-                                  ReinforcementLearner.QTableType[State, Action]) => Double)
+                                  ReinforcementLearner.QTable[State, Action]) => Double)
                                 : ReinforcementLearner[State, Action] = {
     ReinforcementLearner(validActions,
                          chooseAction,
