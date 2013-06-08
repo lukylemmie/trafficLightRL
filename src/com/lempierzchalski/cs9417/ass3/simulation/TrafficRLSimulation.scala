@@ -4,7 +4,7 @@ import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
 import com.lempierzchalski.cs9417.ass3.reinforcementLearner.{ReinforcementLearner, LearningRateStrategies, ActionChoiceStrategies}
 import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{TrafficModelAdapter, IntersectionAction}
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.LoopAction
-import com.lempierzchalski.cs9417.ass3.engine.Intersection
+import com.lempierzchalski.cs9417.ass3.engine.interface.Intersection
 import java.io.PrintWriter
 
 /**
@@ -46,7 +46,10 @@ class TrafficRLSimulation (val chooseActionChoice:     ChooseActionChoice,
     case SpecDefault => CarSpawnChoice.SpecDefault
   }
 
-  val intersection = new Intersection(numberOfIncomingRoads)
+  val intersection = Intersection(carSpawnChoice:         CarSpawnChoice,
+                                  laneTypeChoice:         LaneTypeChoice,
+                                  lightColours:           LightColoursChoice,
+                                  numberOfIncomingRoads:  Int)
 
   val takeActionWithReward = TrafficModelAdapter.takeIntersectionActionWithReward(intersection)
 
@@ -68,15 +71,15 @@ class TrafficRLSimulation (val chooseActionChoice:     ChooseActionChoice,
     val scores = for (scoreBatch <- 0 until numScores) yield {
       var score = 0
       for (timeStep <- 0 until timeStepsPerScore) {
-        for ( roadIndex <- 0 until intersection.ROAD_COUNT) {
+        for ( roadIndex <- 0 until intersection.roadCount) {
           if (carSpawn(time, roadIndex)) intersection.insertCar(roadIndex)
         }
         RL     = RL.learn(TrafficModelAdapter.getState(intersection))
-        score -= intersection.countWaiting()
+        score -= intersection.countWaiting
         time  += 1
         printStateFileWriter match {
           case None => {}
-          case Some(fileWriter) => fileWriter.println(f"Time: $time\n" ++ intersection.printState())
+          case Some(fileWriter) => fileWriter.println(f"Time: $time\n" ++ intersection.printState)
         }
       }
       score
