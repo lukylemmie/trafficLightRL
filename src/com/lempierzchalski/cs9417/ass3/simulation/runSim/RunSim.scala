@@ -14,26 +14,27 @@ import scala.Some
  * To change this template use File | Settings | File Templates.
  */
 object RunSim {
-  def apply(testParams: SimParams, numScores: Int, timeStepsPerScore: Int) {
+  def apply(seed:                   Int,
+            chooseActionChoice:     ChooseActionChoice,
+            learningRateChoice:     LearningRateChoice,
+            carSpawnChoice:         CarSpawnChoice,
+            laneTypeChoice:         LaneTypeChoice,
+            lightColours:           LightColoursChoice,
+            numberOfIncomingRoads:  Int,
+            futureDiscount:         Double,
+            printState:             Boolean,
+            numScores:              Int,
+            timeStepsPerScore:      Int) {
+
     val startTime = System.currentTimeMillis()
-
-    val SimParams(seed,
-                   chooseActionChoice,
-                   learningRateChoice,
-                   carSpawnChoice,
-                   laneTypeChoice,
-                   lightColours,
-                   numberOfIncomingRoads,
-                   futureDiscount,
-                   printState) = testParams
-
 
     util.Random.setSeed(seed)
 
     val sim = new TrafficRLSimulation(chooseActionChoice,
                                       learningRateChoice,
                                       carSpawnChoice,
-                                      futureDiscount)
+                                      futureDiscount,
+                                      numberOfIncomingRoads)
 
     val fileDir = "./out/data"
 
@@ -45,11 +46,17 @@ object RunSim {
     stateFileWriter.close()
 
     val simParamFileWriter = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "params.txt")
-    simParamFileWriter.println(f"Seed:            $seed")
-    simParamFileWriter.println(f"Choose Action:   $chooseActionChoice")
-    simParamFileWriter.println(f"Learning Rate:   $learningRateChoice")
-    simParamFileWriter.println(f"Future Discount: $futureDiscount")
-    simParamFileWriter.println(f"Car spawns:      $carSpawnChoice")
+    simParamFileWriter.println(f"seed:                    $seed")
+    simParamFileWriter.println(f"chooseActionChoice:      $chooseActionChoice")
+    simParamFileWriter.println(f"learningRateChoice:      $learningRateChoice")
+    simParamFileWriter.println(f"carSpawnChoice:          $carSpawnChoice")
+    simParamFileWriter.println(f"laneTypeChoice:          $laneTypeChoice")
+    simParamFileWriter.println(f"lightColours:            $lightColours")
+    simParamFileWriter.println(f"numberOfIncomingRoads:   $numberOfIncomingRoads")
+    simParamFileWriter.println(f"futureDiscount:          $futureDiscount")
+    simParamFileWriter.println(f"printState:              $printState")
+    simParamFileWriter.println(f"numScores:               $numScores")
+    simParamFileWriter.println(f"timeStepsPerScore:       $timeStepsPerScore")
     simParamFileWriter.close()
 
     val qTableFileWriter = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "qTable.txt")

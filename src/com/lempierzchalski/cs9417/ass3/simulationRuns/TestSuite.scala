@@ -4,6 +4,7 @@ import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.ConstantRateLearning
 import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{IntersectionAction, ToggleLights, DoNothing}
 import com.lempierzchalski.cs9417.ass3.simulation.runSim.RunSim
+import scala.util.Random
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,7 +15,7 @@ import com.lempierzchalski.cs9417.ass3.simulation.runSim.RunSim
  */
 
 object TestSuite extends App {
-  val runRepetitions = 10
+  val runRepetitions = 1
   val numScores = 30
   val timeStepsPerScore = 1000
   val tests: Seq[SimParams] = Seq(
@@ -36,6 +37,27 @@ object TestSuite extends App {
               carSpawnChoice      = SpecDefault)
   )
   tests.foreach({
-    testParams => for (_ <- 0 until runRepetitions) RunSim(testParams, numScores, timeStepsPerScore)
+    case SimParams( seed:                   Int,
+                    chooseActionChoice:     ChooseActionChoice,
+                    learningRateChoice:     LearningRateChoice,
+                    carSpawnChoice:         CarSpawnChoice,
+                    laneTypeChoice:         LaneTypeChoice,
+                    lightColours:           LightColoursChoice,
+                    numberOfIncomingRoads:  Int,
+                    futureDiscount:         Double,
+                    printState:             Boolean) =>
+      for (_ <- 0 until runRepetitions) RunSim( seed,
+                                                chooseActionChoice,
+                                                learningRateChoice,
+                                                carSpawnChoice,
+                                                laneTypeChoice,
+                                                lightColours,
+                                                numberOfIncomingRoads,
+                                                futureDiscount,
+                                                printState,
+                                                numScores,
+                                                timeStepsPerScore)
   })
 }
+
+

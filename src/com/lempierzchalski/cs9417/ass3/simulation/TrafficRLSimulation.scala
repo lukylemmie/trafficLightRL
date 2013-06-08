@@ -19,6 +19,7 @@ class TrafficRLSimulation (val chooseActionChoice: ChooseActionChoice,
                            val learningRateChoice: LearningRateChoice,
                            val carSpawnChoice: CarSpawnChoice,
                            val futureDiscount: Double,
+                           val numberOfIncomingRoads: Int,
                            val printState: Boolean = false) {
 
   type State                        = TrafficModelAdapter.IntersectionState
@@ -44,7 +45,7 @@ class TrafficRLSimulation (val chooseActionChoice: ChooseActionChoice,
     case SpecDefault => CarSpawnChoice.SpecDefault
   }
 
-  val intersection = new Intersection()
+  val intersection = new Intersection(numberOfIncomingRoads)
 
   val takeActionWithReward = TrafficModelAdapter.takeIntersectionActionWithReward(intersection)
 
