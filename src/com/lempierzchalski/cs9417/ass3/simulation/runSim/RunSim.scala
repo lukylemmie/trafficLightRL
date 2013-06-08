@@ -14,26 +14,32 @@ import scala.Some
  * To change this template use File | Settings | File Templates.
  */
 object RunSim {
-  def apply(seed: Int,
-            chooseActionChoice: ChooseActionChoice,
-            learningRateChoice: LearningRateChoice,
-            carSpawnChoice: CarSpawnChoice,
-            futureDiscountParameter: Double,
-            printState: Boolean = false) {
+  def apply(testParams: SimParams, numScores: Int, timeStepsPerScore: Int) {
     val startTime = System.currentTimeMillis()
+
+    val SimParams(seed,
+                   chooseActionChoice,
+                   learningRateChoice,
+                   carSpawnChoice,
+                   laneTypeChoice,
+                   lightColours,
+                   numberOfIncomingRoads,
+                   futureDiscount,
+                   printState) = testParams
+
+
     util.Random.setSeed(seed)
 
     val sim = new TrafficRLSimulation(chooseActionChoice,
                                       learningRateChoice,
                                       carSpawnChoice,
-                                      futureDiscount      = futureDiscountParameter)
-
+                                      futureDiscount)
 
     val fileDir = "./out/data"
 
     val stateFileWriter  = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "state.txt")
-    val (finalRL, scores) = sim.simWithScoring(numScores = 10,
-                                               timeStepsPerScore = 1000,
+    val (finalRL, scores) = sim.simWithScoring(numScores,
+                                               timeStepsPerScore,
                                                printStateFileWriter = if (printState) Some(stateFileWriter) else None)
     if (!printState) stateFileWriter.println("Output suppressed")
     stateFileWriter.close()
@@ -42,7 +48,7 @@ object RunSim {
     simParamFileWriter.println(f"Seed:            $seed")
     simParamFileWriter.println(f"Choose Action:   $chooseActionChoice")
     simParamFileWriter.println(f"Learning Rate:   $learningRateChoice")
-    simParamFileWriter.println(f"Future Discount: $futureDiscountParameter")
+    simParamFileWriter.println(f"Future Discount: $futureDiscount")
     simParamFileWriter.println(f"Car spawns:      $carSpawnChoice")
     simParamFileWriter.close()
 
