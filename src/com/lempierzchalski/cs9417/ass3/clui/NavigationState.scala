@@ -5,7 +5,6 @@ import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
 import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.ToggleLights
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.RepeatAction
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.EpsilonGreedyAction
-import scala.Some
 
 /**
  * User: Pierzchalski

@@ -20,6 +20,7 @@ object Main extends App {
     case predef: Predef                             => predef.transition
     case NewSimulation                              => NewSimulation.transition
     case choosingChooseAction: ChoosingChooseAction => choosingChooseAction.transition
+    case choosingLearningRate: ChoosingLearningRate => choosingLearningRate.transition
     case End                                        => End.transition
   }
 
