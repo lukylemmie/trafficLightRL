@@ -20,13 +20,11 @@ class Car(createdOn : RoadSection, startPosition : Int) {
 //    println("Moving car!")
     roadSection match {
       case section : Road => {
-//        println("Car is on a Road!")
-//        println(f"Checking position: $position")
-//        println(f"section.checkPositionEmpty(${position - 1}) = ${section.checkPositionEmpty(position - 1)}")
         if(position == 0){
           section.getTrafficLight match {
             case Red => waiting = true; if(DEBUG) println("Car waiting, minus points!")
             case Green => waiting = false; section.giveCarToIntersection()
+            case Amber => waiting = false; section.giveCarToIntersection()
           }
         } else if(section.checkPositionEmpty(position - 1)){
           waiting = false
@@ -38,7 +36,7 @@ class Car(createdOn : RoadSection, startPosition : Int) {
       }
       case section : Intersection => {
         if(DEBUG)println("Car is on an Intersection!")
-        //TODO: movement of car in intersection
+        //TODO: movement of car in intersection for animation purposes
       }
     }
   }

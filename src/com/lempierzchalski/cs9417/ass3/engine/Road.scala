@@ -14,7 +14,7 @@ class Road extends RoadSection {
   val ROAD_LENGTH = 100
   private val DEBUG = false
   private val lane: mutable.Seq[Option[Car]] = mutable.Seq.fill(ROAD_LENGTH)(None)
-  private var trafficLight : TrafficLightColour = Red
+  protected var trafficLight : TrafficLightColour = Red
   private var intersection : Option[Intersection] = None
 
   def countWaiting () : Int = {
@@ -32,7 +32,7 @@ class Road extends RoadSection {
   }
 
   def giveCarToIntersection(){
-    lane(0) = None; //TODO: pass lane(1) to intersection
+    lane(0) = None; //TODO: pass lane(1) to intersection for animation purposes
     if(DEBUG)println("A Car went to Intersection")
   }
 
@@ -102,11 +102,16 @@ class Road extends RoadSection {
     }
   }
 
+  def setLights(lightColour : TrafficLightColour){
+    trafficLight = lightColour
+  }
+
   def switchLights() {
     trafficLight = {
       trafficLight match {
         case Red => Green
         case Green => Red
+        case Amber => println("WTF NO AMBER LIGHT POSSIBLE!!!"); Amber
       }
     }
   }
@@ -115,6 +120,7 @@ class Road extends RoadSection {
     trafficLight match{
       case Red => println("Light is Red")
       case Green => println("Light is Green")
+      case Amber => println("Light is Amber")
     }
   }
 
@@ -146,4 +152,19 @@ class Road extends RoadSection {
     }
   }
 
+}
+
+class RoadAmber extends Road {
+  var time = 0
+
+  override def switchLights() {
+    (trafficLight, time) match {
+      case (Red, 0) => time = Amber.duration
+      case (Red, 1) => time = 0; trafficLight = Green
+      case (Red, _) => time -= 1
+      case (Green, _) => time = Amber.duration; trafficLight = Amber
+      case (Amber, 1) => time = 0; trafficLight = Red
+      case (Amber, _) => time -= 1
+    }
+  }
 }
