@@ -15,9 +15,7 @@ import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
  */
 
 object TestSuite extends App {
-  val runRepetitions = 1
-  val numScores = 30
-  val timeStepsPerScore = 1000
+  val runRepetitions = 10
   val tests: Seq[(SimParams, IntersectionParams)] = Seq(
     (SimParams(chooseActionChoice = RandomAction,
               learningRateChoice  = ConstantRateLearning(0.1),
@@ -33,14 +31,17 @@ object TestSuite extends App {
     (SimParams(chooseActionChoice = LoopAction(actionList) ,
               learningRateChoice  = ConstantRateLearning(0.1),
               carSpawnChoice      = SpecDefaultCarSpawn),
-    IntersectionParams())},
+    IntersectionParams())})
 
-    (SimParams(chooseActionChoice = EpsilonGreedyAction(0.2),
-              learningRateChoice  = ConstantRateLearning(0.1),
-              carSpawnChoice      = SpecDefaultCarSpawn),
-    IntersectionParams())
-  )
-  tests.foreach(sip => RunSim(sip._1, sip._2))
+  val parameterTests: Seq[(SimParams, IntersectionParams)] = for ( epsilon <- 0.0 to(1.0, step = 0.1);
+                                                                   alpha <- 0.1 to(1.0, step = 0.1)) yield {
+    (SimParams(chooseActionChoice = EpsilonGreedyAction(epsilon),
+                learningRateChoice = ConstantRateLearning(alpha),
+                carSpawnChoice = UniformRateCarSpawn(0.11)),
+      IntersectionParams())
+  }
+
+  (tests ++ parameterTests).foreach(sip => RunSim(sip._1, sip._2))
 }
 
 
