@@ -42,6 +42,6 @@ object IntersectionSimTestSuite extends App {
       crashes = false,
       variableCarSpeed = false
     )
-    RunSim(simParams, intersectionParams, printState = true)
+    RunSim(simParams, intersectionParams, printState = false)
   }
 }
