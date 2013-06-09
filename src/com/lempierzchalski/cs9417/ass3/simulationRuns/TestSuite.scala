@@ -5,6 +5,7 @@ import com.lempierzchalski.cs9417.ass3.simulation.simParameters.ConstantRateLear
 import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{IntersectionAction, ToggleLights, DoNothing}
 import com.lempierzchalski.cs9417.ass3.simulation.runSim.RunSim
 import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
+import scala.util.Random
 
 /**
  * Created with IntelliJ IDEA.
@@ -41,7 +42,17 @@ object TestSuite extends App {
       IntersectionParams())
   }
 
-  (tests ++ parameterTests).foreach(sip => RunSim(sip._1, sip._2))
+  (tests ++ parameterTests).foreach( (sip: (SimParams, IntersectionParams)) => {
+      val (simParams, intersectionParams) = sip
+      for (i <- 0 until runRepetitions) {
+        val randomSeedSimParams = SimParams(seed = Random.nextInt(),
+                                            chooseActionChoice = simParams.chooseActionChoice,
+                                            learningRateChoice = simParams.learningRateChoice,
+                                            carSpawnChoice =     simParams.carSpawnChoice)
+        RunSim(randomSeedSimParams, intersectionParams)
+      }
+    }
+  )
 }
 
 
