@@ -14,6 +14,9 @@ object TestIntersection extends App {
   val intersectionParams = new IntersectionParams()
   val intersection = new IntersectionBase(intersectionParams)
 
+  println(f"intersectionParams.numberOfIncomingRoads = ${intersectionParams.numberOfIncomingRoads}")
+  println(f"intersectionParams.numberOfLanes = ${intersectionParams.numberOfLanes}")
+
   println(intersection.printState)
   intersection.timeStep()
   println(intersection.printState)

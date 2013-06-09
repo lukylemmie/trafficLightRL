@@ -85,7 +85,10 @@ class IntersectionBase (val intersectionParams: IntersectionParams) extends Road
   }
 
   def insertCar(entranceIndex : Int){
-    roads(entranceIndex / intersectionParams.numberOfIncomingRoads).insertCar(entranceIndex % intersectionParams.numberOfIncomingRoads)
+    if(DEBUG)println(f"entranceIndex = $entranceIndex")
+    if(DEBUG)println(f"entranceIndex / intersectionParams.numberOfIncomingRoads = ${entranceIndex / intersectionParams.numberOfIncomingRoads}")
+    if(DEBUG)println(f"entranceIndex % intersectionParams.numberOfIncomingRoads = ${entranceIndex % intersectionParams.numberOfIncomingRoads}")
+    roads(entranceIndex / intersectionParams.numberOfLanes).insertCar(entranceIndex % intersectionParams.numberOfLanes)
   }
 
   def carEntranceCount: Int = intersectionParams.numberOfIncomingRoads * intersectionParams.numberOfLanes

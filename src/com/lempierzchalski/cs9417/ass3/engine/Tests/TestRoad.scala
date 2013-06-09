@@ -11,44 +11,20 @@ import com.lempierzchalski.cs9417.ass3.engine.Road
  */
 object TestRoad extends App {
   val road = new Road(laneCount = 1)
+  var time = 0
 
   println(road.printRoad())
   road.printNearest()
-  road.insertCar()
+  if(time % 5 == 0) road.insertCar(0)
+  if(time % 8 == 0) road.switchLights()
   road.printNearest()
   println(road.printRoad())
-  road.timeStep()
-  println(road.printRoad())
-  road.printLights()
-  road.switchLights()
-  road.printLights()
-  road.switchLights()
-
-  for(i <- Range(0,5)){
+  for(i <- Range(0,120)){
     road.timeStep()
-    println(road.printRoad())
-  }
-
-  road.insertCar()
-  println(road.printRoad())
-  road.timeStep()
-  road.timeStep()
-  println(road.printRoad())
-  road.printNearest()
-  road.insertCar()
-  road.insertCar()
-  println(road.printRoad())
-
-  for(i <- Range(0,50)){
-    road.timeStep()
-    println(road.printRoad())
-  }
-
-  road.insertCar()
-  road.timeStep()
-
-  for(i <- Range(0,50)){
-    road.timeStep()
+    time += 1
+    if(time % 5 == 0) road.insertCar(0)
+    if(time % 8 == 0) road.switchLights()
+    road.printLights()
     println(road.printRoad())
     road.printNearest()
   }

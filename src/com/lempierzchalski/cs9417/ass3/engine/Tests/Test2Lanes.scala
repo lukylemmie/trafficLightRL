@@ -11,51 +11,36 @@ import com.lempierzchalski.cs9417.ass3.engine.Road
  */
 object Test2Lanes extends App {
   val road = new Road(laneCount = 2)
+  var time = 0
 
   println(road.printRoad())
   road.printNearest()
-  road.insertCar()
+  if(time % 5 == 0) road.insertCar(0)
+  if(time % 7 == 0) road.insertCar(1)
+  if(time % 8 == 0) road.switchLights()
   road.printNearest()
   println(road.printRoad())
   road.timeStep()
-  road.insertCar()
+  time += 1
+  if(time % 5 == 0) road.insertCar(0)
+  if(time % 7 == 0) road.insertCar(1)
+  if(time % 8 == 0) road.switchLights()
   println(road.printRoad())
   road.printLights()
   road.switchLights()
   road.printLights()
   road.switchLights()
 
-  for(i <- Range(0,5)){
+  for(i <- Range(0,120)){
     road.timeStep()
-    println(road.printRoad())
-  }
-
-  road.insertCar()
-  road.insertCar()
-  println(road.printRoad())
-  road.timeStep()
-  road.timeStep()
-  println(road.printRoad())
-  road.printNearest()
-  road.insertCar()
-  road.insertCar()
-  println(road.printRoad())
-
-  for(i <- Range(0,50)){
-    road.timeStep()
-    println(road.printRoad())
-  }
-
-  road.insertCar()
-  road.timeStep()
-  road.switchLights()
-
-  for(i <- Range(0,50)){
-    road.timeStep()
+    time += 1
+    if(time % 5 == 0) road.insertCar(0)
+    if(time % 7 == 0) road.insertCar(1)
+    if(time % 8 == 0) road.switchLights()
+    road.printLights()
     println(road.printRoad())
     road.printNearest()
   }
-  road.printLights()
   road.switchLights()
   road.timeStep()
   println(road.printRoad())

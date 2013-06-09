@@ -12,7 +12,7 @@ import scala.collection.mutable
 
 class Road (val laneCount : Int) extends RoadSection {
   val ROAD_LENGTH = 100
-  private val DEBUG = true
+  private val DEBUG = false
   private var lanes: mutable.Seq[mutable.Seq[Option[Car]]] = mutable.Seq()
   protected var trafficLight : TrafficLightColour = Red
   private var intersection : Option[IntersectionBase] = None
@@ -143,6 +143,8 @@ class Road (val laneCount : Int) extends RoadSection {
 
   def insertCar(laneNum : Int) {
     val lane = lanes(laneNum)
+    if(DEBUG)println(f"laneNum = $laneNum")
+    if(DEBUG)println(f"lanes = $lanes")
     lane.last match {
       case None => lane(lane.size - 1) = Some(new Car(this, lane.size - 1, laneNum))
       case Some(_) => println("Either Road is Full or Time Step Required!")

@@ -50,7 +50,7 @@ object TestMultiLaneIntersection extends App {
     println(intersection.printState)
   }
   println(intersection.printState)
-  intersection.nearestCars()
+  intersection.nearestCars
 
   for(i <- 0 until 25) {
     intersection.timeStep()
