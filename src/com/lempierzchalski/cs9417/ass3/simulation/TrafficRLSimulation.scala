@@ -70,7 +70,7 @@ class TrafficRLSimulation (val chooseActionChoice:     ChooseActionChoice,
     val scores = for (scoreBatch <- 0 until numScores) yield {
       var score = 0
       for (timeStep <- 0 until timeStepsPerScore) {
-        for ( roadIndex <- 0 until intersection.roadCount) {
+        for ( roadIndex <- 0 until intersection.carEntranceCount) {
           if (carSpawn(time, roadIndex)) intersection.insertCar(roadIndex)
         }
         RL     = RL.learn(TrafficModelAdapter.getState(intersection))

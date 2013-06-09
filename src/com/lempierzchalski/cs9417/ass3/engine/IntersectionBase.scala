@@ -89,7 +89,7 @@ class IntersectionBase (val ROAD_COUNT : Int = 2) extends RoadSection with Simul
     roads(i).insertCar()
   }
 
-  def roadCount: Int = ROAD_COUNT
+  def carEntranceCount: Int = ROAD_COUNT
 
   def getCooldown: Int = coolDown
 }
