@@ -29,11 +29,14 @@ object Main extends App {
 
 object Data {
   val quitPattern = "(?i)quit.*".r
-  val predefNumScores = 30
+  val predefEpsilon = 0.1
+  val predefNumScores = 50
   val predefTimestepsPerScore = 1000
+  val predefSimRepetitons = 10
   val predefinedSimParameters: Seq[(SimParams, IntersectionParams)] = Seq()
   val numberPredefSims = predefinedSimParameters.length
   val predefLoopAction: ChooseActionChoice = { val actionList: Seq[IntersectionAction] = Stream.continually(DoNothing).take(9).toSeq ++ Seq(ToggleLights); LoopAction(actionList) }
   val predefConstantLearningRate = 0.1
+  val predefCarSpawnProbability = 0.11
   val predefFutureDiscount = 0.9
 }

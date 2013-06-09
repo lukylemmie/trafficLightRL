@@ -28,7 +28,7 @@ object RunSim {
 
     val sim = new TrafficRLSimulation(simParams, intersectionParams)
 
-    val fileDir = "./out/data"
+    val fileDir = "./out/sim/data"
 
     val stateFileWriter  = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "state.txt")
     val (finalRL, scores) = sim.simWithScoring(numScores,
