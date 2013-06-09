@@ -10,5 +10,5 @@ package com.lempierzchalski.cs9417.ass3.simulation.simParameters
 
 sealed trait LightColoursChoice
 
-case object SimpleRedGreen extends LightColoursChoice
+case object RedGreen extends LightColoursChoice
 case object RedGreenAmber extends LightColoursChoice

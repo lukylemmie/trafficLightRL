@@ -10,9 +10,12 @@ import com.lempierzchalski.cs9417.ass3.engine.IntersectionBase
  * Project: trafficLightRL
  */
 object Intersection {
-  def apply(laneTypeChoice:         LaneTypeChoice,
-            lightColours:           LightColoursChoice,
-            numberOfIncomingRoads:  Int
+  def apply(numberOfLanes           : Int,
+            lightColours            : LightColoursChoice,
+            numberOfIncomingRoads   : Int,
+            variableCarSpeed        : Boolean,
+            changeLanes             : Boolean,
+            crashes                 : Boolean
             ): SimulationIntersection = {
     new IntersectionBase
   }

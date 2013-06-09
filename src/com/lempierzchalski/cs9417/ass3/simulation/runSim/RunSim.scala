@@ -19,7 +19,7 @@ object RunSim {
                       chooseActionChoice:     ChooseActionChoice,
                       learningRateChoice:     LearningRateChoice,
                       carSpawnChoice:         CarSpawnChoice,
-                      laneTypeChoice:         LaneTypeChoice,
+                      numberOfLanes:          Int,
                       lightColours:           LightColoursChoice,
                       numberOfIncomingRoads:  Int,
                       futureDiscount:         Double,
@@ -28,7 +28,7 @@ object RunSim {
                 chooseActionChoice,
                 learningRateChoice,
                 carSpawnChoice,
-                laneTypeChoice,
+                numberOfLanes,
                 lightColours,
                 numberOfIncomingRoads,
                 futureDiscount,
@@ -41,7 +41,7 @@ object RunSim {
             chooseActionChoice:     ChooseActionChoice,
             learningRateChoice:     LearningRateChoice,
             carSpawnChoice:         CarSpawnChoice,
-            laneTypeChoice:         LaneTypeChoice,
+            numberOfLanes:          Int,
             lightColours:           LightColoursChoice,
             numberOfIncomingRoads:  Int,
             futureDiscount:         Double,
@@ -56,7 +56,7 @@ object RunSim {
     val sim = new TrafficRLSimulation(chooseActionChoice:     ChooseActionChoice,
                                       learningRateChoice:     LearningRateChoice,
                                       carSpawnChoice:         CarSpawnChoice,
-                                      laneTypeChoice:         LaneTypeChoice,
+                                      numberOfLanes:          Int,
                                       lightColours:           LightColoursChoice,
                                       numberOfIncomingRoads:  Int,
                                       futureDiscount:         Double)
@@ -75,7 +75,7 @@ object RunSim {
     simParamFileWriter.println(f"chooseActionChoice:      $chooseActionChoice")
     simParamFileWriter.println(f"learningRateChoice:      $learningRateChoice")
     simParamFileWriter.println(f"carSpawnChoice:          $carSpawnChoice")
-    simParamFileWriter.println(f"laneTypeChoice:          $laneTypeChoice")
+    simParamFileWriter.println(f"numberOfLanes:           $numberOfLanes")
     simParamFileWriter.println(f"lightColours:            $lightColours")
     simParamFileWriter.println(f"numberOfIncomingRoads:   $numberOfIncomingRoads")
     simParamFileWriter.println(f"futureDiscount:          $futureDiscount")

@@ -18,7 +18,7 @@ import java.io.PrintWriter
 class TrafficRLSimulation (val chooseActionChoice:     ChooseActionChoice,
                            val learningRateChoice:     LearningRateChoice,
                            val carSpawnChoice:         CarSpawnChoice,
-                           val laneTypeChoice:         LaneTypeChoice,
+                           val numberOfLanes:          Int,
                            val lightColours:           LightColoursChoice,
                            val numberOfIncomingRoads:  Int,
                            val futureDiscount:         Double) {
