@@ -1,6 +1,7 @@
 package com.lempierzchalski.cs9417.ass3.Tests
 
 import com.lempierzchalski.cs9417.ass3.engine.IntersectionBase
+import com.lempierzchalski.cs9417.ass3.simulation.simParameters.IntersectionParams
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,45 +11,46 @@ import com.lempierzchalski.cs9417.ass3.engine.IntersectionBase
  * To change this template use File | Settings | File Templates.
  */
 object TestIntersection extends App {
-  val intersection = new IntersectionBase
+  val intersectionParams = new IntersectionParams()
+  val intersection = new IntersectionBase(intersectionParams)
 
-  println(intersection.printState())
+  println(intersection.printState)
   intersection.timeStep()
-  println(intersection.printState())
+  println(intersection.printState)
   intersection.insertCar(0)
-  println(intersection.printState())
+  println(intersection.printState)
   intersection.timeStep()
   intersection.insertCar(1)
-  println(intersection.printState())
+  println(intersection.printState)
 
   for(i <- 0 until 20) intersection.timeStep()
-  println(intersection.printState())
+  println(intersection.printState)
 
   intersection.insertCar(0)
   intersection.insertCar(1)
-  println(intersection.printState())
+  println(intersection.printState)
   intersection.timeStep()
   intersection.insertCar(1)
-  println(intersection.printState())
+  println(intersection.printState)
 
   for(i <- 0 until 75) intersection.timeStep()
-  println(intersection.printState())
-  intersection.nearestCars()
+  println(intersection.printState)
+  intersection.nearestCars
 
   for(i <- 0 until 25) intersection.timeStep()
-  println(intersection.printState())
+  println(intersection.printState)
 
   intersection.switchLights()
-  println(intersection.printState())
+  println(intersection.printState)
   intersection.timeStep()
   intersection.switchLights()
-  println(intersection.printState())
+  println(intersection.printState)
   intersection.timeStep()
-  println(intersection.printState())
+  println(intersection.printState)
   intersection.timeStep()
-  println(intersection.printState())
+  println(intersection.printState)
   intersection.timeStep()
-  println(intersection.printState())
+  println(intersection.printState)
   intersection.switchLights()
-  println(intersection.printState())
+  println(intersection.printState)
 }

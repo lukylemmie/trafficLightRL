@@ -10,7 +10,7 @@ import com.lempierzchalski.cs9417.ass3.engine.Road
  * To change this template use File | Settings | File Templates.
  */
 object Test2Lanes extends App {
-  val road = new Road(2)
+  val road = new Road(laneCount = 2)
 
   println(road.printRoad())
   road.printNearest()

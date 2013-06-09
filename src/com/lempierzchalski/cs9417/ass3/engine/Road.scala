@@ -10,9 +10,9 @@ import scala.collection.mutable
  * To change this template use File | Settings | File Templates.
  */
 
-class Road (val laneCount : Int = 1) extends RoadSection {
+class Road (val laneCount : Int) extends RoadSection {
   val ROAD_LENGTH = 100
-  private val DEBUG = false
+  private val DEBUG = true
   private var lanes: mutable.Seq[mutable.Seq[Option[Car]]] = mutable.Seq()
   protected var trafficLight : TrafficLightColour = Red
   private var intersection : Option[IntersectionBase] = None
@@ -77,17 +77,17 @@ class Road (val laneCount : Int = 1) extends RoadSection {
 
   def nearestCar() : Seq[Option[Int]] = { //TODO: Refactor?
     val MAX_RETURN = 8
-    val nearestCars : mutable.Seq[Option[Int]] = mutable.Seq()
+    var nearestCars : mutable.Seq[Option[Int]] = mutable.Seq()
     for(lane <- lanes){
       val nearest = lane.find(_ ne None)
       nearest match {
-        case None => nearestCars :+ None
+        case None => nearestCars = nearestCars :+ None
         case Some(optionCar) => {
           val i = lane.indexOf(optionCar)
           if (i > MAX_RETURN){
-            nearestCars :+ None
+            nearestCars = nearestCars :+ None
           } else {
-            nearestCars :+ Some(i)
+            nearestCars = nearestCars :+ Some(i)
           }
         }
       }
@@ -176,7 +176,7 @@ class Road (val laneCount : Int = 1) extends RoadSection {
 
 }
 
-class RoadAmber extends Road {
+class RoadAmber(laneCount : Int) extends Road(laneCount : Int) {
   var time = 0
 
   override def switchLights() {

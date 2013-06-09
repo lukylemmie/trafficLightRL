@@ -15,7 +15,7 @@ trait SimulationIntersection {
   def printState: String
   def nearestCars: Seq[Option[Int]]
   def checkLights: Seq[TrafficLightColour]
-  def getCooldown: Int
+  def getCoolDown: Int
   def timeStep()
   def switchLights()
   def isCarWaiting: Boolean

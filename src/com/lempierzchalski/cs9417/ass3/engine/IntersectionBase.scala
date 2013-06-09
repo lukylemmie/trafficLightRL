@@ -2,6 +2,7 @@ package com.lempierzchalski.cs9417.ass3.engine
 
 import scala.collection.mutable
 import com.lempierzchalski.cs9417.ass3.engine.interface.SimulationIntersection
+import com.lempierzchalski.cs9417.ass3.simulation.simParameters.IntersectionParams
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +11,7 @@ import com.lempierzchalski.cs9417.ass3.engine.interface.SimulationIntersection
  * Time: 1:10 PM
  * To change this template use File | Settings | File Templates.
  */
-class IntersectionBase (val ROAD_COUNT : Int = 2) extends RoadSection with SimulationIntersection {
+class IntersectionBase (val intersectionParams: IntersectionParams) extends RoadSection with SimulationIntersection {
   //TODO: IMPLEMENT
   protected val DEBUG = false
   protected val SWITCH_COOL_DOWN = 3 // time steps
@@ -21,8 +22,8 @@ class IntersectionBase (val ROAD_COUNT : Int = 2) extends RoadSection with Simul
   roadSetup()
 
   def roadSetup(){
-    for(i <- Range(0,ROAD_COUNT)){
-      roads = roads :+ new Road()
+    for(i <- Range(0,intersectionParams.numberOfIncomingRoads)){
+      roads = roads :+ new Road(intersectionParams.numberOfLanes)
       roads(i).setIntersection(Some(this))
       if(i % 2 == 0){
         roads(i).setLights(Green)
@@ -30,7 +31,7 @@ class IntersectionBase (val ROAD_COUNT : Int = 2) extends RoadSection with Simul
     }
   }
 
-  def countWaiting() : Int = {
+  def countWaiting: Int = {
     roads.map(_.countWaiting()).sum
   }
 
@@ -45,17 +46,15 @@ class IntersectionBase (val ROAD_COUNT : Int = 2) extends RoadSection with Simul
     if(coolDown > 0) coolDown -= 1
   }
 
-  def nearestCars() : Seq[Option[Int]] = {
-    roads.map(_.nearestCar()).flatten
+  def nearestCars: Seq[Option[Int]] = {
+    roads.flatMap(_.nearestCar())
   }
 
-  def checkLights() : Seq[TrafficLightColour] = {
+  def checkLights: Seq[TrafficLightColour] = {
     roads.map(_.getTrafficLight)
   }
 
-  def getCoolDown: Int = {
-    coolDown
-  }
+  def getCoolDown: Int = coolDown
 
   def switchLights(){
     if(coolDown > 0){
@@ -68,19 +67,19 @@ class IntersectionBase (val ROAD_COUNT : Int = 2) extends RoadSection with Simul
     }
   }
 
-  def printState() : String = {
+  def printState : String = {
     var output = ""
     output += f"\n\n"
     output += f"The state is:\n"
     output += f"coolDown = $coolDown\n"
-    for(i <- Range(0, ROAD_COUNT)){
+    for(i <- Range(0, intersectionParams.numberOfIncomingRoads)){
 //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
       output += f"Road $i:\n"
       output += f"Light Colour: ${roads(i).getTrafficLight}\n"
       output += roads(i).printRoad()
 //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
     }
-    output += f"nearestCars() = ${nearestCars()}\n"
+    output += f"nearestCars() = $nearestCars\n"
     output += f"carWaiting = $isCarWaiting\n"
     output
   }
@@ -89,29 +88,15 @@ class IntersectionBase (val ROAD_COUNT : Int = 2) extends RoadSection with Simul
     roads(i).insertCar()
   }
 
-  def carEntranceCount: Int = ROAD_COUNT
-
-  def getCooldown: Int = coolDown
+  def carEntranceCount: Int = intersectionParams.numberOfIncomingRoads * intersectionParams.numberOfLanes
 }
 
-class IntersectionMultiLanes extends  IntersectionBase {
-  override def roadSetup(){
-    for(i <- Range(0,ROAD_COUNT)){
-      roads = roads :+ new Road(2)
-      roads(i).setIntersection(Some(this))
-      if(i % 2 == 0){
-        roads(i).setLights(Green)
-      }
-    }
-  }
-}
-
-class IntersectionAmber extends IntersectionBase {
+class IntersectionAmber (intersectionParams: IntersectionParams) extends IntersectionBase (intersectionParams: IntersectionParams) {
   var lightsChanging = 0
 
   override def roadSetup(){
-    for(i <- Range(0,ROAD_COUNT)){
-      roads = roads :+ new RoadAmber()
+    for(i <- Range(0, intersectionParams.numberOfIncomingRoads)){
+      roads = roads :+ new RoadAmber(intersectionParams.numberOfLanes)
       roads(i).setIntersection(Some(this))
       if(i % 2 == 0){
         roads(i).setLights(Green)
@@ -140,20 +125,20 @@ class IntersectionAmber extends IntersectionBase {
     }
   }
 
-  override def printState() : String = {
+  override def printState: String = {
     var output = ""
     output += f"\n\n"
     output += f"The state is:\n"
     output += f"coolDown = $coolDown\n"
     output += f"lightsChanging = $lightsChanging\n"
-    for(i <- Range(0, ROAD_COUNT)){
+    for(i <- Range(0, intersectionParams.numberOfIncomingRoads)){
       //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
       output += f"Road $i:\n"
       output += f"Light Colour: ${roads(i).getTrafficLight}\n"
       output += roads(i).printRoad()
       //      for(j <- Range(0, roads(i).ROAD_LENGTH)) print(f"*")
     }
-    output += f"nearestCars() = ${nearestCars().flatten}\n"
+    output += f"nearestCars() = ${nearestCars.flatten}\n"
     output += f"carWaiting = $isCarWaiting\n"
     output
   }
