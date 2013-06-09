@@ -30,7 +30,7 @@ object Data {
   val quitPattern = "(?i)quit.*".r
   val predefNumScores = 30
   val predefTimestepsPerScore = 1000
-  val predefinedSimParameters: Seq[SimParams] = Seq()
+  val predefinedSimParameters: Seq[(SimParams, IntersectionParams)] = Seq()
   val numberPredefSims = predefinedSimParameters.length
   val predefLoopAction: ChooseActionChoice = { val actionList: Seq[IntersectionAction] = Stream.continually(DoNothing).take(9).toSeq ++ Seq(ToggleLights); LoopAction(actionList) }
   val predefConstantLearningRate = 0.1

@@ -50,7 +50,8 @@ case class Predef(index: Int) extends NavigationState {
   def transition: NavigationState = {
     assert(0 to Data.numberPredefSims contains index.toInt, f"$index out of bounds")
     println(f"Simulation $index is now running, and is outputing to a folder in './out/'.")
-    RunSim(Data.predefinedSimParameters(index), Data.predefNumScores, Data.predefTimestepsPerScore)
+    val (simParams, intersectionParams) = Data.predefinedSimParameters(index)
+    RunSim(simParams, intersectionParams)
     Start
   }
 }
