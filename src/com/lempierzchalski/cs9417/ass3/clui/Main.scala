@@ -34,4 +34,5 @@ object Data {
   val numberPredefSims = predefinedSimParameters.length
   val predefLoopAction: ChooseActionChoice = { val actionList: Seq[IntersectionAction] = Stream.continually(DoNothing).take(9).toSeq ++ Seq(ToggleLights); LoopAction(actionList) }
   val predefConstantLearningRate = 0.1
+  val predefFutureDiscount = 0.9
 }

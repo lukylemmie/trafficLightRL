@@ -13,48 +13,19 @@ import scala.Some
  * To change this template use File | Settings | File Templates.
  */
 object RunSim {
-  def apply(simParams: SimParams, numScores: Int, timeStepsPerScore: Int) {
-    simParams match {
-      case SimParams( seed:                   Int,
-                      chooseActionChoice:     ChooseActionChoice,
-                      learningRateChoice:     LearningRateChoice,
-                      carSpawnChoice:         CarSpawnChoice,
-                      numberOfLanes:          Int,
-                      lightColours:           LightColoursChoice,
-                      numberOfIncomingRoads:  Int,
-                      futureDiscount:         Double,
-                      printState:             Boolean) =>
-        RunSim( seed,
-                chooseActionChoice,
-                learningRateChoice,
-                carSpawnChoice,
-                numberOfLanes,
-                lightColours,
-                numberOfIncomingRoads,
-                futureDiscount,
-                printState,
-                numScores,
-                timeStepsPerScore)
-    }
-  }
-  def apply(seed:                   Int,
-            chooseActionChoice:     ChooseActionChoice,
-            learningRateChoice:     LearningRateChoice,
-            carSpawnChoice:         CarSpawnChoice,
-            numberOfLanes:          Int,
-            lightColours:           LightColoursChoice,
-            numberOfIncomingRoads:  Int,
-            futureDiscount:         Double,
-            printState:             Boolean,
-            numScores:              Int,
-            timeStepsPerScore:      Int) {
+  def apply(simParams           : SimParams,
+            intersectionParams  : IntersectionParams,
+            printState          : Boolean = false) {
+
+    val seed = simParams.seed
+    val numScores = simParams.numScores
+    val timeStepsPerScore = simParams.timeStepsPerScore
 
     val startTime = System.currentTimeMillis()
 
     util.Random.setSeed(seed)
 
-    val sim = new TrafficRLSimulation(chooseActionChoice:     ChooseActionChoice,
-                                      learningRateChoice:     LearningRateChoice)
+    val sim = new TrafficRLSimulation(simParams, intersectionParams)
 
     val fileDir = "./out/data"
 
@@ -65,19 +36,10 @@ object RunSim {
     if (!printState) stateFileWriter.println("Output suppressed")
     stateFileWriter.close()
 
-    val simParamFileWriter = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "params.txt")
-    simParamFileWriter.println(f"seed:                    $seed")
-    simParamFileWriter.println(f"chooseActionChoice:      $chooseActionChoice")
-    simParamFileWriter.println(f"learningRateChoice:      $learningRateChoice")
-    simParamFileWriter.println(f"carSpawnChoice:          $carSpawnChoice")
-    simParamFileWriter.println(f"numberOfLanes:           $numberOfLanes")
-    simParamFileWriter.println(f"lightColours:            $lightColours")
-    simParamFileWriter.println(f"numberOfIncomingRoads:   $numberOfIncomingRoads")
-    simParamFileWriter.println(f"futureDiscount:          $futureDiscount")
-    simParamFileWriter.println(f"printState:              $printState")
-    simParamFileWriter.println(f"numScores:               $numScores")
-    simParamFileWriter.println(f"timeStepsPerScore:       $timeStepsPerScore")
-    simParamFileWriter.close()
+    val paramFileWriter = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "params.txt")
+    paramFileWriter.println(simParams)
+    paramFileWriter.println(intersectionParams)
+    paramFileWriter.close()
 
     val qTableFileWriter = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "qTable.txt")
     finalRL.qTable.foreach(qTableFileWriter.println(_))

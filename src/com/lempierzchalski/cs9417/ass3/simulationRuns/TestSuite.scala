@@ -17,25 +17,29 @@ object TestSuite extends App {
   val runRepetitions = 1
   val numScores = 30
   val timeStepsPerScore = 1000
-  val tests: Seq[SimParams] = Seq(
-    SimParams(chooseActionChoice  = RandomAction,
+  val tests: Seq[(SimParams, IntersectionParams)] = Seq(
+    (SimParams(chooseActionChoice = RandomAction,
               learningRateChoice  = ConstantRateLearning(0.1),
               carSpawnChoice      = SpecDefaultCarSpawn),
+    IntersectionParams()),
 
-    SimParams(chooseActionChoice  = EpsilonGreedyAction(0.1),
+    (SimParams(chooseActionChoice = EpsilonGreedyAction(0.1),
               learningRateChoice  = ConstantRateLearning(0.1),
               carSpawnChoice      = SpecDefaultCarSpawn),
+    IntersectionParams()),
 
     {val actionList: Seq[IntersectionAction] = Stream.continually(DoNothing).take(9).toSeq ++ Seq(ToggleLights)
-    SimParams(chooseActionChoice  = LoopAction(actionList) ,
+    (SimParams(chooseActionChoice = LoopAction(actionList) ,
               learningRateChoice  = ConstantRateLearning(0.1),
-              carSpawnChoice      = SpecDefaultCarSpawn)},
+              carSpawnChoice      = SpecDefaultCarSpawn),
+    IntersectionParams())},
 
-    SimParams(chooseActionChoice  = EpsilonGreedyAction(0.2),
+    (SimParams(chooseActionChoice = EpsilonGreedyAction(0.2),
               learningRateChoice  = ConstantRateLearning(0.1),
-              carSpawnChoice      = SpecDefaultCarSpawn)
+              carSpawnChoice      = SpecDefaultCarSpawn),
+    IntersectionParams())
   )
-  tests.foreach(RunSim(_, numScores, timeStepsPerScore))
+  tests.foreach(sip => RunSim(sip._1, sip._2))
 }
 
 
