@@ -54,12 +54,7 @@ object RunSim {
     util.Random.setSeed(seed)
 
     val sim = new TrafficRLSimulation(chooseActionChoice:     ChooseActionChoice,
-                                      learningRateChoice:     LearningRateChoice,
-                                      carSpawnChoice:         CarSpawnChoice,
-                                      numberOfLanes:          Int,
-                                      lightColours:           LightColoursChoice,
-                                      numberOfIncomingRoads:  Int,
-                                      futureDiscount:         Double)
+                                      learningRateChoice:     LearningRateChoice)
 
     val fileDir = "./out/data"
 

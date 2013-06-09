@@ -15,22 +15,17 @@ import java.io.PrintWriter
  * To change this template use File | Settings | File Templates.
  */
 
-class TrafficRLSimulation (val chooseActionChoice     : ChooseActionChoice,
-                           val learningRateChoice     : LearningRateChoice,
-                           val carSpawnChoice         : CarSpawnChoice,
-                           val numberOfLanes          : Int,
-                           val lightColours           : LightColoursChoice,
-                           val numberOfIncomingRoads  : Int,
-                           val futureDiscount         : Double,
-                           val variableCarSpeed       : Boolean,
-                           val changeLanes            : Boolean,
-                           val crashes                : Boolean,
-                           val nearestCarViewDepth    : Int,
-                           val numNearestCarsViewed   : Int) {
+class TrafficRLSimulation (val simParams              : SimParams,
+                           val intersectionParams     : IntersectionParams) {
 
   type State                        = TrafficModelAdapter.IntersectionState
   type Action                       = IntersectionAction
   type TrafficReinforcementLearner  = TrafficModelAdapter.TrafficReinforcementLearner
+
+  val chooseActionChoice  = simParams.chooseActionChoice
+  val learningRateChoice  = simParams.learningRateChoice
+  val carSpawnChoice      = simParams.carSpawnChoice
+  val futureDiscount      = simParams.futureDiscount
 
   val validActions = IntersectionAction.allActions
 
@@ -51,14 +46,7 @@ class TrafficRLSimulation (val chooseActionChoice     : ChooseActionChoice,
     case SpecDefaultCarSpawn => CarSpawnChoice.SpecDefault
   }
 
-  val intersection = Intersection(numberOfLanes           : Int,
-                                  lightColours            : LightColoursChoice,
-                                  numberOfIncomingRoads   : Int,
-                                  variableCarSpeed        : Boolean,
-                                  changeLanes             : Boolean,
-                                  crashes                 : Boolean,
-                                  nearestCarViewDepth     : Int,
-                                  numNearestCarsViewed    : Int)
+  val intersection = Intersection(intersectionParams)
 
   val takeActionWithReward = TrafficModelAdapter.takeIntersectionActionWithReward(intersection)
 

@@ -13,10 +13,7 @@ case class SimParams( seed: Int = Random.nextInt(),
                       chooseActionChoice: ChooseActionChoice,
                       learningRateChoice: LearningRateChoice,
                       carSpawnChoice: CarSpawnChoice,
-                      numLanes: Int = 1,
-                      lightColours: LightColoursChoice = RedGreen,
-                      numberOfIncomingRoads: Int = 2,
-                      futureDiscount: Double = 0.9,
+                      futureDiscount: Double,
                       printState: Boolean = false)
 
 case class IntersectionParams(numberOfLanes           : Int = 1,
