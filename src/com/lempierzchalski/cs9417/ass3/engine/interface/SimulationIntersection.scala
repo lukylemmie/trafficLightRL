@@ -9,8 +9,8 @@ import com.lempierzchalski.cs9417.ass3.engine.TrafficLightColour
  * Project: trafficLightRL
  */
 trait SimulationIntersection {
-  def carEntranceCount: Int
-  def insertCar(entranceIndex: Int)
+  def carEntranceCount: Int //return total number of car lanes (on all roads)
+  def insertCar(entranceIndex: Int) //inserts a car at given
   def countWaiting: Int
   def printState: String
   def nearestCars: Seq[Option[Int]]

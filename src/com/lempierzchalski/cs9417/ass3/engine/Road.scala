@@ -20,6 +20,38 @@ class Road (val intersectionParams : IntersectionParams) extends RoadSection {
 
   initRoad()
 
+  def checkChangeLane(lane : Int, position : Int) : (Boolean, Int) = {
+    var canMove = false
+    var toLane = -1
+    val lastLane = intersectionParams.numberOfLanes - 1
+    if(lane == 0){
+      if(checkPositionEmpty(lane = 1, position) && checkPositionEmpty(lane = 1, position - 1)){
+        canMove = true
+        toLane = 1
+      } else {
+        canMove = false
+      }
+    } else if(lane == intersectionParams.numberOfLanes - 1){
+      if(checkPositionEmpty(lane - 1, position) && checkPositionEmpty(lane - 1, position - 1)){
+        canMove = true
+        toLane = lane - 1
+      } else {
+        canMove = false
+      }
+    } else {
+      if(checkPositionEmpty(lane + 1, position) && checkPositionEmpty(lane + 1, position - 1)){
+        canMove = true
+        toLane = lane + 1
+      } else if(checkPositionEmpty(lane - 1, position) && checkPositionEmpty(lane - 1, position - 1)){
+        canMove = true
+        toLane = lane - 1
+      } else {
+        canMove = false
+      }
+    }
+    (canMove, toLane)
+  }
+
   def initRoad (){
     for(i <- 0 until laneCount){
       lanes = lanes :+ mutable.Seq.fill[Option[Car]](ROAD_LENGTH)(None)
@@ -64,9 +96,9 @@ class Road (val intersectionParams : IntersectionParams) extends RoadSection {
   }
 
   //return True if position is empty in lane
-  def checkPositionEmpty(lanePosition : Int, position : Int) : Boolean = {
+  def checkPositionEmpty(lane : Int, position : Int) : Boolean = {
     assert(position >= 0 && position < ROAD_LENGTH)
-    lanes(lanePosition)(position) match {
+    lanes(lane)(position) match {
       case None => true
       case Some(_) => false
     }
@@ -154,7 +186,7 @@ class Road (val intersectionParams : IntersectionParams) extends RoadSection {
     if(DEBUG)println(f"laneNum = $laneNum")
     if(DEBUG)println(f"lanes = $lanes")
     lane.last match {
-      case None => lane(lane.size - 1) = Some(new Car(this, lane.size - 1, laneNum))
+      case None => lane(lane.size - 1) = Some(new Car(this, lane.size - 1, laneNum, intersectionParams.changeLanes))
       case Some(_) => println("Either Road is Full or Time Step Required!")
     }
   }
@@ -174,7 +206,8 @@ class Road (val intersectionParams : IntersectionParams) extends RoadSection {
   }
 
   def timeStep() {
-    for(lane <- lanes){
+    val transposedLanes = lanes.transpose
+    for(lane <- transposedLanes){
       for(optCar <- lane){
         optCar match {
           case None => // nothing there
