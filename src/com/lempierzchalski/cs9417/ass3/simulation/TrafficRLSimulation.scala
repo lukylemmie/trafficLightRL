@@ -15,13 +15,18 @@ import java.io.PrintWriter
  * To change this template use File | Settings | File Templates.
  */
 
-class TrafficRLSimulation (val chooseActionChoice:     ChooseActionChoice,
-                           val learningRateChoice:     LearningRateChoice,
-                           val carSpawnChoice:         CarSpawnChoice,
-                           val numberOfLanes:          Int,
-                           val lightColours:           LightColoursChoice,
-                           val numberOfIncomingRoads:  Int,
-                           val futureDiscount:         Double) {
+class TrafficRLSimulation (val chooseActionChoice     : ChooseActionChoice,
+                           val learningRateChoice     : LearningRateChoice,
+                           val carSpawnChoice         : CarSpawnChoice,
+                           val numberOfLanes          : Int,
+                           val lightColours           : LightColoursChoice,
+                           val numberOfIncomingRoads  : Int,
+                           val futureDiscount         : Double,
+                           val variableCarSpeed       : Boolean,
+                           val changeLanes            : Boolean,
+                           val crashes                : Boolean,
+                           val nearestCarViewDepth    : Int,
+                           val numNearestCarsViewed   : Int) {
 
   type State                        = TrafficModelAdapter.IntersectionState
   type Action                       = IntersectionAction

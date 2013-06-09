@@ -1,6 +1,6 @@
 package com.lempierzchalski.cs9417.ass3.engine.interface
 
-import com.lempierzchalski.cs9417.ass3.simulation.simParameters.{LightColoursChoice, LaneTypeChoice, CarSpawnChoice}
+import com.lempierzchalski.cs9417.ass3.simulation.simParameters.{IntersectionParams, LightColoursChoice, LaneTypeChoice, CarSpawnChoice}
 import com.lempierzchalski.cs9417.ass3.engine.IntersectionBase
 
 /**
@@ -10,6 +10,18 @@ import com.lempierzchalski.cs9417.ass3.engine.IntersectionBase
  * Project: trafficLightRL
  */
 object Intersection {
+  def apply(intersectionParams: IntersectionParams): SimulationIntersection = {
+    Intersection(
+      intersectionParams.numberOfLanes,
+      intersectionParams.lightColours,
+      intersectionParams.numberOfIncomingRoads,
+      intersectionParams.variableCarSpeed,
+      intersectionParams.changeLanes,
+      intersectionParams.crashes,
+      intersectionParams.nearestCarViewDepth,
+      intersectionParams.numNearestCarsViewed
+    )
+  }
   def apply(numberOfLanes           : Int,
             lightColours            : LightColoursChoice,
             numberOfIncomingRoads   : Int,

@@ -18,3 +18,13 @@ case class SimParams( seed: Int = Random.nextInt(),
                       numberOfIncomingRoads: Int = 2,
                       futureDiscount: Double = 0.9,
                       printState: Boolean = false)
+
+case class IntersectionParams(numberOfLanes           : Int = 1,
+                              lightColours            : LightColoursChoice = RedGreen,
+                              numberOfIncomingRoads   : Int = 2,
+                              variableCarSpeed        : Boolean = false,
+                              changeLanes             : Boolean = false,
+                              crashes                 : Boolean = false,
+                              nearestCarViewDepth     : Int = 8,
+                              numNearestCarsViewed    : Int = 1
+                               )
