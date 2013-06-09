@@ -25,12 +25,13 @@ object IntersectionSimTestSuite extends App {
        nearestCarViewDepth <- Seq(8, 4);
        numNearestCarsViewed <- Seq(1, 2, 3);
        advancedCarBehaviour <- Seq(true, false);
-       numIterations <- 0 until Data.predefSimRepetitons){
+       numIterations <- 0 until Data.predefSimRepetitons / 2){
     val simParams = SimParams(
       seed = Random.nextInt(),
       chooseActionChoice = EpsilonGreedyAction(Data.predefEpsilon),
       learningRateChoice = ConstantRateLearning(Data.predefConstantLearningRate),
-      carSpawnChoice = UniformRateCarSpawn(Data.predefCarSpawnProbability))
+      carSpawnChoice = UniformRateCarSpawn(Data.predefCarSpawnProbability),
+      numScores = Data.predefNumScores * 2)
     val intersectionParams = IntersectionParams(
       numberOfLanes = numLanes,
       lightColours = colours,

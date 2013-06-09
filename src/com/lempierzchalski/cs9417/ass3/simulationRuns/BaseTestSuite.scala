@@ -42,6 +42,7 @@ object BaseTestSuite extends App {
       IntersectionParams())
   }
 
+  var iteration = 0
   (tests ++ parameterTests).foreach( (sip: (SimParams, IntersectionParams)) => {
       val (simParams, intersectionParams) = sip
       for (i <- 0 until runRepetitions) {
@@ -49,7 +50,9 @@ object BaseTestSuite extends App {
                                             chooseActionChoice = simParams.chooseActionChoice,
                                             learningRateChoice = simParams.learningRateChoice,
                                             carSpawnChoice =     simParams.carSpawnChoice)
+        println(f"Running iteration $iteration")
         RunSim(randomSeedSimParams, intersectionParams)
+        iteration += 1
       }
     }
   )
