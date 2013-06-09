@@ -15,7 +15,7 @@ import scala.util.Random
  * To change this template use File | Settings | File Templates.
  */
 
-object TestSuite extends App {
+object BaseTestSuite extends App {
   val runRepetitions = 10
   val tests: Seq[(SimParams, IntersectionParams)] = Seq(
     (SimParams(chooseActionChoice = RandomAction,

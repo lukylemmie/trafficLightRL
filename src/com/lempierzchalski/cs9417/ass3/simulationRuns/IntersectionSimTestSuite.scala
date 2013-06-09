@@ -1,4 +1,4 @@
-package com.lempierzchalski.cs9417.ass3.simulation.runSim
+package com.lempierzchalski.cs9417.ass3.simulationRuns
 
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
 import com.lempierzchalski.cs9417.ass3.clui.Data
@@ -9,6 +9,7 @@ import com.lempierzchalski.cs9417.ass3.simulation.simParameters.EpsilonGreedyAct
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.ConstantRateLearning
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.UniformRateCarSpawn
 import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
+import com.lempierzchalski.cs9417.ass3.simulation.runSim.RunSim
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,7 +18,7 @@ import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
  * Time: 5:19 PM
  * To change this template use File | Settings | File Templates.
  */
-object RunASim extends App {
+object IntersectionSimTestSuite extends App {
   for (numLanes <- 1 to 3;
        colours <- Seq(RedGreen, RedGreenAmber);
        numIncomingRoads <- Seq(2, 4);
