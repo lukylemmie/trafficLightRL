@@ -15,7 +15,9 @@ object Intersection {
             numberOfIncomingRoads   : Int,
             variableCarSpeed        : Boolean,
             changeLanes             : Boolean,
-            crashes                 : Boolean
+            crashes                 : Boolean,
+            nearestCarViewDepth     : Int,
+            numNearestCarsViewed    : Int
             ): SimulationIntersection = {
     new IntersectionBase
   }

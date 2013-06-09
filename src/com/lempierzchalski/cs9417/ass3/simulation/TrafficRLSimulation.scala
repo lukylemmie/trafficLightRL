@@ -46,9 +46,14 @@ class TrafficRLSimulation (val chooseActionChoice:     ChooseActionChoice,
     case SpecDefaultCarSpawn => CarSpawnChoice.SpecDefault
   }
 
-  val intersection = Intersection(laneTypeChoice:         LaneTypeChoice,
-                                  lightColours:           LightColoursChoice,
-                                  numberOfIncomingRoads:  Int)
+  val intersection = Intersection(numberOfLanes           : Int,
+                                  lightColours            : LightColoursChoice,
+                                  numberOfIncomingRoads   : Int,
+                                  variableCarSpeed        : Boolean,
+                                  changeLanes             : Boolean,
+                                  crashes                 : Boolean,
+                                  nearestCarViewDepth     : Int,
+                                  numNearestCarsViewed    : Int)
 
   val takeActionWithReward = TrafficModelAdapter.takeIntersectionActionWithReward(intersection)
 
