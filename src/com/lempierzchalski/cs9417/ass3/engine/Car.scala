@@ -41,3 +41,7 @@ class Car(createdOn : RoadSection, startPosition : Int, lane : Int) {
     }
   }
 }
+
+class fastCar(createdOn : RoadSection, startPosition : Int, lane : Int) extends Car(createdOn : RoadSection, startPosition : Int, lane : Int) {
+
+}

@@ -1,7 +1,6 @@
 package com.lempierzchalski.cs9417.ass3.engine.Tests
 
-import com.lempierzchalski.cs9417.ass3.engine.IntersectionBase
-import com.lempierzchalski.cs9417.ass3.simulation.simParameters.IntersectionParams
+import com.lempierzchalski.cs9417.ass3.engine.{IntersectionParams, IntersectionBase}
 
 /**
  * Created with IntelliJ IDEA.

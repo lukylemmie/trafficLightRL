@@ -1,8 +1,8 @@
 package com.lempierzchalski.cs9417.ass3.engine.interface
 
-import com.lempierzchalski.cs9417.ass3.simulation.simParameters.{IntersectionParams, LightColoursChoice, CarSpawnChoice}
+import com.lempierzchalski.cs9417.ass3.simulation.simParameters.{LightColoursChoice, CarSpawnChoice}
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
-import com.lempierzchalski.cs9417.ass3.engine.{IntersectionAmber, IntersectionBase}
+import com.lempierzchalski.cs9417.ass3.engine.{IntersectionParams, IntersectionAmber, IntersectionBase}
 
 /**
  * User: Pierzchalski

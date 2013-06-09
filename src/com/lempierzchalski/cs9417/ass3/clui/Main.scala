@@ -3,6 +3,7 @@ package com.lempierzchalski.cs9417.ass3.clui
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
 import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{ToggleLights, DoNothing, IntersectionAction}
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.SimParams
+import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
 
 /**
  * User: Pierzchalski

@@ -1,7 +1,6 @@
 package com.lempierzchalski.cs9417.ass3.Tests
 
-import com.lempierzchalski.cs9417.ass3.engine.IntersectionBase
-import com.lempierzchalski.cs9417.ass3.simulation.simParameters.IntersectionParams
+import com.lempierzchalski.cs9417.ass3.engine.{IntersectionParams, IntersectionBase}
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,7 +10,7 @@ import com.lempierzchalski.cs9417.ass3.simulation.simParameters.IntersectionPara
  * To change this template use File | Settings | File Templates.
  */
 object TestIntersection extends App {
-  val intersectionParams = new IntersectionParams()
+  val intersectionParams = IntersectionParams()
   val intersection = new IntersectionBase(intersectionParams)
 
   println(f"intersectionParams.numberOfIncomingRoads = ${intersectionParams.numberOfIncomingRoads}")

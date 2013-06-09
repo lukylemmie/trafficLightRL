@@ -29,23 +29,4 @@ case class SimParams( seed: Int = Random.nextInt(),
   }
 }
 
-case class IntersectionParams(numberOfLanes           : Int = 1,
-                              lightColours            : LightColoursChoice = RedGreen,
-                              numberOfIncomingRoads   : Int = 2,
-                              variableCarSpeed        : Boolean = false,
-                              changeLanes             : Boolean = false,
-                              crashes                 : Boolean = false,
-                              nearestCarViewDepth     : Int = 8,
-                              numNearestCarsViewed    : Int = 1) {
-  override def toString: String = {
-    f"""Intersection parameters:
-       |  numberOfLanes:            $numberOfLanes
-       |  lightColours:             $lightColours
-       |  numberOfIncomingRoads:    $numberOfIncomingRoads
-       |  variableCarSpeed:         $variableCarSpeed
-       |  changeLanes:              $changeLanes
-       |  crashes:                  $crashes
-       |  nearestCarViewDepth:      $nearestCarViewDepth
-       |  numNearestCarsViewed:     $numNearestCarsViewed""".stripMargin
-  }
-}
+

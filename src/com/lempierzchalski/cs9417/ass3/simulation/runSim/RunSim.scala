@@ -4,6 +4,7 @@ import com.lempierzchalski.cs9417.ass3.simulation.TrafficRLSimulation
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
 import com.lempierzchalski.cs9417.ass3.myUtil
 import scala.Some
+import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
 
 /**
  * Created with IntelliJ IDEA.

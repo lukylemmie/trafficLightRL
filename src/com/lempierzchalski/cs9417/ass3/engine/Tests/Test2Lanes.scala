@@ -1,6 +1,6 @@
 package com.lempierzchalski.cs9417.ass3.engine.Tests
 
-import com.lempierzchalski.cs9417.ass3.engine.Road
+import com.lempierzchalski.cs9417.ass3.engine.{IntersectionParams, Road}
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +10,7 @@ import com.lempierzchalski.cs9417.ass3.engine.Road
  * To change this template use File | Settings | File Templates.
  */
 object Test2Lanes extends App {
-  val road = new Road(laneCount = 2)
+  val road = new Road(IntersectionParams(numberOfLanes = 2))
   var time = 0
 
   println(road.printRoad())

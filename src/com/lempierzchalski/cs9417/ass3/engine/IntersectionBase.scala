@@ -1,8 +1,7 @@
 package com.lempierzchalski.cs9417.ass3.engine
 
-import scala.collection.mutable
 import com.lempierzchalski.cs9417.ass3.engine.interface.SimulationIntersection
-import com.lempierzchalski.cs9417.ass3.simulation.simParameters.IntersectionParams
+import com.lempierzchalski.cs9417.ass3.simulation.simParameters.{RedGreen, LightColoursChoice}
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,7 +22,7 @@ class IntersectionBase (val intersectionParams: IntersectionParams) extends Road
 
   def roadSetup(){
     for(i <- Range(0,intersectionParams.numberOfIncomingRoads)){
-      roads = roads :+ new Road(intersectionParams.numberOfLanes)
+      roads = roads :+ new Road(intersectionParams)
       roads(i).setIntersection(Some(this))
       if(i % 2 == 0){
         roads(i).setLights(Green)
@@ -47,7 +46,7 @@ class IntersectionBase (val intersectionParams: IntersectionParams) extends Road
   }
 
   def nearestCars: Seq[Option[Int]] = {
-    roads.flatMap(_.nearestCar())
+    roads.flatMap(_.nearestCars())
   }
 
   def checkLights: Seq[TrafficLightColour] = {
@@ -84,7 +83,7 @@ class IntersectionBase (val intersectionParams: IntersectionParams) extends Road
     output
   }
 
-  def insertCar(entranceIndex : Int){
+  def insertCar(entranceIndex : Int/*, carSpawnProportions : CarSpawnProportions*/){
     if(DEBUG)println(f"entranceIndex = $entranceIndex")
     if(DEBUG)println(f"entranceIndex / intersectionParams.numberOfIncomingRoads = ${entranceIndex / intersectionParams.numberOfIncomingRoads}")
     if(DEBUG)println(f"entranceIndex % intersectionParams.numberOfIncomingRoads = ${entranceIndex % intersectionParams.numberOfIncomingRoads}")
@@ -99,7 +98,7 @@ class IntersectionAmber (intersectionParams: IntersectionParams) extends Interse
 
   override def roadSetup(){
     for(i <- Range(0, intersectionParams.numberOfIncomingRoads)){
-      roads = roads :+ new RoadAmber(intersectionParams.numberOfLanes)
+      roads = roads :+ new RoadAmber(intersectionParams)
       roads(i).setIntersection(Some(this))
       if(i % 2 == 0){
         roads(i).setLights(Green)
@@ -144,5 +143,26 @@ class IntersectionAmber (intersectionParams: IntersectionParams) extends Interse
     output += f"nearestCars() = ${nearestCars.flatten}\n"
     output += f"carWaiting = $isCarWaiting\n"
     output
+  }
+}
+
+case class IntersectionParams(numberOfLanes           : Int = 1,
+                              lightColours            : LightColoursChoice = RedGreen,
+                              numberOfIncomingRoads   : Int = 2,
+                              variableCarSpeed        : Boolean = false,
+                              changeLanes             : Boolean = false,
+                              crashes                 : Boolean = false,
+                              nearestCarViewDepth     : Int = 8,
+                              numNearestCarsViewed    : Int = 1) {
+  override def toString: String = {
+    f"""Intersection parameters:
+       |  numberOfLanes:            $numberOfLanes
+       |  lightColours:             $lightColours
+       |  numberOfIncomingRoads:    $numberOfIncomingRoads
+       |  variableCarSpeed:         $variableCarSpeed
+       |  changeLanes:              $changeLanes
+       |  crashes:                  $crashes
+       |  nearestCarViewDepth:      $nearestCarViewDepth
+       |  numNearestCarsViewed:     $numNearestCarsViewed""".stripMargin
   }
 }

@@ -10,7 +10,8 @@ import scala.collection.mutable
  * To change this template use File | Settings | File Templates.
  */
 
-class Road (val laneCount : Int) extends RoadSection {
+class Road (val intersectionParams : IntersectionParams) extends RoadSection {
+  val laneCount = intersectionParams.numberOfLanes
   val ROAD_LENGTH = 100
   private val DEBUG = false
   private var lanes: mutable.Seq[mutable.Seq[Option[Car]]] = mutable.Seq()
@@ -75,19 +76,26 @@ class Road (val laneCount : Int) extends RoadSection {
     trafficLight
   }
 
-  def nearestCar() : Seq[Option[Int]] = { //TODO: Refactor?
-    val MAX_RETURN = 8
+  def nearestCars() : Seq[Option[Int]] = {
     var nearestCars : mutable.Seq[Option[Int]] = mutable.Seq()
+    var nearest : Option[Car] = None
     for(lane <- lanes){
-      val nearest = lane.find(_ ne None)
-      nearest match {
-        case None => nearestCars = nearestCars :+ None
-        case Some(optionCar) => {
-          val i = lane.indexOf(optionCar)
-          if (i > MAX_RETURN){
-            nearestCars = nearestCars :+ None
-          } else {
-            nearestCars = nearestCars :+ Some(i)
+      var tempLane = lane.filter(_ ne None)
+      for(i <- 0 until intersectionParams.numNearestCarsViewed){
+        if(tempLane.size > 0 || i > tempLane.size){
+          nearest = tempLane(i)
+        } else {
+          nearest = None
+        }
+        nearest match {
+          case None => nearestCars = nearestCars :+ None
+          case Some(optionCar) => {
+            val i = lane.indexOf(optionCar)
+            if (i > intersectionParams.nearestCarViewDepth){
+              nearestCars = nearestCars :+ None
+            } else {
+              nearestCars = nearestCars :+ Some(i)
+            }
           }
         }
       }
@@ -97,7 +105,7 @@ class Road (val laneCount : Int) extends RoadSection {
   }
 
   def printNearest(){
-    for(position <- nearestCar()){
+    for(position <- nearestCars()){
       position match {
         case None => println(f"Nearest car is: None")
         case Some(i) => println(f"Nearest car is: $i")
@@ -178,7 +186,7 @@ class Road (val laneCount : Int) extends RoadSection {
 
 }
 
-class RoadAmber(laneCount : Int) extends Road(laneCount : Int) {
+class RoadAmber(intersectionParams : IntersectionParams) extends Road(intersectionParams : IntersectionParams) {
   var time = 0
 
   override def switchLights() {

@@ -1,7 +1,7 @@
 package com.lempierzchalski.cs9417.ass3.engine.Tests
 
-import com.lempierzchalski.cs9417.ass3.engine.{IntersectionAmber, IntersectionBase}
-import com.lempierzchalski.cs9417.ass3.simulation.simParameters.{RedGreenAmber, IntersectionParams}
+import com.lempierzchalski.cs9417.ass3.engine.{IntersectionParams, IntersectionAmber, IntersectionBase}
+import com.lempierzchalski.cs9417.ass3.simulation.simParameters.{RedGreenAmber}
 
 /**
  * Created with IntelliJ IDEA.

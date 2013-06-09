@@ -6,6 +6,7 @@ import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{Traffi
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.LoopAction
 import com.lempierzchalski.cs9417.ass3.engine.interface.Intersection
 import java.io.PrintWriter
+import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
 
 /**
  * Created with IntelliJ IDEA.
