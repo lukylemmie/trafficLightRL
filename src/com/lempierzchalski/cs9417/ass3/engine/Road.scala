@@ -13,7 +13,7 @@ import scala.collection.mutable
 class Road (val intersectionParams : IntersectionParams) extends RoadSection {
   val laneCount = intersectionParams.numberOfLanes
   val ROAD_LENGTH = 100
-  private val DEBUG = true
+  private val DEBUG = false
   private var lanes: mutable.Seq[mutable.Seq[Option[Car]]] = mutable.Seq()
   protected var trafficLight : TrafficLightColour = Red
   private var intersection : Option[IntersectionBase] = None
