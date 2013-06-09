@@ -141,7 +141,7 @@ class Road (val laneCount : Int) extends RoadSection {
     }
   }
 
-  def insertCar(laneNum : Int = util.Random.nextInt(laneCount)) {
+  def insertCar(laneNum : Int) {
     val lane = lanes(laneNum)
     lane.last match {
       case None => lane(lane.size - 1) = Some(new Car(this, lane.size - 1, laneNum))
