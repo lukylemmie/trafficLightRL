@@ -30,17 +30,17 @@ object RunSim {
 
     val fileDir = "./out/sim/data"
 
+    val paramFileWriter = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "params.txt")
+    paramFileWriter.println(simParams)
+    paramFileWriter.println(intersectionParams)
+    paramFileWriter.close()
+
     val stateFileWriter  = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "state.txt")
     val (finalRL, scores) = sim.simWithScoring(numScores,
                                                timeStepsPerScore,
                                                printStateFileWriter = if (printState) Some(stateFileWriter) else None)
     if (!printState) stateFileWriter.println("Output suppressed")
     stateFileWriter.close()
-
-    val paramFileWriter = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "params.txt")
-    paramFileWriter.println(simParams)
-    paramFileWriter.println(intersectionParams)
-    paramFileWriter.close()
 
     val qTableFileWriter = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "qTable.txt")
     finalRL.qTable.foreach(qTableFileWriter.println(_))

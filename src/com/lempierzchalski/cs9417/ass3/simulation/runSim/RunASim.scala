@@ -18,13 +18,13 @@ import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
  * To change this template use File | Settings | File Templates.
  */
 object RunASim extends App {
-  for (numLanes <- 0 to 3;
+  for (numLanes <- 1 to 3;
        colours <- Seq(RedGreen, RedGreenAmber);
        numIncomingRoads <- Seq(2, 4);
        nearestCarViewDepth <- Seq(8, 4);
        numNearestCarsViewed <- Seq(1, 2, 3);
        advancedCarBehaviour <- Seq(true, false);
-       numIterations <- 0 until Data.predefSimRepetitons) {
+       numIterations <- 0 until Data.predefSimRepetitons){
     val simParams = SimParams(
       seed = Random.nextInt(),
       chooseActionChoice = EpsilonGreedyAction(Data.predefEpsilon),
@@ -40,6 +40,6 @@ object RunASim extends App {
       crashes = false,
       variableCarSpeed = false
     )
-    RunSim(simParams, intersectionParams)
+    RunSim(simParams, intersectionParams, printState = true)
   }
 }
