@@ -13,7 +13,7 @@ import scala.collection.mutable
 class Road (val intersectionParams : IntersectionParams) extends RoadSection {
   val laneCount = intersectionParams.numberOfLanes
   val ROAD_LENGTH = 100
-  private val DEBUG = false
+  private val DEBUG = true
   private var lanes: mutable.Seq[mutable.Seq[Option[Car]]] = mutable.Seq()
   protected var trafficLight : TrafficLightColour = Red
   private var intersection : Option[IntersectionBase] = None
@@ -110,12 +110,15 @@ class Road (val intersectionParams : IntersectionParams) extends RoadSection {
 
   def nearestCars() : Seq[Option[Int]] = {
     var nearestCars : mutable.Seq[Option[Int]] = mutable.Seq()
-    var nearest : Option[Car] = None
+    var nearest : Option[Option[Car]] = None
     for(lane <- lanes){
       var tempLane = lane.filter(_ ne None)
+      if(DEBUG)println(f"old = ${lane.find(_ ne None)}")
+      if(DEBUG && tempLane.size > 0)println(f"tempLane(0) = ${tempLane(0)}")
       for(i <- 0 until intersectionParams.numNearestCarsViewed){
-        if(tempLane.size > 0 || i > tempLane.size){
-          nearest = tempLane(i)
+        if(tempLane.size > 0 && i < tempLane.size){
+          nearest = Some(tempLane(i))
+          if(DEBUG)println(f"nearest = $nearest")
         } else {
           nearest = None
         }

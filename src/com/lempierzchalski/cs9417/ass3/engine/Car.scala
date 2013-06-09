@@ -18,6 +18,10 @@ class Car(createdOn : RoadSection, startPosition : Int, startLane : Int, canChan
   def isWaiting : Boolean = waiting
 
   def move(){
+    moveOnce()
+  }
+
+  def moveOnce(){
 //    println("Moving car!")
     roadSection match {
       case section : Road => {
@@ -62,30 +66,5 @@ class fastCar(createdOn : RoadSection, startPosition : Int, lane : Int) extends 
   override def move(){
     moveOnce()
     moveOnce()
-  }
-
-  def moveOnce(){
-    //    println("Moving car!")
-    roadSection match {
-      case section : Road => {
-        if(position == 0){
-          section.getTrafficLight match {
-            case Red => waiting = true; if(DEBUG) println("Car waiting, minus points!")
-            case Green => waiting = false; section.giveCarToIntersection(lane)
-            case Amber => waiting = false; section.giveCarToIntersection(lane)
-          }
-        } else if(section.checkPositionEmpty(lane, position = position - 1)){
-          waiting = false
-          section.moveCar(fromLane = lane, from = position, toLane = lane, to = position - 1)
-          position -= 1
-        } else {
-          waiting = true
-        }
-      }
-      case section : IntersectionBase => {
-        if(DEBUG)println("Car is on an Intersection!")
-        //TODO: movement of car in intersection for animation purposes
-      }
-    }
   }
 }
