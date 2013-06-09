@@ -24,29 +24,31 @@ class Road (val intersectionParams : IntersectionParams) extends RoadSection {
     var canMove = false
     var toLane = -1
     val lastLane = intersectionParams.numberOfLanes - 1
-    if(lane == 0){
-      if(checkPositionEmpty(lane = 1, position) && checkPositionEmpty(lane = 1, position - 1)){
-        canMove = true
-        toLane = 1
+    if(lastLane > 0){
+      if(lane == 0){
+        if(checkPositionEmpty(lane = 1, position) && checkPositionEmpty(lane = 1, position - 1)){
+          canMove = true
+          toLane = 1
+        } else {
+          canMove = false
+        }
+      } else if(lane == lastLane){
+        if(checkPositionEmpty(lane - 1, position) && checkPositionEmpty(lane - 1, position - 1)){
+          canMove = true
+          toLane = lane - 1
+        } else {
+          canMove = false
+        }
       } else {
-        canMove = false
-      }
-    } else if(lane == intersectionParams.numberOfLanes - 1){
-      if(checkPositionEmpty(lane - 1, position) && checkPositionEmpty(lane - 1, position - 1)){
-        canMove = true
-        toLane = lane - 1
-      } else {
-        canMove = false
-      }
-    } else {
-      if(checkPositionEmpty(lane + 1, position) && checkPositionEmpty(lane + 1, position - 1)){
-        canMove = true
-        toLane = lane + 1
-      } else if(checkPositionEmpty(lane - 1, position) && checkPositionEmpty(lane - 1, position - 1)){
-        canMove = true
-        toLane = lane - 1
-      } else {
-        canMove = false
+        if(checkPositionEmpty(lane + 1, position) && checkPositionEmpty(lane + 1, position - 1)){
+          canMove = true
+          toLane = lane + 1
+        } else if(checkPositionEmpty(lane - 1, position) && checkPositionEmpty(lane - 1, position - 1)){
+          canMove = true
+          toLane = lane - 1
+        } else {
+          canMove = false
+        }
       }
     }
     (canMove, toLane)
