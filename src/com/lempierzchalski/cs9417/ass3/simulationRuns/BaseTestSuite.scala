@@ -6,6 +6,7 @@ import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{Inters
 import com.lempierzchalski.cs9417.ass3.simulation.runSim.RunSim
 import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
 import scala.util.Random
+import com.lempierzchalski.cs9417.ass3.clui.Data
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,30 +18,25 @@ import scala.util.Random
 
 object BaseTestSuite extends App {
   val runRepetitions = 10
-  val tests: Seq[(SimParams, IntersectionParams)] = Seq(
-    (SimParams(chooseActionChoice = RandomAction,
-              learningRateChoice  = ConstantRateLearning(0.1),
-              carSpawnChoice      = SpecDefaultCarSpawn),
-    IntersectionParams()),
-
-    (SimParams(chooseActionChoice = EpsilonGreedyAction(0.1),
-              learningRateChoice  = ConstantRateLearning(0.1),
-              carSpawnChoice      = SpecDefaultCarSpawn),
-    IntersectionParams()),
-
-    {val actionList: Seq[IntersectionAction] = Stream.continually(DoNothing).take(9).toSeq ++ Seq(ToggleLights)
-    (SimParams(chooseActionChoice = LoopAction(actionList) ,
-              learningRateChoice  = ConstantRateLearning(0.1),
-              carSpawnChoice      = SpecDefaultCarSpawn),
-    IntersectionParams())})
-
-  val parameterTests: Seq[(SimParams, IntersectionParams)] = for ( epsilon <- 0.0 to(1.0, step = 0.1);
-                                                                   alpha <- 0.1 to(1.0, step = 0.1)) yield {
-    (SimParams(chooseActionChoice = EpsilonGreedyAction(epsilon),
-                learningRateChoice = ConstantRateLearning(alpha),
-                carSpawnChoice = UniformRateCarSpawn(0.11)),
+  val tests: Seq[(SimParams, IntersectionParams)] =
+    for (chooseAction <- Seq(RandomAction, EpsilonGreedyAction(Data.predefEpsilon), Data.predefLoopAction);
+         carSpawn     <- Seq(SpecDefaultCarSpawn, UniformRateCarSpawn(Data.predefCarSpawnProbability))
+    ) yield {
+      (SimParams(chooseActionChoice = chooseAction,
+                 learningRateChoice = ConstantRateLearning(Data.predefConstantLearningRate),
+                 carSpawnChoice = carSpawn),
       IntersectionParams())
-  }
+    }
+
+  val parameterTests: Seq[(SimParams, IntersectionParams)] =
+    for (epsilon  <- 0.0 to(1.0, step = 0.1);
+         alpha    <- 0.1 to(1.0, step = 0.1)
+    ) yield {
+      (SimParams(chooseActionChoice = EpsilonGreedyAction(epsilon),
+                 learningRateChoice = ConstantRateLearning(alpha),
+                 carSpawnChoice = UniformRateCarSpawn(0.11)),
+      IntersectionParams())
+    }
 
   var iteration = 0
   (tests ++ parameterTests).foreach( (sip: (SimParams, IntersectionParams)) => {
