@@ -1,7 +1,6 @@
 package com.lempierzchalski.cs9417.ass3.simulation.simParameters
 
 import scala.util.Random
-import com.lempierzchalski.cs9417.ass3.clui.Data
 
 /**
  * Created with IntelliJ IDEA.

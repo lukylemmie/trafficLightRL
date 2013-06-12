@@ -1,15 +1,12 @@
 package com.lempierzchalski.cs9417.ass3.simulationRuns
 
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
-import com.lempierzchalski.cs9417.ass3.clui.Data
 import scala.util.Random
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.SimParams
-import com.lempierzchalski.cs9417.ass3.simulation.simParameters.EpsilonGreedyAction
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.ConstantRateLearning
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.UniformRateCarSpawn
 import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
 import com.lempierzchalski.cs9417.ass3.simulation.runSim.RunSim
-import com.lempierzchalski.cs9417.ass3.engine
 
 /**
  * Created with IntelliJ IDEA.
@@ -50,7 +47,7 @@ object IntersectionSimTestSuite extends App {
          numRoads <- Seq(4);
          colours <- Seq(RedGreenAmber);
          finalActionChoice <- Seq(RandomAction, BestAction);
-         nearestCarViewDepth <- Seq(8);
+         nearestCarViewDepth <- Seq(2, 8);
          numNearestViewed <- Seq(1);
          advancedCarBehaviour <- Seq(false);
          numIterations <- 0 until Data.predefSimRepetitons) yield {
@@ -102,7 +99,7 @@ object IntersectionSimTestSuite extends App {
   }
 
   var testIndex = 0
-  for (sip <- fancyTrafficTests) {
+  for (sip <- fancyIntersectionsTests ++ fancyTrafficTests) {
     print(f"performing test $testIndex")
     testIndex += 1
     val (sp, ip) = sip

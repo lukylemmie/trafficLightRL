@@ -1,21 +1,14 @@
-package com.lempierzchalski.cs9417.ass3.clui
+package com.lempierzchalski.cs9417.ass3.simulation.simParameters
 
-import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
-import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{ToggleLights, DoNothing, IntersectionAction}
-import com.lempierzchalski.cs9417.ass3.simulation.simParameters.SimParams
 import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
+import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{ToggleLights, DoNothing, IntersectionAction}
 
 /**
  * User: Pierzchalski
- * Date: 8/06/13
- * Package: com.lempierzchalski.cs9417.ass3.clui
- * Project: trafficLightRL
+ * Date: 12/06/13
+ * Package: com.lempierzchalski.cs9417.ass3.simulation.simParameters
+ * Project: ${PROJECT_NAME}
  */
-object Main extends App {
-  var state: NavigationState = Start
-  while (state ne End) state = state.transition
-}
-
 object Data {
   val quitPattern = "(?i)quit.*".r
   val predefEpsilon = 0.1

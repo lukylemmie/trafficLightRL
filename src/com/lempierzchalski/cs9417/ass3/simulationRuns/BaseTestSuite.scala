@@ -2,11 +2,9 @@ package com.lempierzchalski.cs9417.ass3.simulationRuns
 
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.ConstantRateLearning
-import com.lempierzchalski.cs9417.ass3.reinforcementLearner.trafficModel.{IntersectionAction, ToggleLights, DoNothing}
 import com.lempierzchalski.cs9417.ass3.simulation.runSim.RunSim
 import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
 import scala.util.Random
-import com.lempierzchalski.cs9417.ass3.clui.Data
 
 /**
  * Created with IntelliJ IDEA.
