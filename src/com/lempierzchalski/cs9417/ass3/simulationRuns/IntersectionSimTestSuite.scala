@@ -2,7 +2,6 @@ package com.lempierzchalski.cs9417.ass3.simulationRuns
 
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters._
 import com.lempierzchalski.cs9417.ass3.clui.Data
-import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
 import scala.util.Random
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.SimParams
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.EpsilonGreedyAction
@@ -44,4 +43,43 @@ object IntersectionSimTestSuite extends App {
     )
     RunSim(simParams, intersectionParams, printState = false)
   }*/
+
+  val fancyIntersectionsTests: Seq[(SimParams, IntersectionParams)] = {
+    for (numLanes <- Seq(2);
+         numRoads <- Seq(4);
+         colours <- Seq(RedGreenAmber);
+         finalActionChoice <- Seq(RandomAction, BestAction);
+         nearestCarViewDepth <- Seq(8);
+         numNearestViewed <- Seq(1);
+         advancedCarBehaviour <- Seq(false);
+         numIterations <- 0 until Data.predefSimRepetitons) yield {
+      (SimParams(
+        seed = Random.nextInt(),
+        learningActionChoice = RandomAction,
+        finalActionChoice = finalActionChoice,
+        learningRateChoice = ConstantRateLearning(Data.predefConstantLearningRate),
+        carSpawnChoice = UniformRateCarSpawn(Data.predefCarSpawnProbability),
+        numAssessmentScores = Data.predefNumAssessmentScores),
+
+      IntersectionParams(
+        numberOfLanes = numLanes,
+        lightColours = colours,
+        numberOfIncomingRoads = numRoads,
+        nearestCarViewDepth     = nearestCarViewDepth,
+        numNearestCarsViewed    = numNearestViewed
+      ))
+    }
+  }
+
+  val fancyTrafficTests: Seq[(SimParams, IntersectionParams)] = {
+
+  }
+
+  var testIndex = 0
+  for (sip <- fancyIntersectionsTests) {
+    val (sp, ip) = sip
+    RunSim(sp, ip)
+  }
+
+
 }

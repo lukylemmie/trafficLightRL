@@ -19,9 +19,9 @@ import com.lempierzchalski.cs9417.ass3.clui.Data
 object BaseTestSuite extends App {
   val runRepetitions = 10
   val tests: Seq[SimParams] =
-    for (finalChooseAction <- Seq(RandomAction, BestAction);
+    for (finalChooseAction <- Seq(RandomAction, EpsilonGreedyAction(Data.predefEpsilon), BestAction);
          learningChooseAction <- Seq(RandomAction, EpsilonGreedyAction(Data.predefEpsilon), Data.predefLoopAction);
-         carSpawn     <- Seq(SpecDefaultCarSpawn, UniformRateCarSpawn(Data.predefCarSpawnProbability))
+         carSpawn     <- Seq(UniformRateCarSpawn(Data.predefCarSpawnProbability))
     ) yield {
       SimParams(learningActionChoice = learningChooseAction,
                 finalActionChoice = finalChooseAction,
@@ -40,7 +40,7 @@ object BaseTestSuite extends App {
     }
 
   var iteration = 0
-  (tests ++ parameterTests).foreach( simParams => {
+  tests.foreach( simParams => {
       for (i <- 0 until runRepetitions) {
         val randomSeedSimParams = SimParams(seed = Random.nextInt(),
                                             learningActionChoice = simParams.learningActionChoice,
