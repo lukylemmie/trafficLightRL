@@ -9,6 +9,7 @@ import com.lempierzchalski.cs9417.ass3.simulation.simParameters.ConstantRateLear
 import com.lempierzchalski.cs9417.ass3.simulation.simParameters.UniformRateCarSpawn
 import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
 import com.lempierzchalski.cs9417.ass3.simulation.runSim.RunSim
+import com.lempierzchalski.cs9417.ass3.engine
 
 /**
  * Created with IntelliJ IDEA.
@@ -72,11 +73,38 @@ object IntersectionSimTestSuite extends App {
   }
 
   val fancyTrafficTests: Seq[(SimParams, IntersectionParams)] = {
+    for (numLanes <- Seq(2);
+         numRoads <- Seq(2);
+         colours <- Seq(RedGreenAmber);
+         finalActionChoice <- Seq(RandomAction, BestAction);
+         nearestCarViewDepth <- Seq(4);
+         numNearestViewed <- Seq(1);
+         advancedCarBehaviour <- Seq(true, false);
 
+         numIterations <- 0 until Data.predefSimRepetitons) yield {
+      (SimParams(
+        learningActionChoice = RandomAction,
+        finalActionChoice = finalActionChoice,
+        learningRateChoice = ConstantRateLearning(Data.predefConstantLearningRate),
+        carSpawnChoice = UniformRateCarSpawn(Data.predefCarSpawnProbability),
+        learningPeriodNumScores = 2 * Data.predefLearningPeriodScores),
+      IntersectionParams(
+        numberOfLanes = numLanes,
+        lightColours  = colours,
+        numberOfIncomingRoads   = numRoads,
+        variableCarSpeed        = advancedCarBehaviour,
+        changeLanes            = advancedCarBehaviour,
+        crashes                 = advancedCarBehaviour,
+        nearestCarViewDepth     = nearestCarViewDepth,
+        numNearestCarsViewed    = numNearestViewed
+      ))
+    }
   }
 
   var testIndex = 0
-  for (sip <- fancyIntersectionsTests) {
+  for (sip <- fancyTrafficTests) {
+    print(f"performing test $testIndex")
+    testIndex += 1
     val (sp, ip) = sip
     RunSim(sp, ip)
   }
