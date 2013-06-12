@@ -18,36 +18,37 @@ import com.lempierzchalski.cs9417.ass3.clui.Data
 
 object BaseTestSuite extends App {
   val runRepetitions = 10
-  val tests: Seq[(SimParams, IntersectionParams)] =
-    for (chooseAction <- Seq(RandomAction, EpsilonGreedyAction(Data.predefEpsilon), Data.predefLoopAction);
+  val tests: Seq[SimParams] =
+    for (finalChooseAction <- Seq(RandomAction, BestAction);
+         learningChooseAction <- Seq(RandomAction, EpsilonGreedyAction(Data.predefEpsilon), Data.predefLoopAction);
          carSpawn     <- Seq(SpecDefaultCarSpawn, UniformRateCarSpawn(Data.predefCarSpawnProbability))
     ) yield {
-      (SimParams(chooseActionChoice = chooseAction,
-                 learningRateChoice = ConstantRateLearning(Data.predefConstantLearningRate),
-                 carSpawnChoice = carSpawn),
-      IntersectionParams())
+      SimParams(learningActionChoice = learningChooseAction,
+                finalActionChoice = finalChooseAction,
+                learningRateChoice = ConstantRateLearning(Data.predefConstantLearningRate),
+                carSpawnChoice = carSpawn)
     }
 
-  val parameterTests: Seq[(SimParams, IntersectionParams)] =
+  val parameterTests: Seq[SimParams] =
     for (epsilon  <- 0.0 to(1.0, step = 0.1);
          alpha    <- 0.1 to(1.0, step = 0.1)
     ) yield {
-      (SimParams(chooseActionChoice = EpsilonGreedyAction(epsilon),
+      SimParams( learningActionChoice = EpsilonGreedyAction(epsilon),
+                 finalActionChoice = BestAction,
                  learningRateChoice = ConstantRateLearning(alpha),
-                 carSpawnChoice = UniformRateCarSpawn(0.11)),
-      IntersectionParams())
+                 carSpawnChoice = UniformRateCarSpawn(0.11))
     }
 
   var iteration = 0
-  (tests ++ parameterTests).foreach( (sip: (SimParams, IntersectionParams)) => {
-      val (simParams, intersectionParams) = sip
+  (tests ++ parameterTests).foreach( simParams => {
       for (i <- 0 until runRepetitions) {
         val randomSeedSimParams = SimParams(seed = Random.nextInt(),
-                                            chooseActionChoice = simParams.chooseActionChoice,
+                                            learningActionChoice = simParams.learningActionChoice,
+                                            finalActionChoice = simParams.finalActionChoice,
                                             learningRateChoice = simParams.learningRateChoice,
                                             carSpawnChoice =     simParams.carSpawnChoice)
         println(f"Running iteration $iteration")
-        RunSim(randomSeedSimParams, intersectionParams)
+        RunSim(randomSeedSimParams, IntersectionParams())
         iteration += 1
       }
     }

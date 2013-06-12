@@ -13,24 +13,13 @@ import com.lempierzchalski.cs9417.ass3.engine.IntersectionParams
  */
 object Main extends App {
   var state: NavigationState = Start
-  while (state ne End) state = transition(state)
-
-  def transition(state: NavigationState): NavigationState = state match {
-    case Start                                      => Start.transition
-    case predefOrNew: PredefOrNew                   => predefOrNew.transition
-    case predef: Predef                             => predef.transition
-    case NewSimulation                              => NewSimulation.transition
-    case choosingChooseAction: ChoosingChooseAction => choosingChooseAction.transition
-    case choosingLearningRate: ChoosingLearningRate => choosingLearningRate.transition
-    case End                                        => End.transition
-  }
-
+  while (state ne End) state = state.transition
 }
 
 object Data {
   val quitPattern = "(?i)quit.*".r
   val predefEpsilon = 0.1
-  val predefNumScores = 50
+  val predefNumAssessmentScores = 50
   val predefTimestepsPerScore = 1000
   val predefSimRepetitons = 10
   val predefinedSimParameters: Seq[(SimParams, IntersectionParams)] = Seq()
@@ -39,4 +28,5 @@ object Data {
   val predefConstantLearningRate = 0.1
   val predefCarSpawnProbability = 0.11
   val predefFutureDiscount = 0.9
+  val predefLearningPeriodScores = 50
 }

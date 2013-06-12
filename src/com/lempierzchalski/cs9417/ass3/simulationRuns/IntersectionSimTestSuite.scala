@@ -19,7 +19,7 @@ import com.lempierzchalski.cs9417.ass3.simulation.runSim.RunSim
  * To change this template use File | Settings | File Templates.
  */
 object IntersectionSimTestSuite extends App {
-  for (numLanes <- 1 to 3;
+/*  for (numLanes <- 1 to 3;
        colours <- Seq(RedGreen, RedGreenAmber);
        numIncomingRoads <- Seq(2, 4);
        nearestCarViewDepth <- Seq(8, 4);
@@ -28,10 +28,10 @@ object IntersectionSimTestSuite extends App {
        numIterations <- 0 until Data.predefSimRepetitons / 2){
     val simParams = SimParams(
       seed = Random.nextInt(),
-      chooseActionChoice = EpsilonGreedyAction(Data.predefEpsilon),
+      learningActionChoice = EpsilonGreedyAction(Data.predefEpsilon),
       learningRateChoice = ConstantRateLearning(Data.predefConstantLearningRate),
       carSpawnChoice = UniformRateCarSpawn(Data.predefCarSpawnProbability),
-      numScores = Data.predefNumScores * 2)
+      numAssessmentScores = Data.predefNumAssessmentScores * 2)
     val intersectionParams = IntersectionParams(
       numberOfLanes = numLanes,
       lightColours = colours,
@@ -43,5 +43,5 @@ object IntersectionSimTestSuite extends App {
       variableCarSpeed = false
     )
     RunSim(simParams, intersectionParams, printState = false)
-  }
+  }*/
 }

@@ -16,3 +16,4 @@ case object RandomAction extends ChooseActionChoice
 case class RepeatAction(action: IntersectionAction) extends ChooseActionChoice
 case class EpsilonGreedyAction(epsilon: Double) extends ChooseActionChoice
 case class LoopAction(actionSeq: Seq[IntersectionAction]) extends ChooseActionChoice
+case object BestAction extends ChooseActionChoice

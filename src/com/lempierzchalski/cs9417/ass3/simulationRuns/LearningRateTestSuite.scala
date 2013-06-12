@@ -17,13 +17,13 @@ import com.lempierzchalski.cs9417.ass3.simulation.runSim.RunSim
  * To change this template use File | Settings | File Templates.
  */
 object LearningRateTestSuite extends App {
-  for (learningRateChoice <- Seq(ConstantRateLearning(Data.predefConstantLearningRate), ConvergingRateLearning);
+/*  for (learningRateChoice <- Seq(ConstantRateLearning(Data.predefConstantLearningRate), ConvergingRateLearning);
        numIterations <- 0 until Data.predefSimRepetitons){
     val simParams = SimParams(
       seed = Random.nextInt(),
-      chooseActionChoice = EpsilonGreedyAction(Data.predefEpsilon),
+      learningActionChoice = EpsilonGreedyAction(Data.predefEpsilon),
       learningRateChoice = learningRateChoice,
       carSpawnChoice = UniformRateCarSpawn(Data.predefCarSpawnProbability))
     RunSim(simParams, IntersectionParams())
-  }
+  }*/
 }

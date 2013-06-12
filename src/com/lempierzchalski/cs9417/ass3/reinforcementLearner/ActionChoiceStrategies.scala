@@ -48,4 +48,14 @@ object ActionChoiceStrategies {
       actionOrdering(countContainer(0))
     }
   }
+
+  def BestChoice[State, Action]:
+  ActionChoiceFunction[State, Action] =
+    (state, validActions, qTable) => {
+      val validActionsSeq = util.Random.shuffle(validActions.toSeq)
+      val actionUtilities = validActionsSeq.map( (state, _) ).map( qTable.getOrElse(_, (0.0, 0))._1 )
+      val actionUtilityPairs = validActionsSeq.zip(actionUtilities)
+      val (chosenAction, _) = actionUtilityPairs.maxBy( _._2 )
+      chosenAction
+    }
 }

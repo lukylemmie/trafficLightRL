@@ -11,21 +11,25 @@ import com.lempierzchalski.cs9417.ass3.clui.Data
  * To change this template use File |   Settings |   File Templates.
  */
 case class SimParams( seed: Int = Random.nextInt(),
-                      chooseActionChoice: ChooseActionChoice,
+                      learningActionChoice: ChooseActionChoice,
                       learningRateChoice: LearningRateChoice,
+                      finalActionChoice: ChooseActionChoice,
                       carSpawnChoice: CarSpawnChoice,
                       futureDiscount: Double = Data.predefFutureDiscount,
-                      numScores: Int = Data.predefNumScores,
+                      learningPeriodNumScores: Int = Data.predefLearningPeriodScores,
+                      numAssessmentScores: Int = Data.predefNumAssessmentScores,
                       timeStepsPerScore: Int = Data.predefTimestepsPerScore) {
   override def toString: String = {
     f"""Sim parameters:
-       |  seed:                    $seed
-       |  chooseActionChoice:      $chooseActionChoice
-       |  learningRateChoice:      $learningRateChoice
-       |  carSpawnChoice:          $carSpawnChoice
-       |  futureDiscount:          $futureDiscount
-       |  numScores:               $numScores
-       |  timeStepsPerScore:       $timeStepsPerScore""".stripMargin
+       |  seed:                       $seed
+       |  learningActionChoice:       $learningActionChoice
+       |  finalActionChoice:          $finalActionChoice
+       |  learningRateChoice:         $learningRateChoice
+       |  carSpawnChoice:             $carSpawnChoice
+       |  futureDiscount:             $futureDiscount
+       |  learningPeriodNumScores:    $learningPeriodNumScores
+       |  numAssessmentScores:        $numAssessmentScores
+       |  timeStepsPerScore:          $timeStepsPerScore""".stripMargin
   }
 }
 

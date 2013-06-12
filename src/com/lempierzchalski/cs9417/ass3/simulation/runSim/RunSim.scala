@@ -19,8 +19,6 @@ object RunSim {
             printState          : Boolean = false) {
 
     val seed = simParams.seed
-    val numScores = simParams.numScores
-    val timeStepsPerScore = simParams.timeStepsPerScore
 
     val startTime = System.currentTimeMillis()
 
@@ -36,9 +34,7 @@ object RunSim {
     paramFileWriter.close()
 
     val stateFileWriter  = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "state.txt")
-    val (finalRL, scores) = sim.simWithScoring(numScores,
-                                               timeStepsPerScore,
-                                               printStateFileWriter = if (printState) Some(stateFileWriter) else None)
+    val (finalRL, learningScores, assessmentScores) = sim.simWithScoring(printStateFileWriter = if (printState) Some(stateFileWriter) else None)
     if (!printState) stateFileWriter.println("Output suppressed")
     stateFileWriter.close()
 
@@ -46,9 +42,13 @@ object RunSim {
     finalRL.qTable.foreach(qTableFileWriter.println(_))
     qTableFileWriter.close()
 
-    val scoresFileWriter = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "scores.txt")
-    scores.zipWithIndex.foreach( scoreIndexPair => scoresFileWriter.println(scoreIndexPair.swap) )
-    scoresFileWriter.close()
+    val learningScoresFileWriter = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "learningScores.txt")
+    learningScores.zipWithIndex.foreach( scoreIndexPair => learningScoresFileWriter.println(scoreIndexPair.swap) )
+    learningScoresFileWriter.close()
+
+    val assessmentScoresFileWriter = myUtil.Util.indexedDirectoryPrintWriter(fileDir, fullFileName = "assessmentScores.txt")
+    assessmentScores.zipWithIndex.foreach( scoreIndexPair => assessmentScoresFileWriter.println(scoreIndexPair.swap) )
+    assessmentScoresFileWriter.close()
 
     val endTime = System.currentTimeMillis()
     println(f"Finished: it took ${(endTime - startTime)/1000} seconds.")
